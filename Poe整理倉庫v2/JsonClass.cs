@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Poe整理倉庫v2
+﻿namespace Poe整理倉庫v2
 {
     class JsonClass
     {

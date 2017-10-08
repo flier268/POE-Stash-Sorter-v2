@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Poe整理倉庫v2
+﻿namespace Poe整理倉庫v2
 {
     partial class Form3
     {
@@ -439,7 +437,7 @@ namespace Poe整理倉庫v2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(510, 580);
+            this.ClientSize = new System.Drawing.Size(365, 580);
             this.Controls.Add(this.label16);
             this.Controls.Add(this.listBox_Priority);
             this.Controls.Add(this.groupBox2);

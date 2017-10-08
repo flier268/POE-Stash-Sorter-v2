@@ -6,7 +6,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -45,7 +44,7 @@ namespace DataGetter
         }
 
         string reg1 = @"<tr><td><img\s+src=\'(.*?)\'\/>.*?<a\shref=.*?\'>(.*?)<\/a>.*?class=\'mod_grey\'>(.*?)<\/span>";
-        string reg_gem = @"<tr.*?>.*?<td><a\s+.*?<img\s+.*?src=\'(.*?)\'\/><\/a>.*?<a\s+class='gem_(.).*?\/>(.*?)<\/a><br>(.*?)<td>";
+        string reg_gem = @"<tr.*?>.*?<td><a\s+.*?<img\s+.*?src=\'(.*?)'/>.*?<a(.*?)'><img\s.*?>(.*?)</a><br>(.*?)<td>";
         string reg_Currency = @"<tr.*?>.*?<td><a\s+.*?<img\s+.*?src=\'(.*?)\'\/>(.*?)<\/a>\((.*?)\)";
         string reg_Flask = @"Flask'>(.*?)<\/a>\((.*?)\).*?<img\s+src='(.*?)'\/>";
         string reg_Map = @"<tr><td><img\s+src=\'(.*?)\'\/><td><a\s+.*?'>(.*?)</a><br>.*?class='mod_grey'>(.*?)</span>";
@@ -247,6 +246,7 @@ namespace DataGetter
 
                     //從網址解析出物品大小
                     Regex r_url = new Regex(@"&w=(\d)&h=(\d)", RegexOptions.IgnoreCase);
+                    Regex r_GemColor = new Regex(@"class='gem_(.)", RegexOptions.IgnoreCase);
                     List<RootObject> roots = new List<RootObject>();
                     if (mm.Count > 0)
                     {
@@ -254,8 +254,8 @@ namespace DataGetter
                         int o1 = 1, o2 = 2, o3 = 3, o4 = 4;
 
                         //由於藥水、地圖、通貨的排版特別，因此要另外處理
-                        bool 順序不同 = (l.url.ToLower().Contains("flask"))|| l.url.ToLower().EndsWith("prophecy");
-                        bool 沒有顯示大小 = ( l.url.ToLower().Contains("currency"));
+                        bool 順序不同 = (l.url.ToLower().Contains("flask")) || l.url.ToLower().EndsWith("prophecy");
+                        bool 沒有顯示大小 = (l.url.ToLower().Contains("currency"));
                         bool 技能寶石 = (l.url.ToLower().Contains("gem"));
                         if (順序不同)
                         {
@@ -274,16 +274,16 @@ namespace DataGetter
 
                             //地圖的大小沒有在圖片的網址寫出來，但都固定是1x1
                             Match m_url = 沒有顯示大小 ? null : r_url.Match(Icon_url);
-                            
+                            var GemColor = r_GemColor.Match(m.Groups[o4].ToString()).Groups;
                             roots.Add(new RootObject
                             {
                                 c = m.Groups[o2].ToString(),
                                 e = m.Groups[o3].ToString(),
                                 url = Icon_url,
-                                GC = 技能寶石 ? char.Parse(m.Groups[o4].ToString()) : 'n',
+                                GC = 技能寶石 ? char.Parse(GemColor.Count == 1 ? "w" : GemColor[1].ToString()) : 'n',
                                 w = 沒有顯示大小 ? 1 : int.Parse(m_url.Groups[1].ToString()),
-                                h = 沒有顯示大小 ? 1 : int.Parse(m_url.Groups[2].ToString()),      
-                                type=l.name_eng
+                                h = 沒有顯示大小 ? 1 : int.Parse(m_url.Groups[2].ToString()),
+                                type = l.name_eng
                             });
                         }
                     }

@@ -1,19 +1,14 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
+using System.IO;
+using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.IO;
-using Newtonsoft.Json;
 using static Poe整理倉庫v2.JsonClass;
-using System.Text.RegularExpressions;
-using System.Threading;
-using System.Runtime.InteropServices;
-using System.Diagnostics;
 
 namespace Poe整理倉庫v2
 {

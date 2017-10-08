@@ -48,6 +48,11 @@ namespace Poe整理倉庫v2
             else
                 return false;
         }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
     }
 
 
@@ -124,7 +129,5 @@ namespace Poe整理倉庫v2
                 return rect;
             }
         }
-        //Den buggede lidt :P MEGET^^ Men du trykkede os på den forkerte sorteings ting^^ <.< hvorfor er der to? Hvis den ene er forkert :P.. den
-        //er bare ikke fikset helt endnu, den anden burde virke... tester lige igen..Lave lige en fail safe, såen så hvis det seker, breaker den.
     }
 }

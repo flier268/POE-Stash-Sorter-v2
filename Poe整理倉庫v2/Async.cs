@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
@@ -18,15 +17,15 @@ namespace Poe整理倉庫v2
         /// </summary>
         /// <param name="x"></param>
         /// <param name="y"></param>
-        void POE_GetItemInfo(int x,int y)
+        void POE_GetItemInfo(int x, int y)
         {
             MouseTools.SetCursorPosition(x, y);
             Thread.Sleep(Config.Delay_Scan);
-            KeyBoardTool.KeyDown(Keys.LControlKey);
+            KeyBoardTool.KeyDown(Keys.ControlKey);
             KeyBoardTool.KeyDown(Keys.C);
             Thread.Sleep(Config.Delay_Scan);
-            KeyBoardTool.KeyUp(Keys.C);            
-            KeyBoardTool.KeyUp(Keys.LControlKey);
+            KeyBoardTool.KeyUp(Keys.C);
+            KeyBoardTool.KeyUp(Keys.ControlKey);
             Thread.Sleep(Config.Delay_Scan);
             Application.DoEvents();
         }
@@ -47,7 +46,7 @@ namespace Poe整理倉庫v2
             Items.Clear();
             used.Clear();
             resoult.Clear();
-            
+
             //可能需要英文化
             string reg_itemlevel = @"物品等級:\s(\d+)";
             string reg_quality = @"品質:\s\+(\d+)";
@@ -60,7 +59,7 @@ namespace Poe整理倉庫v2
             Regex r_level = new Regex(reg_level, RegexOptions.IgnoreCase | RegexOptions.Multiline);
             Regex r_maplevel = new Regex(reg_maplevel, RegexOptions.IgnoreCase | RegexOptions.Multiline);
             Regex r = new Regex(reg, RegexOptions.IgnoreCase | RegexOptions.Singleline);
-            Match m, m_itemlevel, m_quality, m_level,m_maplevel;
+            Match m, m_itemlevel, m_quality, m_level, m_maplevel;
             int id = 0;
             for (int x = 0; x < 12; x++)
             {
@@ -75,10 +74,10 @@ namespace Poe整理倉庫v2
                         continue;
                     Clipboard.Clear();
                     POE_GetItemInfo((int)(startPos.X + cellWidth * x), (int)(startPos.Y + cellHeight * y));
-                    
-                    
+
+
                     string clip = Clipboard.GetText(TextDataFormat.UnicodeText);
-                    if (clip=="")
+                    if (clip == "")
                         clip = Clipboard.GetText(TextDataFormat.UnicodeText);
                     if (clip == "")
                         continue;
@@ -94,7 +93,7 @@ namespace Poe整理倉庫v2
                     else
                     {
                         if (m.Groups[1].ToString() == "傳奇" || m.Groups[1].ToString() == "Unique")
-                            temp.Name = m.Groups[2].ToString().Trim()+" "+ m.Groups[3].ToString().Trim();
+                            temp.Name = m.Groups[2].ToString().Trim() + " " + m.Groups[3].ToString().Trim();
                         else
                             temp.Name = m.Groups[3].ToString().Trim();
                     }
@@ -104,9 +103,14 @@ namespace Poe整理倉庫v2
 
                     JsonClass.RootObject t;
                     if (m.Groups[1].ToString() == "傳奇" || m.Groups[1].ToString() == "Unique")
-                        t = ItemList_Unique.Where(a => a.c.EndsWith(GetStringAfterSomething(temp.Name,"」")) || a.e.EndsWith(GetStringAfterSomething(temp.Name, "」"))).FirstOrDefault();
+                        t = ItemList_Unique.Where(a => a.c.EndsWith(GetStringAfterSomething(temp.Name, "」")) || a.e.EndsWith(GetStringAfterSomething(temp.Name, "」"))).FirstOrDefault();
                     else
-                        t = ItemList.Where(a => temp.Name.EndsWith(a.c) || temp.Name.EndsWith(a.e)).FirstOrDefault();
+                    {
+                        t = ItemList.Where(a => temp.Name.Equals(a.c) || temp.Name.Equals(a.e)).FirstOrDefault();
+                        if (t == null)
+                            t = ItemList.Where(a => temp.Name.EndsWith(a.c) || temp.Name.EndsWith(a.e)).FirstOrDefault();
+                    }
+                        
                     temp.w = t.w;
                     temp.h = t.h;
                     temp.point = new POINT(x, y);
@@ -116,7 +120,7 @@ namespace Poe整理倉庫v2
                     temp.type = t.type;
                     m_itemlevel = r_itemlevel.Match(m.Groups[4].ToString());
                     m_level = r_level.Match(m.Groups[4].ToString());
-                    m_maplevel=r_maplevel.Match(m.Groups[4].ToString());
+                    m_maplevel = r_maplevel.Match(m.Groups[4].ToString());
                     m_quality = r_quality.Match(m.Groups[4].ToString());
                     temp.itemlevel = m_itemlevel.Groups.Count == 1 ? 0 : int.Parse(m_itemlevel.Groups[1].ToString());
                     temp.level = m_level.Groups.Count == 1 ? 0 : int.Parse(m_level.Groups[1].ToString());
@@ -124,7 +128,7 @@ namespace Poe整理倉庫v2
 
                     temp.maplevel = m_maplevel.Groups.Count == 1 ? 0 : int.Parse(m_maplevel.Groups[1].ToString());
                     temp.priority = Array.IndexOf(Config.Species, t.type);
-                    
+
                     temp.id = ++id;
 
                     for (int i = x; i < x + t.w; i++)
@@ -133,7 +137,7 @@ namespace Poe整理倉庫v2
                     Items.Add(temp);
                 }
             }
-            DrawBoxRegion(Items,1);
+            DrawBoxRegion(Items, 1);
         }
 
 
@@ -153,184 +157,175 @@ namespace Poe整理倉庫v2
         public async void StartSorting()
         {
             await Task.Delay(0);
-            //由於ClipBoard的緣故，需要在STAThread執行
-            RunAsSTAThread(
-            () =>
+            if (resoult.Count > 0)
             {
-                if (resoult.Count > 0)
-                {
-                    List<Item> _Items = new List<Item>();
-                    Items.ForEach(x => _Items.Add((Item)x.Clone()));
-                    if (radioButton6.Checked)
-                    {
-                        //從結果找到一個跟目前同個ID但不同位置的物品
-                        var diff = resoult.Where(x => !x.point.Equals(_Items.Where(y => y.id == x.id).FirstOrDefault().point)).Select(t => t).FirstOrDefault();
-                        Item onHand = null;
-                        while (diff != null)
-                        {
+                //由於ClipBoard的緣故，需要在STAThread執行
+                RunAsSTAThread(
+                   () =>
+                   {
+                       List<Item> _Items = new List<Item>();
+                       Items.ForEach(x => _Items.Add((Item)x.Clone()));
+                       if (radioButton6.Checked)
+                       {
+                           //由於ClipBoard的緣故，需要在STAThread執行
 
-                            if (Stop)
-                                return;
-                            Item p0 = _Items.Where(x => x.id == diff.id).Select(t => t).FirstOrDefault();
-                            ClickItem(poeHwnd,
-                                   (int)(((float)p0.point.X * cellWidth) + startPos.X),
-                                   (int)(((float)p0.point.Y * cellHeight) + startPos.Y));
-                            ClickItem(poeHwnd,
-                                   (int)(((float)diff.point.X * cellWidth) + startPos.X),
-                                   (int)(((float)diff.point.Y * cellHeight) + startPos.Y));
+                           //從結果找到一個跟目前同個ID但不同位置的物品
+                           var diff = resoult.Where(x => !x.point.Equals(_Items.Where(y => y.id == x.id).FirstOrDefault().point)).Select(t => t).FirstOrDefault();
+                           Item onHand = null;
+                           while (diff != null)
+                           {
 
-                            p0.point = new POINT(diff.point);
+                               if (Stop)
+                                   return;
+                               Item p0 = _Items.Where(x => x.id == diff.id).Select(t => t).FirstOrDefault();
+                               ClickItem(poeHwnd,
+                                      (int)(((float)p0.point.X * cellWidth) + startPos.X),
+                                      (int)(((float)p0.point.Y * cellHeight) + startPos.Y));
+                               ClickItem(poeHwnd,
+                                      (int)(((float)diff.point.X * cellWidth) + startPos.X),
+                                      (int)(((float)diff.point.Y * cellHeight) + startPos.Y));
 
-
-                            onHand = _Items.Where(x => x.id != diff.id && x.point.Equals(diff.point)).Select(t => t).FirstOrDefault();
-                            while (onHand != null)
-                            {
-
-                                if (Stop)
-                                    return;
-                                Item p3 = resoult.Where(x => x.id == onHand.id).FirstOrDefault();
-
-                                ClickItem(poeHwnd,
-                                       (int)(((float)p3.point.X * cellWidth) + startPos.X),
-                                       (int)(((float)p3.point.Y * cellHeight) + startPos.Y));
-
-                                onHand.point = new POINT(p3.point);
-                                onHand = _Items.Where(x => x.id != onHand.id && x.point.Equals(onHand.point)).Select(t => t).FirstOrDefault();
-
-                            }
-
-                            diff = resoult.Where(x => !x.point.Equals(_Items.Where(y => y.id == x.id).FirstOrDefault().point)).Select(t => t).FirstOrDefault();
-                        }
-                    }
-                    else
-                    {
-                        //檢查背包第一二格是否清空
-                        MouseTools.SetCursorPosition(startPos.X, startPos.Y - (int)cellHeight * 3);
-                        MouseTools.MouseClickEvent(70);
-                        MouseTools.MouseClickEvent(70);
-                        Task.Delay(500);
-                        Clipboard.Clear();
-                        POE_GetItemInfo(bagstartPos.X, bagstartPos.Y);
-                        string clip = Clipboard.GetText(TextDataFormat.UnicodeText);
-                        if (clip == "")
-                            clip = Clipboard.GetText(TextDataFormat.UnicodeText);
-                        if (clip == "")
-                        {
-                            Clipboard.Clear();
-                            POE_GetItemInfo(bagstartPos.X, bagstartPos.Y + (int)cellHeight);
-                            clip = Clipboard.GetText(TextDataFormat.UnicodeText);
-                            if (clip == "")
-                                clip = Clipboard.GetText(TextDataFormat.UnicodeText);
-                            if (clip != "")
-                            {
-                                MessageBox.Show(String.Format("請清空背包第二格\n物品資訊為：\n\n{0}", clip));
-                                return;
-                            }
-                        }
-                        else
-                        {
-                            MessageBox.Show(String.Format("請清空背包第二格\n物品資訊為：\n\n{0}", clip));
-                            return;
-                        }
+                               p0.point = new POINT(diff.point);
 
 
-                        //依照結果清單和目前清單，建立可用暫存空間的清單
-                        List<Item> swap = new List<Item>();
-                        swap.Add(new Item() { point = new POINT(0, 0) });
-                        swap.Add(new Item() { point = new POINT(0, 1) });
+                               onHand = _Items.Where(x => x.id != diff.id && x.point.Equals(diff.point)).Select(t => t).FirstOrDefault();
+                               while (onHand != null)
+                               {
 
+                                   if (Stop)
+                                       return;
+                                   Item p3 = resoult.Where(x => x.id == onHand.id).FirstOrDefault();
+                                   ClickItem(poeHwnd,
+                                          (int)(((float)p3.point.X * cellWidth) + startPos.X),
+                                          (int)(((float)p3.point.Y * cellHeight) + startPos.Y));
+                                   onHand.point = new POINT(p3.point);
+                                   onHand = _Items.Where(x => x.id != onHand.id && x.point.Equals(onHand.point)).Select(t => t).FirstOrDefault();
+                               }
 
+                               diff = resoult.Where(x => !x.point.Equals(_Items.Where(y => y.id == x.id).FirstOrDefault().point)).Select(t => t).FirstOrDefault();
+                           }
+                       }
+                       else
+                       {
+                           //檢查背包第一二格是否清空
+                           MouseTools.SetCursorPosition(startPos.X, startPos.Y - (int)cellHeight * 3);
+                           MouseTools.MouseClickEvent(70);
+                           MouseTools.MouseClickEvent(70);
+                           Task.Delay(500);
+                           Clipboard.Clear();
+                           POE_GetItemInfo(bagstartPos.X, bagstartPos.Y);
+                           string clip = Clipboard.GetText(TextDataFormat.UnicodeText);
+                           if (clip == "")
+                               clip = Clipboard.GetText(TextDataFormat.UnicodeText);
+                           if (clip == "")
+                           {
+                               Clipboard.Clear();
+                               POE_GetItemInfo(bagstartPos.X, bagstartPos.Y + (int)cellHeight);
+                               clip = Clipboard.GetText(TextDataFormat.UnicodeText);
+                               if (clip == "")
+                                   clip = Clipboard.GetText(TextDataFormat.UnicodeText);
+                               if (clip != "")
+                               {
+                                   MessageBox.Show(String.Format("請清空背包第二格\n物品資訊為：\n\n{0}", clip));
+                                   return;
+                               }
+                           }
+                           else
+                           {
+                               MessageBox.Show(String.Format("請清空背包第二格\n物品資訊為：\n\n{0}", clip));
+                               return;
+                           }
 
-                        //從結果找到一個跟目前同個ID但不同位置的物品
-                        var diff = resoult.Where(x => !x.point.Equals(_Items.Where(y => y.id == x.id && y.point.X >= 0).FirstOrDefault().point)).Select(t => t).FirstOrDefault();
+                           //依照結果清單和目前清單，建立可用暫存空間的清單
+                           List<Item> swap = new List<Item>();
+                           swap.Add(new Item() { point = new POINT(0, 0) });
+                           swap.Add(new Item() { point = new POINT(0, 1) });
+                           
+                           //從結果找到一個跟目前同個ID但不同位置的物品
+                           var diff = resoult.Where(x => !x.point.Equals(_Items.Where(y => y.id == x.id && y.point.X >= 0).FirstOrDefault().point)).Select(t => t).FirstOrDefault();
+                            while (diff != null)
+                           {
 
-                        while (diff != null)
-                        {
+                               if (Stop)
+                                   return;
+                               Item k0 = _Items.Where(x => x.point.Equals(diff.point)).FirstOrDefault();
+                               if (k0 != null)
+                               {
+                                   //原本的位置有東西占用，先移到swap
+                                   ClickItem(poeHwnd,
+                                       (int)(((float)diff.point.X * cellWidth) + startPos.X),
+                                       (int)(((float)diff.point.Y * cellHeight) + startPos.Y));
 
-                            if (Stop)
-                                return;
-                            Item k0 = _Items.Where(x => x.point.Equals(diff.point)).FirstOrDefault();
-                            if (k0 != null)
-                            {
-                                //原本的位置有東西占用，先移到swap
-                                ClickItem(poeHwnd,
-                                    (int)(((float)diff.point.X * cellWidth) + startPos.X),
-                                    (int)(((float)diff.point.Y * cellHeight) + startPos.Y));
+                                   var k1 = swap.Where(x => x.id == 0).FirstOrDefault();
+                                   if (k1 != null)
+                                   {
+                                       ClickItem(poeHwnd,
+                                              (int)(((float)k1.point.X * cellWidth) + bagstartPos.X),
+                                              (int)(((float)k1.point.Y * cellHeight) + bagstartPos.Y));
 
-                                var k1 = swap.Where(x => x.id == 0).FirstOrDefault();
-                                if (k1 != null)
-                                {
-                                    ClickItem(poeHwnd,
-                                           (int)(((float)k1.point.X * cellWidth) + bagstartPos.X),
-                                           (int)(((float)k1.point.Y * cellHeight) + bagstartPos.Y));
+                                       k1.id = k0.id;
+                                       k0.point = new POINT(-1 - k1.point.X, -1 - k1.point.Y);
+                                   }
+                                   else
+                                   {
 
-                                    k1.id = k0.id;
-                                    k0.point = new POINT(-1 - k1.point.X, -1 - k1.point.Y);
-                                }
-                                else
-                                {
+                                   }
 
-                                }
+                               }
+                               Item p0 = _Items.Where(x => x.id == diff.id).Select(t => t).FirstOrDefault();
+                               ClickItem(poeHwnd,
+                                      (int)(((float)p0.point.X * cellWidth) + startPos.X),
+                                      (int)(((float)p0.point.Y * cellHeight) + startPos.Y));
 
-                            }
-                            Item p0 = _Items.Where(x => x.id == diff.id).Select(t => t).FirstOrDefault();
-                            ClickItem(poeHwnd,
-                                   (int)(((float)p0.point.X * cellWidth) + startPos.X),
-                                   (int)(((float)p0.point.Y * cellHeight) + startPos.Y));
+                               ClickItem(poeHwnd,
+                                      (int)(((float)diff.point.X * cellWidth) + startPos.X),
+                                      (int)(((float)diff.point.Y * cellHeight) + startPos.Y));
 
-                            ClickItem(poeHwnd,
-                                   (int)(((float)diff.point.X * cellWidth) + startPos.X),
-                                   (int)(((float)diff.point.Y * cellHeight) + startPos.Y));
+                               p0.point = new POINT(diff.point);
+                               while (swap.Any(x => x.id != 0))
+                               {
 
-                            p0.point = new POINT(diff.point);
+                                   if (Stop)
+                                       return;
+                                   var FirstItemInSwap = swap.Where(x => x.id != 0).FirstOrDefault();
+                                   var FirstItemInResoult_IdIsFirstItemInSwap = resoult.Where(x => x.id.Equals(FirstItemInSwap.id)).FirstOrDefault();
+                                   var ItemNow = _Items.Where(x => x.point.Equals(FirstItemInResoult_IdIsFirstItemInSwap.point)).FirstOrDefault();
+                                   if (ItemNow != null)
+                                   {
+                                       ClickItem(poeHwnd,
+                                                  (int)(((float)FirstItemInResoult_IdIsFirstItemInSwap.point.X * cellWidth) + startPos.X),
+                                                  (int)(((float)FirstItemInResoult_IdIsFirstItemInSwap.point.Y * cellHeight) + startPos.Y));
 
+                                       var FirstFreeSapceInSwap = swap.Where(x => x.id == 0).FirstOrDefault();
+                                       if (FirstFreeSapceInSwap != null)
+                                       {
+                                           ClickItem(poeHwnd,
+                                                  (int)(((float)FirstFreeSapceInSwap.point.X * cellWidth) + bagstartPos.X),
+                                                  (int)(((float)FirstFreeSapceInSwap.point.Y * cellHeight) + bagstartPos.Y));
 
-                            while (swap.Any(x => x.id != 0))
-                            {
+                                           FirstFreeSapceInSwap.id = ItemNow.id;
+                                           _Items.Where(x => x.id == FirstItemInResoult_IdIsFirstItemInSwap.id).FirstOrDefault().point = new POINT(-1 - FirstFreeSapceInSwap.point.X, -1 - FirstFreeSapceInSwap.point.Y * -1);
+                                       }
+                                       else
+                                       {
 
-                                if (Stop)
-                                    return;
-                                var FirstItemInSwap = swap.Where(x => x.id != 0).FirstOrDefault();
-                                var FirstItemInResoult_IdIsFirstItemInSwap = resoult.Where(x => x.id.Equals(FirstItemInSwap.id)).FirstOrDefault();
-                                var ItemNow = _Items.Where(x => x.point.Equals(FirstItemInResoult_IdIsFirstItemInSwap.point)).FirstOrDefault();
-                                if (ItemNow != null)
-                                {
-                                    ClickItem(poeHwnd,
-                                               (int)(((float)FirstItemInResoult_IdIsFirstItemInSwap.point.X * cellWidth) + startPos.X),
-                                               (int)(((float)FirstItemInResoult_IdIsFirstItemInSwap.point.Y * cellHeight) + startPos.Y));
+                                       }
+                                   }
+                                   ClickItem(poeHwnd,
+                                              (int)(((float)FirstItemInSwap.point.X * cellWidth) + bagstartPos.X),
+                                              (int)(((float)FirstItemInSwap.point.Y * cellHeight) + bagstartPos.Y));
+                                   ClickItem(poeHwnd,
+                                              (int)(((float)FirstItemInResoult_IdIsFirstItemInSwap.point.X * cellWidth) + startPos.X),
+                                              (int)(((float)FirstItemInResoult_IdIsFirstItemInSwap.point.Y * cellHeight) + startPos.Y));
 
-                                    var FirstFreeSapceInSwap = swap.Where(x => x.id == 0).FirstOrDefault();
-                                    if (FirstFreeSapceInSwap != null)
-                                    {
-                                        ClickItem(poeHwnd,
-                                               (int)(((float)FirstFreeSapceInSwap.point.X * cellWidth) + bagstartPos.X),
-                                               (int)(((float)FirstFreeSapceInSwap.point.Y * cellHeight) + bagstartPos.Y));
-
-                                        FirstFreeSapceInSwap.id = ItemNow.id;
-                                        _Items.Where(x => x.id == FirstItemInResoult_IdIsFirstItemInSwap.id).FirstOrDefault().point = new POINT(-1 - FirstFreeSapceInSwap.point.X, -1 - FirstFreeSapceInSwap.point.Y * -1);
-                                    }
-                                    else
-                                    {
-
-                                    }
-                                }
-                                ClickItem(poeHwnd,
-                                           (int)(((float)FirstItemInSwap.point.X * cellWidth) + bagstartPos.X),
-                                           (int)(((float)FirstItemInSwap.point.Y * cellHeight) + bagstartPos.Y));
-
-
-                                ClickItem(poeHwnd,
-                                           (int)(((float)FirstItemInResoult_IdIsFirstItemInSwap.point.X * cellWidth) + startPos.X),
-                                           (int)(((float)FirstItemInResoult_IdIsFirstItemInSwap.point.Y * cellHeight) + startPos.Y));
-
-                                _Items.Where(x => x.id == FirstItemInSwap.id).FirstOrDefault().point = new POINT(FirstItemInResoult_IdIsFirstItemInSwap.point);
-                                FirstItemInSwap.id = 0;
-                            }
-                            diff = resoult.Where(x => !x.point.Equals(_Items.Where(y => y.id == x.id && y.point.X >= 0).FirstOrDefault().point)).Select(t => t).FirstOrDefault();
-                        }
-                    }
-                }
-            });
+                                   _Items.Where(x => x.id == FirstItemInSwap.id).FirstOrDefault().point = new POINT(FirstItemInResoult_IdIsFirstItemInSwap.point);
+                                   FirstItemInSwap.id = 0;
+                               }
+                               diff = resoult.Where(x => !x.point.Equals(_Items.Where(y => y.id == x.id && y.point.X >= 0).FirstOrDefault().point)).Select(t => t).FirstOrDefault();
+                           }
+                       }
+                   });
+            }
             Stop = true;
         }
         
