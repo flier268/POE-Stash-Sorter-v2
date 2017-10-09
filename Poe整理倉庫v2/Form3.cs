@@ -83,7 +83,8 @@ namespace Poe整理倉庫v2
             Config.Delay1 = trackBar1.Value;
             Config.Delay2 = trackBar2.Value;
             Config.Delay_Scan = trackBar3.Value;
-         
+            Config.Direction = comboBox_Direction.SelectedIndex == 0 ? "Vertical" : "Horizontal";
+
             //FileStream fs = new FileStream(Path.ChangeExtension(Application.ExecutablePath, ".cfg"),FileMode..Truncate);
             using (StreamWriter w = new StreamWriter(Path.ChangeExtension(Application.ExecutablePath, ".cfg"),false, Encoding.UTF8))
             {
@@ -183,6 +184,7 @@ namespace Poe整理倉庫v2
             trackBar1.Value = Config.Delay1;
             trackBar2.Value = Config.Delay2;
             trackBar3.Value = Config.Delay_Scan;
+            comboBox_Direction.SelectedIndex = Config.Direction == "Horizontal" ? 1 : 0;
         }
         private string ToKode(int ASCII)
         {

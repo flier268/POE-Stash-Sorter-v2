@@ -62,6 +62,8 @@
             this.button_PriorityUp = new System.Windows.Forms.Button();
             this.button_PriorityDown = new System.Windows.Forms.Button();
             this.label16 = new System.Windows.Forms.Label();
+            this.comboBox_Direction = new System.Windows.Forms.ComboBox();
+            this.label17 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar2)).BeginInit();
             this.panel1.SuspendLayout();
@@ -378,6 +380,8 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.label17);
+            this.groupBox2.Controls.Add(this.comboBox_Direction);
             this.groupBox2.Controls.Add(this.textBox1);
             this.groupBox2.Controls.Add(this.checkBox1);
             this.groupBox2.Location = new System.Drawing.Point(23, 267);
@@ -432,6 +436,26 @@
             this.label16.Size = new System.Drawing.Size(74, 12);
             this.label16.TabIndex = 36;
             this.label16.Text = "1.排序的順序";
+            // 
+            // comboBox_Direction
+            // 
+            this.comboBox_Direction.FormattingEnabled = true;
+            this.comboBox_Direction.Items.AddRange(new object[] {
+            "縱向排列",
+            "橫向排列"});
+            this.comboBox_Direction.Location = new System.Drawing.Point(94, 42);
+            this.comboBox_Direction.Name = "comboBox_Direction";
+            this.comboBox_Direction.Size = new System.Drawing.Size(72, 20);
+            this.comboBox_Direction.TabIndex = 26;
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(32, 46);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(62, 12);
+            this.label17.TabIndex = 27;
+            this.label17.Text = "2.排列方式";
             // 
             // Form3
             // 
@@ -505,5 +529,7 @@
         private System.Windows.Forms.Button button_PriorityUp;
         private System.Windows.Forms.Button button_PriorityDown;
         private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.ComboBox comboBox_Direction;
     }
 }

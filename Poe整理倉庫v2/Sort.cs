@@ -94,7 +94,11 @@ namespace Poe整理倉庫v2
                         continue;
                     if (index < item_1x1.Count)
                     {
-                        item_1x1[index].point = new POINT(x, y);
+                        if (Config.Direction == "Vertical")
+
+                            item_1x1[index].point = new POINT(x, y);
+                        else
+                            item_1x1[index].point = new POINT(y, x);
                         index++;
                     }
                 }
