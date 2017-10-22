@@ -80,9 +80,9 @@ namespace Poe整理倉庫v2
             Config.HotkeyStart = ToASCII(comboBox_hotkey_Start.SelectedItem.ToString());
             Config.HotkeyStop = ToASCII(comboBox_hotkey_Stop.SelectedItem.ToString());
             Config.LowQ = Int32.Parse(textBox1.Text) * (checkBox1.Checked ? 1 : -1);
-            Config.Delay1 = trackBar1.Value;
-            Config.Delay2 = trackBar2.Value;
-            Config.Delay_Scan = trackBar3.Value;
+            Config.Delay1 = trackBar_Click.Value;
+            Config.Delay2 = trackBar_MouseMove.Value;
+            Config.Delay_Scan = trackBar_Scan.Value;
             Config.Direction = comboBox_Direction.SelectedIndex == 0 ? "Vertical" : "Horizontal";
 
             //FileStream fs = new FileStream(Path.ChangeExtension(Application.ExecutablePath, ".cfg"),FileMode..Truncate);
@@ -159,14 +159,14 @@ namespace Poe整理倉庫v2
         {
             using (StreamReader r = new StreamReader(Path.ChangeExtension(Application.ExecutablePath, ".cfg"), Encoding.UTF8))
             {
-                Config =Setting.FromJson(r.ReadToEnd());
+                Config = Setting.FromJson(r.ReadToEnd());
             }
 
             AddSpeciesDic();
             listBox_TypeList.Items.Clear();
             foreach (string t in Config.Species)
             {
-                listBox_TypeList.Items.Add(SpeciesDic.Where(x => x.Key == t).FirstOrDefault().Value);               
+                listBox_TypeList.Items.Add(SpeciesDic.Where(x => x.Key == t).FirstOrDefault().Value);
             }
 
             AddPriorityDic();
@@ -181,9 +181,12 @@ namespace Poe整理倉庫v2
             comboBox_hotkey_Stop.SelectedItem = ToKode(Config.HotkeyStop);
             checkBox1.Checked = Config.LowQ > 0;
             textBox1.Text = Math.Abs(Config.LowQ).ToString();
-            trackBar1.Value = Config.Delay1;
-            trackBar2.Value = Config.Delay2;
-            trackBar3.Value = Config.Delay_Scan;
+            trackBar_Click.Value = Config.Delay1;
+            trackBar_MouseMove.Value = Config.Delay2;
+            trackBar_Scan.Value = Config.Delay_Scan;
+            label10.Text = "慢 " + Config.Delay1.ToString();
+            label11.Text = "慢 " + Config.Delay2.ToString();
+            label14.Text = "慢 " + Config.Delay_Scan.ToString();
             comboBox_Direction.SelectedIndex = Config.Direction == "Horizontal" ? 1 : 0;
         }
         private string ToKode(int ASCII)
@@ -222,6 +225,22 @@ namespace Poe整理倉庫v2
                     return "F15";
                 default:
                     return "None";
+            }
+        }
+
+        private void trackBar_Scroll(object sender, EventArgs e)
+        {
+            switch (((TrackBar)sender).Name)
+            {                
+                case "trackBar_Click":
+                    label10.Text = String.Format("慢 {0}", ((TrackBar)sender).Value);
+                    break;
+                case "trackBar_MouseMove":
+                    label11.Text = String.Format("慢 {0}", ((TrackBar)sender).Value);
+                    break;
+                case "trackBar_Scan":
+                    label14.Text = String.Format("慢 {0}", ((TrackBar)sender).Value);
+                    break;
             }
         }
     }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
 
@@ -151,7 +152,6 @@ namespace Poe整理倉庫v2
             // radioButton5
             // 
             this.radioButton5.AutoSize = true;
-            this.radioButton5.Enabled = false;
             this.radioButton5.Location = new System.Drawing.Point(18, 43);
             this.radioButton5.Name = "radioButton5";
             this.radioButton5.Size = new System.Drawing.Size(95, 16);
@@ -230,7 +230,7 @@ namespace Poe整理倉庫v2
             this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.pictureBox1);
             this.Name = "Form1";
-            this.Text = "POE整理倉庫v2";
+            this.Text = "POE整理倉庫v2      ";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_Closed);
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
@@ -247,6 +247,7 @@ namespace Poe整理倉庫v2
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            this.Text = String.Format("{0}{1}: {2}",this.Text ,"Version", Assembly.GetExecutingAssembly().GetName().Version.ToString());
             using (StreamReader r = new StreamReader(Path.ChangeExtension(Application.ExecutablePath, ".cfg"), Encoding.UTF8))
             {
                 Config = Setting.FromJson(r.ReadToEnd());

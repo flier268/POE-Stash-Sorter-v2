@@ -71,7 +71,7 @@ namespace Poe整理倉庫v2
             }
         }
         
-        public List<Item> Sort(List<Item> source,List<POINT>used)
+        public List<Item> Sort(List<Item> source,List<POINT>used,int length)
         {           
             SortRule rule = new SortRule(Config);
             List<Item> clone = new List<Item>();
@@ -86,16 +86,23 @@ namespace Poe整理倉庫v2
             foreach (POINT _temp in temp)
                 used.Remove(_temp);
             int index = 0;
-            for(int x=0;x<12;x++)
+            for(int x=0;x<length;x++)
             {
-                for (int y = 0; y < 12; y++)
+                for (int y = 0; y < length; y++)
                 {
-                    if (used.Where(a => a.X == x && a.Y == y).Any())
-                        continue;
+                    if (Config.Direction == "Vertical")
+                    {
+                        if (used.Where(a => a.X == x && a.Y == y).Any())
+                            continue;
+                    }
+                    else
+                    {
+                        if (used.Where(a => a.X == y && a.Y == x).Any())
+                            continue;
+                    }
                     if (index < item_1x1.Count)
                     {
                         if (Config.Direction == "Vertical")
-
                             item_1x1[index].point = new POINT(x, y);
                         else
                             item_1x1[index].point = new POINT(y, x);

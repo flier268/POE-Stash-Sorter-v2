@@ -32,14 +32,14 @@
             this.button_TypeListDown = new System.Windows.Forms.Button();
             this.button_TypeListUp = new System.Windows.Forms.Button();
             this.listBox_TypeList = new System.Windows.Forms.ListBox();
-            this.trackBar1 = new System.Windows.Forms.TrackBar();
+            this.trackBar_Click = new System.Windows.Forms.TrackBar();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.button_Save = new System.Windows.Forms.Button();
-            this.trackBar2 = new System.Windows.Forms.TrackBar();
+            this.trackBar_MouseMove = new System.Windows.Forms.TrackBar();
             this.label3 = new System.Windows.Forms.Label();
             this.comboBox_hotkey_Start = new System.Windows.Forms.ComboBox();
             this.label5 = new System.Windows.Forms.Label();
@@ -52,23 +52,23 @@
             this.label10 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label14 = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
-            this.trackBar3 = new System.Windows.Forms.TrackBar();
+            this.trackBar_Scan = new System.Windows.Forms.TrackBar();
             this.label13 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
-            this.label14 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.label17 = new System.Windows.Forms.Label();
+            this.comboBox_Direction = new System.Windows.Forms.ComboBox();
             this.listBox_Priority = new System.Windows.Forms.ListBox();
             this.button_PriorityUp = new System.Windows.Forms.Button();
             this.button_PriorityDown = new System.Windows.Forms.Button();
             this.label16 = new System.Windows.Forms.Label();
-            this.comboBox_Direction = new System.Windows.Forms.ComboBox();
-            this.label17 = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar_Click)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar_MouseMove)).BeginInit();
             this.panel1.SuspendLayout();
             this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar_Scan)).BeginInit();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -101,15 +101,16 @@
             this.listBox_TypeList.Size = new System.Drawing.Size(108, 88);
             this.listBox_TypeList.TabIndex = 17;
             // 
-            // trackBar1
+            // trackBar_Click
             // 
-            this.trackBar1.Location = new System.Drawing.Point(135, 11);
-            this.trackBar1.Maximum = 600;
-            this.trackBar1.Minimum = 50;
-            this.trackBar1.Name = "trackBar1";
-            this.trackBar1.Size = new System.Drawing.Size(141, 45);
-            this.trackBar1.TabIndex = 15;
-            this.trackBar1.Value = 100;
+            this.trackBar_Click.Location = new System.Drawing.Point(135, 11);
+            this.trackBar_Click.Maximum = 300;
+            this.trackBar_Click.Minimum = 50;
+            this.trackBar_Click.Name = "trackBar_Click";
+            this.trackBar_Click.Size = new System.Drawing.Size(141, 45);
+            this.trackBar_Click.TabIndex = 15;
+            this.trackBar_Click.Value = 100;
+            this.trackBar_Click.Scroll += new System.EventHandler(this.trackBar_Scroll);
             // 
             // label1
             // 
@@ -165,15 +166,16 @@
             this.button_Save.UseVisualStyleBackColor = true;
             this.button_Save.Click += new System.EventHandler(this.button_Save_Click);
             // 
-            // trackBar2
+            // trackBar_MouseMove
             // 
-            this.trackBar2.Location = new System.Drawing.Point(135, 42);
-            this.trackBar2.Maximum = 600;
-            this.trackBar2.Minimum = 50;
-            this.trackBar2.Name = "trackBar2";
-            this.trackBar2.Size = new System.Drawing.Size(141, 45);
-            this.trackBar2.TabIndex = 15;
-            this.trackBar2.Value = 50;
+            this.trackBar_MouseMove.Location = new System.Drawing.Point(135, 42);
+            this.trackBar_MouseMove.Maximum = 300;
+            this.trackBar_MouseMove.Minimum = 50;
+            this.trackBar_MouseMove.Name = "trackBar_MouseMove";
+            this.trackBar_MouseMove.Size = new System.Drawing.Size(141, 45);
+            this.trackBar_MouseMove.TabIndex = 15;
+            this.trackBar_MouseMove.Value = 50;
+            this.trackBar_MouseMove.Scroll += new System.EventHandler(this.trackBar_Scroll);
             // 
             // label3
             // 
@@ -294,7 +296,7 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(280, 25);
+            this.label10.Location = new System.Drawing.Point(270, 25);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(17, 12);
             this.label10.TabIndex = 32;
@@ -303,7 +305,7 @@
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(280, 59);
+            this.label11.Location = new System.Drawing.Point(270, 59);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(17, 12);
             this.label11.TabIndex = 32;
@@ -311,25 +313,34 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.label14);
             this.groupBox1.Controls.Add(this.label15);
-            this.groupBox1.Controls.Add(this.trackBar3);
+            this.groupBox1.Controls.Add(this.trackBar_Scan);
             this.groupBox1.Controls.Add(this.label13);
             this.groupBox1.Controls.Add(this.label12);
-            this.groupBox1.Controls.Add(this.label14);
             this.groupBox1.Controls.Add(this.label11);
             this.groupBox1.Controls.Add(this.label10);
             this.groupBox1.Controls.Add(this.label9);
             this.groupBox1.Controls.Add(this.label8);
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.label4);
-            this.groupBox1.Controls.Add(this.trackBar2);
-            this.groupBox1.Controls.Add(this.trackBar1);
+            this.groupBox1.Controls.Add(this.trackBar_MouseMove);
+            this.groupBox1.Controls.Add(this.trackBar_Click);
             this.groupBox1.Location = new System.Drawing.Point(12, 350);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(310, 160);
             this.groupBox1.TabIndex = 33;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "速度";
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(270, 90);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(17, 12);
+            this.label14.TabIndex = 32;
+            this.label14.Text = "慢";
             // 
             // label15
             // 
@@ -340,15 +351,16 @@
             this.label15.TabIndex = 36;
             this.label15.Text = "快";
             // 
-            // trackBar3
+            // trackBar_Scan
             // 
-            this.trackBar3.Location = new System.Drawing.Point(135, 74);
-            this.trackBar3.Maximum = 600;
-            this.trackBar3.Minimum = 50;
-            this.trackBar3.Name = "trackBar3";
-            this.trackBar3.Size = new System.Drawing.Size(141, 45);
-            this.trackBar3.TabIndex = 35;
-            this.trackBar3.Value = 50;
+            this.trackBar_Scan.Location = new System.Drawing.Point(135, 74);
+            this.trackBar_Scan.Maximum = 300;
+            this.trackBar_Scan.Minimum = 30;
+            this.trackBar_Scan.Name = "trackBar_Scan";
+            this.trackBar_Scan.Size = new System.Drawing.Size(141, 45);
+            this.trackBar_Scan.TabIndex = 35;
+            this.trackBar_Scan.Value = 50;
+            this.trackBar_Scan.Scroll += new System.EventHandler(this.trackBar_Scroll);
             // 
             // label13
             // 
@@ -369,15 +381,6 @@
             this.label12.TabIndex = 33;
             this.label12.Text = "如果發現物品沒有被拿起來，請調慢一點";
             // 
-            // label14
-            // 
-            this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(280, 90);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(17, 12);
-            this.label14.TabIndex = 32;
-            this.label14.Text = "慢";
-            // 
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.label17);
@@ -390,6 +393,27 @@
             this.groupBox2.TabIndex = 34;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "特殊設定";
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(32, 46);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(62, 12);
+            this.label17.TabIndex = 27;
+            this.label17.Text = "2.排列方式";
+            // 
+            // comboBox_Direction
+            // 
+            this.comboBox_Direction.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox_Direction.FormattingEnabled = true;
+            this.comboBox_Direction.Items.AddRange(new object[] {
+            "縱向排列",
+            "橫向排列"});
+            this.comboBox_Direction.Location = new System.Drawing.Point(94, 42);
+            this.comboBox_Direction.Name = "comboBox_Direction";
+            this.comboBox_Direction.Size = new System.Drawing.Size(72, 20);
+            this.comboBox_Direction.TabIndex = 26;
             // 
             // listBox_Priority
             // 
@@ -437,26 +461,6 @@
             this.label16.TabIndex = 36;
             this.label16.Text = "1.排序的順序";
             // 
-            // comboBox_Direction
-            // 
-            this.comboBox_Direction.FormattingEnabled = true;
-            this.comboBox_Direction.Items.AddRange(new object[] {
-            "縱向排列",
-            "橫向排列"});
-            this.comboBox_Direction.Location = new System.Drawing.Point(94, 42);
-            this.comboBox_Direction.Name = "comboBox_Direction";
-            this.comboBox_Direction.Size = new System.Drawing.Size(72, 20);
-            this.comboBox_Direction.TabIndex = 26;
-            // 
-            // label17
-            // 
-            this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(32, 46);
-            this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(62, 12);
-            this.label17.TabIndex = 27;
-            this.label17.Text = "2.排列方式";
-            // 
             // Form3
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -479,13 +483,13 @@
             this.Name = "Form3";
             this.Text = "設定";
             this.Load += new System.EventHandler(this.Form3_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar_Click)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar_MouseMove)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar_Scan)).EndInit();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
@@ -499,14 +503,14 @@
         private System.Windows.Forms.Button button_TypeListDown;
         private System.Windows.Forms.Button button_TypeListUp;
         private System.Windows.Forms.ListBox listBox_TypeList;
-        private System.Windows.Forms.TrackBar trackBar1;
+        private System.Windows.Forms.TrackBar trackBar_Click;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.Button button_Save;
-        private System.Windows.Forms.TrackBar trackBar2;
+        private System.Windows.Forms.TrackBar trackBar_MouseMove;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ComboBox comboBox_hotkey_Start;
         private System.Windows.Forms.Label label5;
@@ -523,7 +527,7 @@
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label label15;
-        private System.Windows.Forms.TrackBar trackBar3;
+        private System.Windows.Forms.TrackBar trackBar_Scan;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.ListBox listBox_Priority;
         private System.Windows.Forms.Button button_PriorityUp;

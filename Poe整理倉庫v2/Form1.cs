@@ -17,9 +17,9 @@ namespace Poe整理倉庫v2
 
         #region 全域變數
         internal static Setting Config = new Setting();
-        private float cellHeight;
-        private float cellWidth;
-        private Point startPos;
+        private float cellHeight1, cellHeight4;
+        private float cellWidth1, cellWidth4;
+        private Point startPos1, startPos4;
         private Point bagstartPos;
         bool Loaded = false;
         IntPtr poeHwnd = IntPtr.Zero;
@@ -68,8 +68,8 @@ namespace Poe整理倉庫v2
             {
                 Config = Setting.FromJson(r.ReadToEnd());
             }
-            resoult = Sort(Items, used);
-            DrawBoxRegion(resoult, 2);
+            resoult = Sort(Items, used, (radioButton4.Checked ? 12 : 24));
+            DrawBoxRegion(resoult, (radioButton4.Checked ? 12 : 24), 2);
 
         }
         private void button_ReLoadBox_Click(object sender, EventArgs e)
@@ -88,7 +88,7 @@ namespace Poe整理倉庫v2
             }
             GetStashDimentions();
 
-            MouseTools.SetCursorPosition(startPos.X, startPos.Y - (int)cellHeight * 3);
+            MouseTools.SetCursorPosition(startPos1.X, startPos1.Y - (int)cellHeight1 * 3);
             MouseTools.MouseClickEvent(70);
             MouseTools.MouseClickEvent(70);
             Task.Delay(500);
@@ -96,9 +96,9 @@ namespace Poe整理倉庫v2
 
             GetWarehouse(radioButton4.Checked ? 12 : 24);
 
-            resoult = Sort(Items, used);
-            DrawBoxRegion(resoult, 2);
-            DrawBoxRegion(Items, 1);
+            resoult = Sort(Items, used, (radioButton4.Checked ? 12 : 24));
+            DrawBoxRegion(resoult, (radioButton4.Checked ? 12 : 24), 2);
+            DrawBoxRegion(Items, (radioButton4.Checked ? 12 : 24), 1);
         }
 
         private void button_StartSort_Click(object sender, EventArgs e)
@@ -115,11 +115,12 @@ namespace Poe整理倉庫v2
                 MessageBox.Show("未偵測到Path Of Exile");
                 return;
             }
-            GetStashDimentions(); MouseTools.SetCursorPosition(startPos.X, startPos.Y - (int)cellHeight * 3);
+            GetStashDimentions();
+            MouseTools.SetCursorPosition(startPos1.X, startPos1.Y - (int)cellHeight1 * 3);
             MouseTools.MouseClickEvent(70);
             MouseTools.MouseClickEvent(70);
             Task.Delay(500);
-            StartSorting();
+            StartSorting((radioButton4.Checked ? 12 : 24));
         }
 
 
@@ -169,11 +170,15 @@ namespace Poe整理倉庫v2
 
             float startX = height * 0.033f;
             float startY = height * 0.1783f;
-            cellHeight = height * 0.0484f;
-            cellWidth = cellHeight;
-            startPos = new Point(rect.Left + (int)startX, rect.Top + (int)startY);
+            cellHeight1 = height * 0.0484f;
+            cellWidth1 = cellHeight1;
+            startPos1 = new Point(rect.Left + (int)startX, rect.Top + (int)startY);
 
-            bagstartPos = new Point((int)(rect.Right - height * 0.04f - cellWidth * 11), (int)(rect.Bottom - height * 0.233333f - cellHeight * 4));
+            cellHeight4 = cellHeight1 / 2;
+            cellWidth4 = cellWidth1 / 2;
+            startPos4 = new Point((int)(startPos1.X - cellWidth4/4), (int)(startPos1.Y - cellHeight4/4));
+
+            bagstartPos = new Point((int)(rect.Right - height * 0.04f - cellWidth1 * 11), (int)(rect.Bottom - height * 0.233333f - cellHeight1 * 4));
         }
         private void GlobalKeyDown(object sender, Flier.SuperTools.Hook.KeyBoard.Global_Hook.KeyEventArgsEx e)
         {
