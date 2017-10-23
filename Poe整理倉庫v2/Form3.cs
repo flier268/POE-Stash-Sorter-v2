@@ -84,8 +84,7 @@ namespace Poe整理倉庫v2
             Config.Delay2 = trackBar_MouseMove.Value;
             Config.Delay_Scan = trackBar_Scan.Value;
             Config.Direction = comboBox_Direction.SelectedIndex == 0 ? "Vertical" : "Horizontal";
-
-            //FileStream fs = new FileStream(Path.ChangeExtension(Application.ExecutablePath, ".cfg"),FileMode..Truncate);
+            
             using (StreamWriter w = new StreamWriter(Path.ChangeExtension(Application.ExecutablePath, ".cfg"),false, Encoding.UTF8))
             {
                 w.Write(Serialize.ToJson(Config));

@@ -1,12 +1,15 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static Poe整理倉庫v2.JsonClass;
 
 namespace Poe整理倉庫v2
 {
@@ -100,27 +103,6 @@ namespace Poe整理倉庫v2
                     }
 
                     temp.Rarity = m.Groups[1].ToString().Trim();
-
-
-                    JsonClass.RootObject t;
-                    if (m.Groups[1].ToString() == "傳奇" || m.Groups[1].ToString() == "Unique")
-                        t = ItemList_Unique.Where(a => a.c.EndsWith(GetStringAfterSomething(temp.Name, "」")) || a.e.EndsWith(GetStringAfterSomething(temp.Name, "」"))).FirstOrDefault();
-                    else
-                    {
-                        t = ItemList.Where(a => temp.Name.Equals(a.c) || temp.Name.Equals(a.e)).FirstOrDefault();
-                        if (t == null)
-                            t = ItemList.Where(a => temp.Name.EndsWith(a.c) || temp.Name.EndsWith(a.e)).FirstOrDefault();
-                        if (t == null)
-                            t = ItemList.Where(a =>  temp.Name.Contains(a.e)).FirstOrDefault();
-                    }
-
-                    temp.w = t.w;
-                    temp.h = t.h;
-                    temp.point = new POINT(x, y);
-                    temp.url = t.url;
-                    temp.GC = t.GC;
-                    temp.Name_eng = t.e;
-                    temp.type = t.type;
                     m_itemlevel = r_itemlevel.Match(m.Groups[4].ToString());
                     m_level = r_level.Match(m.Groups[4].ToString());
                     m_maplevel = r_maplevel.Match(m.Groups[4].ToString());
@@ -128,8 +110,44 @@ namespace Poe整理倉庫v2
                     temp.itemlevel = m_itemlevel.Groups.Count == 1 ? 0 : int.Parse(m_itemlevel.Groups[1].ToString());
                     temp.level = m_level.Groups.Count == 1 ? 0 : int.Parse(m_level.Groups[1].ToString());
                     temp.quality = m_quality.Groups.Count == 1 ? 0 : int.Parse(m_quality.Groups[1].ToString());
-
                     temp.maplevel = m_maplevel.Groups.Count == 1 ? 0 : int.Parse(m_maplevel.Groups[1].ToString());
+
+                    JsonClass.RootObject t;
+                    if (m.Groups[1].ToString() == "傳奇" || m.Groups[1].ToString() == "Unique")
+                    {
+                        t = ItemList_Unique.Where(a => a.c.EndsWith(GetStringAfterSomething(temp.Name, "」")) || a.e.EndsWith(GetStringAfterSomething(temp.Name, "」"))).FirstOrDefault();
+                    }
+                    else
+                    {
+                        t = ItemList.Where(a => temp.Name.Equals(a.c) || temp.Name.Equals(a.e)).FirstOrDefault();
+                        if (t == null)
+                            t = ItemList.Where(a => temp.Name.EndsWith(a.c) || temp.Name.EndsWith(a.e)).FirstOrDefault();
+                        if (t == null)
+                            t = ItemList.Where(a => temp.Name.Contains(a.e)).FirstOrDefault();
+                    }
+                    if (t == null)
+                        t = ItemList_Adden.Where(a => a.c.EndsWith(GetStringAfterSomething(temp.Name, "」")) || a.e.EndsWith(GetStringAfterSomething(temp.Name, "」"))).FirstOrDefault();
+
+                    while (t==null)
+                    {
+                        Form2 f = new Form2(clip,temp.Name);
+                        f.ShowDialog();
+                        using (StreamReader rr = new StreamReader(Path.Combine(Application.StartupPath, "ItemList_Adden.txt"), Encoding.UTF8))
+                        {
+                            ItemList_Adden = JsonConvert.DeserializeObject<List<JsonClass.RootObject>>(rr.ReadToEnd());
+                            if (ItemList_Adden == null)
+                                ItemList_Adden = new List<RootObject>();
+                        }
+                        t = ItemList_Adden.Where(a => temp.Name.Equals(a.c) || temp.Name.Equals(a.e)).FirstOrDefault();
+                    }
+                    temp.w = t.w;
+                    temp.h = t.h;
+                    temp.point = new POINT(x, y);
+                    temp.url = t.url;
+                    temp.GC = t.GC;
+                    temp.Name_eng = t.e;
+                    temp.type = t.type;
+                   
                     temp.priority = Array.IndexOf(Config.Species, t.type);
 
                     temp.id = ++id;
@@ -362,15 +380,21 @@ namespace Poe整理倉庫v2
             {
                 foreach (Item item in _items)
                 {
-                    if (File.Exists(Path.Combine(Application.StartupPath, "Image", Path.ChangeExtension(item.Name_eng, ".png"))))
-                        img = Image.FromFile(Path.Combine(Application.StartupPath, "Image", Path.ChangeExtension(item.Name_eng, ".png")));
+                    if (item.url != "question-mark.png")
+                    {
+                        if (File.Exists(Path.Combine(Application.StartupPath, "Image", Path.ChangeExtension(item.Name_eng, ".png"))))
+                            img = Image.FromFile(Path.Combine(Application.StartupPath, "Image", Path.ChangeExtension(item.Name_eng, ".png")));
+                        else
+                        {
+                            stream = new MemoryStream(WC.DownloadData(item.url));
+                            img = Image.FromStream(stream);
+                            stream.Close();
+                        }
+                    }
                     else
                     {
-                        stream = new MemoryStream(WC.DownloadData(item.url));
-                        img = Image.FromStream(stream);
-                        stream.Close();
+                        img = Properties.Resources.question_mark;
                     }
-
                     g.DrawImage(img, item.point.X * 480 / length, item.point.Y * 480 / length, item.w * 480 / length, item.h * 480 / length);
                     g.DrawString(item.id.ToString(), drawFont, drawBrush, item.point.X * 480 / length, item.point.Y * 480 / length);
                     pictureBox1.Image = RegionImage;
@@ -382,13 +406,20 @@ namespace Poe整理倉庫v2
             {
                 foreach (Item item in _items)
                 {
-                    if (File.Exists(Path.Combine(Application.StartupPath, "Image", Path.ChangeExtension(item.Name_eng, ".png"))))
-                        img = Image.FromFile(Path.Combine(Application.StartupPath, "Image", Path.ChangeExtension(item.Name_eng, ".png")));
+                    if (item.url != "question-mark.png")
+                    {
+                        if (File.Exists(Path.Combine(Application.StartupPath, "Image", Path.ChangeExtension(item.Name_eng, ".png"))))
+                            img = Image.FromFile(Path.Combine(Application.StartupPath, "Image", Path.ChangeExtension(item.Name_eng, ".png")));
+                        else
+                        {
+                            stream = new MemoryStream(WC.DownloadData(item.url));
+                            img = Image.FromStream(stream);
+                            stream.Close();
+                        }
+                    }
                     else
                     {
-                        stream = new MemoryStream(WC.DownloadData(item.url));
-                        img = Image.FromStream(stream);
-                        stream.Close();
+                        img = Properties.Resources.question_mark;
                     }
                     g.DrawImage(img, item.point.X * 480 / length, item.point.Y * 480 / length, item.w * 480 / length, item.h * 480 / length);
                     g.DrawString(item.id.ToString(), drawFont, drawBrush, item.point.X * 480 / length, item.point.Y * 480 / length);

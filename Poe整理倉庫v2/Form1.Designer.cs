@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Text;
@@ -34,6 +35,7 @@ namespace Poe整理倉庫v2
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.button_StartSort = new System.Windows.Forms.Button();
@@ -49,6 +51,8 @@ namespace Poe整理倉庫v2
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.radioButton7 = new System.Windows.Forms.RadioButton();
             this.radioButton6 = new System.Windows.Forms.RadioButton();
+            this.button_CheckUpdate = new System.Windows.Forms.Button();
+            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -216,11 +220,34 @@ namespace Poe整理倉庫v2
             this.radioButton6.Text = "倉庫模式";
             this.radioButton6.UseVisualStyleBackColor = true;
             // 
+            // button_CheckUpdate
+            // 
+            this.button_CheckUpdate.Location = new System.Drawing.Point(946, 584);
+            this.button_CheckUpdate.Name = "button_CheckUpdate";
+            this.button_CheckUpdate.Size = new System.Drawing.Size(94, 23);
+            this.button_CheckUpdate.TabIndex = 21;
+            this.button_CheckUpdate.Text = "Check Update";
+            this.button_CheckUpdate.UseVisualStyleBackColor = true;
+            this.button_CheckUpdate.Click += new System.EventHandler(this.button_CheckUpdate_Click);
+            // 
+            // linkLabel1
+            // 
+            this.linkLabel1.AutoSize = true;
+            this.linkLabel1.Location = new System.Drawing.Point(1039, 590);
+            this.linkLabel1.Name = "linkLabel1";
+            this.linkLabel1.Size = new System.Drawing.Size(86, 12);
+            this.linkLabel1.TabIndex = 22;
+            this.linkLabel1.TabStop = true;
+            this.linkLabel1.Text = "Checking Update";
+            this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1130, 592);
+            this.ClientSize = new System.Drawing.Size(1130, 608);
+            this.Controls.Add(this.linkLabel1);
+            this.Controls.Add(this.button_CheckUpdate);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.groupBox1);
@@ -229,6 +256,7 @@ namespace Poe整理倉庫v2
             this.Controls.Add(this.button_StartSort);
             this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.pictureBox1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
             this.Text = "POE整理倉庫v2      ";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_Closed);
@@ -242,6 +270,7 @@ namespace Poe整理倉庫v2
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -254,18 +283,30 @@ namespace Poe整理倉庫v2
             }
             Flier.SuperTools.Hook.KeyBoard.Global_Hook.GlobalKeyDown += new Flier.SuperTools.Hook.KeyBoard.Global_Hook.KeyEventHandlerEx(this.GlobalKeyDown);
             ItemList_Load();
+
+            SubmitGoogleDoc();
+            CheckUpdate();
         }
-        
-       
+        [Conditional("RELEASE")]
+        private async void SubmitGoogleDoc()
+        {
+            await System.Threading.Tasks.Task.Delay(0);
+            try
+            {
+                System.Net.WebClient wc = new System.Net.WebClient();
+                var keyval = new System.Collections.Specialized.NameValueCollection();
+                keyval.Add("submit", "Submit");
+                wc.Headers.Add("Origin", "https://docs.google.com");
+                wc.Headers.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36");
+
+                wc.UploadValuesAsync(new Uri("https://docs.google.com/forms/d/e/1FAIpQLSfbLCkLabwKqAewyNN4swBISAHKg6HTA3CJF6a-7h-Q-rBS3Q/formResponse"), "POST", keyval, Guid.NewGuid().ToString());
+            }
+            catch { }
+        }
         private void Form1_Closed(object sender, FormClosedEventArgs e)
         {
             
         }
-
-       
-
-    
-
         #endregion
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.PictureBox pictureBox2;
@@ -282,5 +323,7 @@ namespace Poe整理倉庫v2
         private GroupBox groupBox2;
         private RadioButton radioButton7;
         private RadioButton radioButton6;
+        private Button button_CheckUpdate;
+        private LinkLabel linkLabel1;
     }
 }

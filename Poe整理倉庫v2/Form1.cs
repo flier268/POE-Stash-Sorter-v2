@@ -3,8 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using System.Net.Http;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -24,12 +27,27 @@ namespace Poe整理倉庫v2
         bool Loaded = false;
         IntPtr poeHwnd = IntPtr.Zero;
         List<RootObject> ItemList = new List<RootObject>();
+        List<RootObject> ItemList_Adden = new List<RootObject>();
         List<RootObject> ItemList_Unique = new List<RootObject>();
         List<Item> Items = new List<Item>();
         List<POINT> used = new List<POINT>();
         List<Item> resoult = new List<Item>();
         Bitmap RegionImage = new Bitmap(480, 480);
         Bitmap RegionImage2 = new Bitmap(480, 480);
+
+        private delegate void myUICallBack_ControlText(string myStr, Control ctl);
+        private void ChangeControlText(string myStr, Control ctl)
+        {
+            if (this.InvokeRequired)
+            {
+                myUICallBack_ControlText myUpdate = new myUICallBack_ControlText(ChangeControlText);
+                this.Invoke(myUpdate, myStr, ctl);
+            }
+            else
+            {
+                ctl.Text = myStr;
+            }
+        }
         #endregion 全域變數
 
         #region subfunction_MoveItem
@@ -123,7 +141,58 @@ namespace Poe整理倉庫v2
             StartSorting((radioButton4.Checked ? 12 : 24));
         }
 
+        private void button_CheckUpdate_Click(object sender, EventArgs e)
+        {
+            CheckUpdate();
+        }
+        private void CheckUpdate()
+        {
+            var task = Task.Run(() =>
+            {
+                try
+                {
+                    using (var client = new HttpClient())
+                    {
+                        var response = client.GetAsync("https://github.com/flier268/POE-Stash-Sorter-v2/blob/master/Poe%E6%95%B4%E7%90%86%E5%80%89%E5%BA%ABv2/Properties/AssemblyInfo.cs").Result;
 
+                        if (response.IsSuccessStatusCode)
+                        {
+                            // by calling .Result you are performing a synchronous call
+                            var responseContent = response.Content;
+
+                            // by calling .Result you are synchronously reading the result
+                            string responseString = responseContent.ReadAsStringAsync().Result;
+                            Regex r = new Regex(@"[^/\s]\[assembly: AssemblyVersion.*?([\d|\.]+).*?\]", RegexOptions.IgnoreCase | RegexOptions.Singleline);
+                            var m = r.Match(responseString);
+
+                            Version ver = new Version(m.Groups[1].ToString());
+                            Version verson = Assembly.GetEntryAssembly().GetName().Version;
+                            int tm = verson.CompareTo(ver);
+
+                            if (tm >= 0)
+                            {
+                                ChangeControlText("It is newst.", linkLabel1);
+                            }
+                            else
+                            {
+                                ChangeControlText("Have update", linkLabel1);
+                            }
+                        }
+                    }
+                }
+                catch
+                {
+                    ChangeControlText("Check error.", linkLabel1);
+                }
+            });
+            
+        }
+
+        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            if (linkLabel1.Text == "Have update" || linkLabel1.Text == "Check error.")
+                System.Diagnostics.Process.Start("https://github.com/flier268/POE-Stash-Sorter-v2/releases/latest");
+        }
 
         private async void ItemList_Load()
         {
@@ -140,6 +209,13 @@ namespace Poe整理倉庫v2
                 if (!ItemList.Count.Equals(0))
                     stats = stats + 1;
             }
+            if (File.Exists(Path.Combine(Application.StartupPath, "ItemList_Adden.txt")))
+                using (StreamReader r = new StreamReader(Path.Combine(Application.StartupPath, "ItemList_Adden.txt"), Encoding.UTF8))
+                {
+                    ItemList_Adden = JsonConvert.DeserializeObject<List<JsonClass.RootObject>>(r.ReadToEnd());
+                }
+            if (ItemList_Adden == null)
+                ItemList_Adden = new List<RootObject>();
             using (StreamReader r = new StreamReader(Path.Combine(Application.StartupPath, "ItemList_Unique.txt"), Encoding.UTF8))
             {
                 ItemList_Unique = JsonConvert.DeserializeObject<List<JsonClass.RootObject>>(r.ReadToEnd());
