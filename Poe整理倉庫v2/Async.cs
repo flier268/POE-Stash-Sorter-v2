@@ -92,7 +92,7 @@ namespace Poe整理倉庫v2
                     Item temp = new Item();
                     if (m.Groups[3].ToString() == "")
                     {
-                        temp.Name = m.Groups[2].ToString().Trim();
+                        temp.Name = GetStringAfterSomething(m.Groups[2].ToString().Trim(), "」");
                     }
                     else
                     {
@@ -128,9 +128,9 @@ namespace Poe整理倉庫v2
                     if (t == null)
                         t = ItemList_Adden.Where(a => a.c.EndsWith(GetStringAfterSomething(temp.Name, "」")) || a.e.EndsWith(GetStringAfterSomething(temp.Name, "」"))).FirstOrDefault();
 
-                    while (t==null)
+                    while (t == null)
                     {
-                        Form2 f = new Form2(clip,temp.Name);
+                        Form2 f = new Form2(clip, temp.Name);
                         f.ShowDialog();
                         using (StreamReader rr = new StreamReader(Path.Combine(Application.StartupPath, "ItemList_Adden.txt"), Encoding.UTF8))
                         {
@@ -147,7 +147,7 @@ namespace Poe整理倉庫v2
                     temp.GC = t.GC;
                     temp.Name_eng = t.e;
                     temp.type = t.type;
-                   
+
                     temp.priority = Array.IndexOf(Config.Species, t.type);
 
                     temp.id = ++id;
@@ -312,7 +312,7 @@ namespace Poe整理倉庫v2
                                    var FirstItemInResoult_IdIsFirstItemInSwap = resoult.Where(x => x.id.Equals(FirstItemInSwap.id)).FirstOrDefault();
                                    var ItemNow = _Items.Where(x => x.point.Equals(FirstItemInResoult_IdIsFirstItemInSwap.point)).FirstOrDefault();
                                    if (ItemNow != null)
-                                   {                                      
+                                   {
                                        ClickItem(poeHwnd,
                                             (int)(((float)FirstItemInResoult_IdIsFirstItemInSwap.point.X * (length == 12 ? cellWidth1 : cellWidth4)) + (length == 12 ? startPos1.X : startPos4.X)),
                                             (int)(((float)FirstItemInResoult_IdIsFirstItemInSwap.point.Y * (length == 12 ? cellHeight1 : cellHeight4)) + (length == 12 ? startPos1.Y : startPos4.Y)));
@@ -339,7 +339,7 @@ namespace Poe整理倉庫v2
                                    ClickItem(poeHwnd,
                                            (int)(((float)FirstItemInResoult_IdIsFirstItemInSwap.point.X * (length == 12 ? cellWidth1 : cellWidth4)) + (length == 12 ? startPos1.X : startPos4.X)),
                                            (int)(((float)FirstItemInResoult_IdIsFirstItemInSwap.point.Y * (length == 12 ? cellHeight1 : cellHeight4)) + (length == 12 ? startPos1.Y : startPos4.Y)));
-                                                                      
+
                                    _Items.Where(x => x.id == FirstItemInSwap.id).FirstOrDefault().point = new POINT(FirstItemInResoult_IdIsFirstItemInSwap.point);
                                    FirstItemInSwap.id = 0;
                                }
@@ -350,14 +350,14 @@ namespace Poe整理倉庫v2
             }
             Stop = true;
         }
-        
-        private void DrawBoxRegion(List<Item> _items,int length , int info)
+
+        private void DrawBoxRegion(List<Item> _items, int length, int info)
         {
             Graphics g;
             MemoryStream stream;
             Image img;
             SolidBrush drawBrush = new SolidBrush(Color.Red);
-            Font drawFont = new Font("Arial", 60/length, FontStyle.Bold, GraphicsUnit.Millimeter);
+            Font drawFont = new Font("Arial", 60 / length, FontStyle.Bold, GraphicsUnit.Millimeter);
             System.Net.WebClient WC = new System.Net.WebClient();
 
             g = info == 1 ? Graphics.FromImage(RegionImage) : Graphics.FromImage(RegionImage2);
@@ -372,10 +372,10 @@ namespace Poe整理倉庫v2
                 img = Image.FromStream(stream);
                 stream.Close();
             }
-           
+
             g.DrawImage(img, 0, 0, 480, 480);
 
-            
+
             if (info == 1)
             {
                 foreach (Item item in _items)
