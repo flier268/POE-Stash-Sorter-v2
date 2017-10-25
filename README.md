@@ -14,10 +14,9 @@
 <br>
 ----------------------------------
 ### If you found any bug,please report to me,thanks.
-<br>
 ### Demo video:
 [![Demo video](https://img.youtube.com/vi/CUXbyehxYA8/0.jpg)](https://youtu.be/CUXbyehxYA8)
-<br>
+
 ### Feature:
 1.Can auto stash 1x1 items.<br>
 2.Can choose "Horizontal" or "Vertical"<br>
