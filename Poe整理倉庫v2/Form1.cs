@@ -199,7 +199,7 @@ namespace Poe整理倉庫v2
             await Task.Delay(0);
             if (!File.Exists(Path.Combine(Application.StartupPath, "ItemList.txt")) || !File.Exists(Path.Combine(Application.StartupPath, "ItemList_Unique.txt")))
             {
-                MessageBox.Show("找不到ItemList.txt和ItemList_Unique.txt");
+                MessageBox.Show("找不到ItemList.txt或ItemList_Unique.txt，請確認是否解壓縮完整");
                 return;
             }
             int stats = 0;

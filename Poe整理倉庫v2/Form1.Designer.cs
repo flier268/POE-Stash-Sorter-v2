@@ -276,18 +276,19 @@ namespace Poe整理倉庫v2
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            this.Text = String.Format("{0}{1}: {2}",this.Text ,"Version", Assembly.GetExecutingAssembly().GetName().Version.ToString());
+            this.Text = String.Format("{0}{1}: {2}", this.Text, "Version", Assembly.GetExecutingAssembly().GetName().Version.ToString());
             using (StreamReader r = new StreamReader(Path.ChangeExtension(Application.ExecutablePath, ".cfg"), Encoding.UTF8))
             {
                 Config = Setting.FromJson(r.ReadToEnd());
             }
             Flier.SuperTools.Hook.KeyBoard.Global_Hook.GlobalKeyDown += new Flier.SuperTools.Hook.KeyBoard.Global_Hook.KeyEventHandlerEx(this.GlobalKeyDown);
             ItemList_Load();
-
+#if DEBUG            
+#else
             SubmitGoogleDoc();
+#endif
             CheckUpdate();
         }
-        [Conditional("RELEASE")]
         private async void SubmitGoogleDoc()
         {
             await System.Threading.Tasks.Task.Delay(0);

@@ -23,7 +23,7 @@ namespace Poe整理倉庫v2
             InitializeComponent();
             ApplicationHelper.SetForegroundWindow(this.Handle);
             richTextBox1.Text = clip;
-            if (IsChineseContain(Name))
+            if (PrivateFunction.IsChineseContain(Name))
                 textBox1.Text = Name;
             else
                 textBox2.Text = Name;
@@ -46,15 +46,7 @@ namespace Poe整理倉庫v2
             textBox4.Text = "question-mark.png";
 
         }
-        private bool IsChineseContain(string s)
-        {
-            foreach(char c in s)
-            {
-                if ((int)c > 127)
-                    return true;
-            }
-            return false;            
-        }
+      
         private void Form2_Load(object sender, EventArgs e)
         {
 

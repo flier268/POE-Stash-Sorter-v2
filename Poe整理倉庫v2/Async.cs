@@ -34,11 +34,8 @@ namespace Poe整理倉庫v2
         }
         private string reg = @":\s(.*?)\r\n(.*?)\r\n(.*?)--------\r\n(.*)";
 
-        string GetStringAfterSomething(string s, string beforeWhat)
-        {
-            string temp = s.Substring(s.IndexOf(beforeWhat) + 1, s.Length - s.IndexOf(beforeWhat) - 1);
-            return temp;
-        }
+       
+
         /// <summary>
         /// 取得並分析POE倉庫頁面中所有物品的資訊
         /// </summary>
@@ -49,18 +46,23 @@ namespace Poe整理倉庫v2
             Items.Clear();
             used.Clear();
             resoult.Clear();
-
+            
             //可能需要英文化
-            string reg_itemlevel = @"物品等級:\s(\d+)";
-            string reg_quality = @"品質:\s\+(\d+)";
-            string reg_level = @"(?<!需求:)\r\n^等級:\s(\d+)";
-            string reg_maplevel = @"地圖階級:\s(\d+)";
+            string reg_itemlevel = @"物品等級:\s(\d+)", reg_itemlevel_eng = @"Item Level:\s(\d+)";
+            string reg_quality = @"品質:\s\+(\d+)", reg_quality_eng= @"Quality:\s\+(\d+)";
+            string reg_level = @"(?<!需求:)\r\n^等級:\s(\d+)", reg_level_eng = @"(?<!Requirements:)\r\n^Level:\s(\d+)";
+            string reg_maplevel = @"地圖階級:\s(\d+)", reg_maplevel_eng = @"Map Tier:\s(\d+)";
 
 
-            Regex r_itemlevel = new Regex(reg_itemlevel, RegexOptions.IgnoreCase | RegexOptions.Multiline);
-            Regex r_quality = new Regex(reg_quality, RegexOptions.IgnoreCase | RegexOptions.Multiline);
-            Regex r_level = new Regex(reg_level, RegexOptions.IgnoreCase | RegexOptions.Multiline);
-            Regex r_maplevel = new Regex(reg_maplevel, RegexOptions.IgnoreCase | RegexOptions.Multiline);
+            Regex r_itemlevel = new Regex(reg_itemlevel, RegexOptions.IgnoreCase | RegexOptions.Multiline),
+                r_itemlevel_eng = new Regex(reg_itemlevel_eng, RegexOptions.IgnoreCase | RegexOptions.Multiline);
+            Regex r_quality = new Regex(reg_quality, RegexOptions.IgnoreCase | RegexOptions.Multiline),
+                r_quality_eng = new Regex(reg_quality_eng, RegexOptions.IgnoreCase | RegexOptions.Multiline);
+            Regex r_level = new Regex(reg_level, RegexOptions.IgnoreCase | RegexOptions.Multiline),
+                r_level_eng = new Regex(reg_level_eng, RegexOptions.IgnoreCase | RegexOptions.Multiline);
+            Regex r_maplevel = new Regex(reg_maplevel, RegexOptions.IgnoreCase | RegexOptions.Multiline),
+                r_maplevel_eng = new Regex(reg_maplevel_eng, RegexOptions.IgnoreCase | RegexOptions.Multiline);
+
             Regex r = new Regex(reg, RegexOptions.IgnoreCase | RegexOptions.Singleline);
             Match m, m_itemlevel, m_quality, m_level, m_maplevel;
             int id = 0;
@@ -92,7 +94,7 @@ namespace Poe整理倉庫v2
                     Item temp = new Item();
                     if (m.Groups[3].ToString() == "")
                     {
-                        temp.Name = GetStringAfterSomething(m.Groups[2].ToString().Trim(), "」");
+                        temp.Name = PrivateFunction.GetStringAfterSomething(m.Groups[2].ToString().Trim(), "」");
                     }
                     else
                     {
@@ -104,9 +106,13 @@ namespace Poe整理倉庫v2
 
                     temp.Rarity = m.Groups[1].ToString().Trim();
                     m_itemlevel = r_itemlevel.Match(m.Groups[4].ToString());
+                    m_itemlevel = m_itemlevel.Groups.Count == 1 ? r_itemlevel_eng.Match(m.Groups[4].ToString()) : m_itemlevel;                    
                     m_level = r_level.Match(m.Groups[4].ToString());
+                    m_level = m_level.Groups.Count == 1 ? r_level_eng.Match(m.Groups[4].ToString()) : m_level;
                     m_maplevel = r_maplevel.Match(m.Groups[4].ToString());
+                    m_maplevel = m_maplevel.Groups.Count==1?r_maplevel_eng.Match(m.Groups[4].ToString()):m_maplevel;
                     m_quality = r_quality.Match(m.Groups[4].ToString());
+                    m_quality =m_quality.Groups.Count==1? r_quality_eng.Match(m.Groups[4].ToString()):m_quality;
                     temp.itemlevel = m_itemlevel.Groups.Count == 1 ? 0 : int.Parse(m_itemlevel.Groups[1].ToString());
                     temp.level = m_level.Groups.Count == 1 ? 0 : int.Parse(m_level.Groups[1].ToString());
                     temp.quality = m_quality.Groups.Count == 1 ? 0 : int.Parse(m_quality.Groups[1].ToString());
@@ -115,7 +121,7 @@ namespace Poe整理倉庫v2
                     JsonClass.RootObject t;
                     if (m.Groups[1].ToString() == "傳奇" || m.Groups[1].ToString() == "Unique")
                     {
-                        t = ItemList_Unique.Where(a => a.c.EndsWith(GetStringAfterSomething(temp.Name, "」")) || a.e.EndsWith(GetStringAfterSomething(temp.Name, "」"))).FirstOrDefault();
+                        t = ItemList_Unique.Where(a => a.c.EndsWith(PrivateFunction.GetStringAfterSomething(temp.Name, "」")) || a.e.EndsWith(PrivateFunction.GetStringAfterSomething(temp.Name, "」"))).FirstOrDefault();
                     }
                     else
                     {
@@ -126,12 +132,13 @@ namespace Poe整理倉庫v2
                             t = ItemList.Where(a => temp.Name.Contains(a.e)).FirstOrDefault();
                     }
                     if (t == null)
-                        t = ItemList_Adden.Where(a => a.c.EndsWith(GetStringAfterSomething(temp.Name, "」")) || a.e.EndsWith(GetStringAfterSomething(temp.Name, "」"))).FirstOrDefault();
+                        t = ItemList_Adden.Where(a => a.c.EndsWith(PrivateFunction.GetStringAfterSomething(temp.Name, "」")) || a.e.EndsWith(PrivateFunction.GetStringAfterSomething(temp.Name, "」"))).FirstOrDefault();
 
                     while (t == null)
                     {
                         Form2 f = new Form2(clip, temp.Name);
                         f.ShowDialog();
+                        if(File.Exists(Path.Combine(Application.StartupPath, "ItemList_Adden.txt")))
                         using (StreamReader rr = new StreamReader(Path.Combine(Application.StartupPath, "ItemList_Adden.txt"), Encoding.UTF8))
                         {
                             ItemList_Adden = JsonConvert.DeserializeObject<List<JsonClass.RootObject>>(rr.ReadToEnd());

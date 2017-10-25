@@ -74,6 +74,7 @@
     <Compile Include="Form2.Designer.cs">
       <DependentUpon>Form2.cs</DependentUpon>
     </Compile>
+    <Compile Include="PrivateFunction.cs" />
     <Compile Include="Sort.cs">
       <DependentUpon>Form1.cs</DependentUpon>
       <SubType>Form</SubType>
