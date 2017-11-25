@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -133,26 +134,55 @@ namespace Poe整理倉庫v2
         }
         private void AddSpeciesDic()
         {
-            SpeciesDic.Add(new KeyValuePair<string, string>("Amulet", "護身符"));
-            SpeciesDic.Add(new KeyValuePair<string, string>("Ring", "戒指"));
-            SpeciesDic.Add(new KeyValuePair<string, string>("Jewel", "珠寶"));
-            SpeciesDic.Add(new KeyValuePair<string, string>("Currency", "通貨"));
-            SpeciesDic.Add(new KeyValuePair<string, string>("Map", "地圖"));
-            SpeciesDic.Add(new KeyValuePair<string, string>("DivinationCard", "命運卡"));
-            SpeciesDic.Add(new KeyValuePair<string, string>("Leaguestone", "聯盟石"));
-            SpeciesDic.Add(new KeyValuePair<string, string>("MiscMapItem", "其他"));
-            SpeciesDic.Add(new KeyValuePair<string, string>("UniqueFragment", "碎片"));
-            SpeciesDic.Add(new KeyValuePair<string, string>("Gem", "技能寶石"));            
+            if (System.Threading.Thread.CurrentThread.CurrentUICulture.Name == "en")
+            {
+                SpeciesDic.Add(new KeyValuePair<string, string>("Amulet", "Amulet"));
+                SpeciesDic.Add(new KeyValuePair<string, string>("Ring", "Ring"));
+                SpeciesDic.Add(new KeyValuePair<string, string>("Jewel", "Jewel"));
+                SpeciesDic.Add(new KeyValuePair<string, string>("Currency", "Currency"));
+                SpeciesDic.Add(new KeyValuePair<string, string>("Map", "Map"));
+                SpeciesDic.Add(new KeyValuePair<string, string>("DivinationCard", "Divination Card"));
+                SpeciesDic.Add(new KeyValuePair<string, string>("Leaguestone", "Leaguestone"));
+                SpeciesDic.Add(new KeyValuePair<string, string>("MiscMapItem", "Other"));
+                SpeciesDic.Add(new KeyValuePair<string, string>("UniqueFragment", "Unique Fragment"));
+                SpeciesDic.Add(new KeyValuePair<string, string>("Gem", "Gem"));
+            }    
+            else
+            {
+                SpeciesDic.Add(new KeyValuePair<string, string>("Amulet", "護身符"));
+                SpeciesDic.Add(new KeyValuePair<string, string>("Ring", "戒指"));
+                SpeciesDic.Add(new KeyValuePair<string, string>("Jewel", "珠寶"));
+                SpeciesDic.Add(new KeyValuePair<string, string>("Currency", "通貨"));
+                SpeciesDic.Add(new KeyValuePair<string, string>("Map", "地圖"));
+                SpeciesDic.Add(new KeyValuePair<string, string>("DivinationCard", "命運卡"));
+                SpeciesDic.Add(new KeyValuePair<string, string>("Leaguestone", "聯盟石"));
+                SpeciesDic.Add(new KeyValuePair<string, string>("MiscMapItem", "其他"));
+                SpeciesDic.Add(new KeyValuePair<string, string>("UniqueFragment", "碎片"));
+                SpeciesDic.Add(new KeyValuePair<string, string>("Gem", "技能寶石"));
+            }
         }
         private void AddPriorityDic()
         {
-            PriorityDic.Add(new KeyValuePair<string, string>("MapLevel", "地圖等級"));
-            PriorityDic.Add(new KeyValuePair<string, string>("Q", "品質"));
-            PriorityDic.Add(new KeyValuePair<string, string>("Name", "物品名稱"));
-            PriorityDic.Add(new KeyValuePair<string, string>("ItemLevel", "物品等級"));
-            PriorityDic.Add(new KeyValuePair<string, string>("GemColor", "寶石顏色"));
-            PriorityDic.Add(new KeyValuePair<string, string>("Rarity", "稀有度"));
-            PriorityDic.Add(new KeyValuePair<string, string>("Type", "類型"));
+            if (System.Threading.Thread.CurrentThread.CurrentUICulture.Name == "en")
+            {
+                PriorityDic.Add(new KeyValuePair<string, string>("MapLevel", "Map Level"));
+                PriorityDic.Add(new KeyValuePair<string, string>("Q", "Q"));
+                PriorityDic.Add(new KeyValuePair<string, string>("Name", "Name"));
+                PriorityDic.Add(new KeyValuePair<string, string>("ItemLevel", "Item Level"));
+                PriorityDic.Add(new KeyValuePair<string, string>("GemColor", "Gem's Color"));
+                PriorityDic.Add(new KeyValuePair<string, string>("Rarity", "Rarity"));
+                PriorityDic.Add(new KeyValuePair<string, string>("Type", "Type"));
+            }
+            else
+            {
+                PriorityDic.Add(new KeyValuePair<string, string>("MapLevel", "地圖等級"));
+                PriorityDic.Add(new KeyValuePair<string, string>("Q", "品質"));
+                PriorityDic.Add(new KeyValuePair<string, string>("Name", "物品名稱"));
+                PriorityDic.Add(new KeyValuePair<string, string>("ItemLevel", "物品等級"));
+                PriorityDic.Add(new KeyValuePair<string, string>("GemColor", "寶石顏色"));
+                PriorityDic.Add(new KeyValuePair<string, string>("Rarity", "稀有度"));
+                PriorityDic.Add(new KeyValuePair<string, string>("Type", "類型"));
+            }
         }
         private void Form3_Load(object sender, EventArgs e)
         {

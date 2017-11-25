@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -27,17 +28,34 @@ namespace Poe整理倉庫v2
                 textBox1.Text = Name;
             else
                 textBox2.Text = Name;
-            SpeciesDic.Add(new KeyValuePair<string, string>("Amulet", "護身符"));
-            SpeciesDic.Add(new KeyValuePair<string, string>("Ring", "戒指"));
-            SpeciesDic.Add(new KeyValuePair<string, string>("Jewel", "珠寶"));
-            SpeciesDic.Add(new KeyValuePair<string, string>("Currency", "通貨"));
-            SpeciesDic.Add(new KeyValuePair<string, string>("Map", "地圖"));
-            SpeciesDic.Add(new KeyValuePair<string, string>("DivinationCard", "命運卡"));
-            SpeciesDic.Add(new KeyValuePair<string, string>("Leaguestone", "聯盟石"));
-            SpeciesDic.Add(new KeyValuePair<string, string>("MiscMapItem", "其他"));
-            SpeciesDic.Add(new KeyValuePair<string, string>("UniqueFragment", "碎片"));
-            SpeciesDic.Add(new KeyValuePair<string, string>("Gem", "技能寶石"));
-            SpeciesDic.Add(new KeyValuePair<string, string>("Other", "其他"));
+            if (System.Threading.Thread.CurrentThread.CurrentUICulture == new CultureInfo("en"))
+            {
+                SpeciesDic.Add(new KeyValuePair<string, string>("Amulet", "Amulet"));
+                SpeciesDic.Add(new KeyValuePair<string, string>("Ring", "Ring"));
+                SpeciesDic.Add(new KeyValuePair<string, string>("Jewel", "Jewel"));
+                SpeciesDic.Add(new KeyValuePair<string, string>("Currency", "Currency"));
+                SpeciesDic.Add(new KeyValuePair<string, string>("Map", "Map"));
+                SpeciesDic.Add(new KeyValuePair<string, string>("DivinationCard", "Divination Card"));
+                SpeciesDic.Add(new KeyValuePair<string, string>("Leaguestone", "Leaguestone"));
+                SpeciesDic.Add(new KeyValuePair<string, string>("MiscMapItem", "Other"));
+                SpeciesDic.Add(new KeyValuePair<string, string>("UniqueFragment", "Unique Fragment"));
+                SpeciesDic.Add(new KeyValuePair<string, string>("Gem", "Gem"));
+                SpeciesDic.Add(new KeyValuePair<string, string>("Other", "Other"));
+            }
+            else
+            {
+                SpeciesDic.Add(new KeyValuePair<string, string>("Amulet", "護身符"));
+                SpeciesDic.Add(new KeyValuePair<string, string>("Ring", "戒指"));
+                SpeciesDic.Add(new KeyValuePair<string, string>("Jewel", "珠寶"));
+                SpeciesDic.Add(new KeyValuePair<string, string>("Currency", "通貨"));
+                SpeciesDic.Add(new KeyValuePair<string, string>("Map", "地圖"));
+                SpeciesDic.Add(new KeyValuePair<string, string>("DivinationCard", "命運卡"));
+                SpeciesDic.Add(new KeyValuePair<string, string>("Leaguestone", "聯盟石"));
+                SpeciesDic.Add(new KeyValuePair<string, string>("MiscMapItem", "其他"));
+                SpeciesDic.Add(new KeyValuePair<string, string>("UniqueFragment", "碎片"));
+                SpeciesDic.Add(new KeyValuePair<string, string>("Gem", "技能寶石"));
+                SpeciesDic.Add(new KeyValuePair<string, string>("Other", "其他"));
+            }
             comboBox1.Items.AddRange(SpeciesDic.Select(x => x.Value).ToArray());
             comboBox1.SelectedIndex = 0;
             comboBox2.SelectedIndex = 0;

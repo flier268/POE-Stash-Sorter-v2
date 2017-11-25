@@ -2,7 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Net.Http;
 using System.Reflection;
 using System.Runtime.InteropServices;
@@ -95,13 +97,13 @@ namespace Poe整理倉庫v2
             Stop = false;
             if (!Loaded)
             {
-                MessageBox.Show("還未載入完全");
+                MessageBox.Show("還未載入完全\r\nDoes not loaded.");
                 return;
             }
             poeHwnd = ApplicationHelper.OpenPathOfExile();
             if (poeHwnd == IntPtr.Zero)
             {
-                MessageBox.Show("未偵測到Path Of Exile");
+                MessageBox.Show("未偵測到Path Of Exile\r\nDid't find Path Of Exile");
                 return;
             }
             GetStashDimentions();
@@ -124,13 +126,13 @@ namespace Poe整理倉庫v2
             Stop = false;
             if (!Loaded)
             {
-                MessageBox.Show("還未載入完全");
+                MessageBox.Show("還未載入完全\r\nDoes not loaded.");
                 return;
             }
             poeHwnd = ApplicationHelper.OpenPathOfExile();
             if (poeHwnd == IntPtr.Zero)
             {
-                MessageBox.Show("未偵測到Path Of Exile");
+                MessageBox.Show("未偵測到Path Of Exile\r\nDid't find Path Of Exile");
                 return;
             }
             GetStashDimentions();
@@ -194,12 +196,65 @@ namespace Poe整理倉庫v2
                 System.Diagnostics.Process.Start("https://github.com/flier268/POE-Stash-Sorter-v2/releases/latest");
         }
 
+        private void radioButton8_CheckedChanged(object sender, EventArgs e)
+        {            
+            System.Threading.Thread.CurrentThread.CurrentUICulture = new CultureInfo("zh-TW");
+            for (int i = Controls.Count - 1; i > 0; i--)
+            {
+                Controls[i].Dispose();
+            }
+            InitializeComponent();
+        }
+
+        private void radioButton9_CheckedChanged(object sender, EventArgs e)
+        {
+            System.Threading.Thread.CurrentThread.CurrentUICulture = new CultureInfo("en");
+            for (int i = Controls.Count - 1; i > 0; i--)
+            {
+                Controls[i].Dispose();
+            }
+            InitializeComponent();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            int n = 0;
+
+            List<int> list = new List<int>(){ 13, 3, 4, 10, 9, 19, 10, 10, 13, 1, 4, 8, 7, 1, 16, 13, 10, 11, 12, 6, 13, 10, 9, 10, 14, 18, 7, 15, 6, 12, 4, 15, 5, 11, 17, 17, 13, 19, 4, 17, 11, 12, 5, 4, 16, 4, 15, 2, 9, 4 };
+            int r = 0;
+            int c = list.Count;
+            int[] array = new int[40];
+
+            while (array[39] != list[c - 1] && r != 39)
+            {
+                a:;
+                array[r] = array[r] + 1;
+                while (array[r] >= c)
+                {
+                    array[r] = 0;
+                    r++;
+                    array[r] = array[r] + 1;
+                }
+                r = 0;
+                if (array.Distinct().ToList().Count + array.Where(x => x == 0).ToList().Count != array.Count())
+                    goto a;
+                int sum = 0;
+                array.ToList().ForEach(x => sum += list[x]);
+                if(sum>40 && sum<=40+n)
+                {
+                    List<int> temp = new List<int>();
+                    array.ToList().ForEach(x => temp.Add(list[x]));
+                    MessageBox.Show(temp.ToArray().ToString());
+                }
+            }
+        }
+
         private async void ItemList_Load()
         {
             await Task.Delay(0);
             if (!File.Exists(Path.Combine(Application.StartupPath, "ItemList.txt")) || !File.Exists(Path.Combine(Application.StartupPath, "ItemList_Unique.txt")))
             {
-                MessageBox.Show("找不到ItemList.txt或ItemList_Unique.txt，請確認是否解壓縮完整");
+                MessageBox.Show("找不到ItemList.txt或ItemList_Unique.txt，請確認是否解壓縮完整\r\nCan't find ItemList.txt or ItemList_Unique.txt,please check full unzip or not.");
                 return;
             }
             int stats = 0;
@@ -225,13 +280,13 @@ namespace Poe整理倉庫v2
             switch (stats)
             {
                 case 0:
-                    MessageBox.Show("ItemList.txt與ItemList_Unique.txt讀取失敗，請確認後再重新啟動程式");
+                    MessageBox.Show("ItemList.txt與ItemList_Unique.txt讀取失敗，請確認後再重新啟動程式\r\nCan not load ItemList.txt and ItemList_Unique.txt,check and restart,please.");
                     break;
                 case 1:
-                    MessageBox.Show("ItemList.txt讀取失敗，請確認後再重新啟動程式");
+                    MessageBox.Show("ItemList.txt讀取失敗，請確認後再重新啟動程式\r\nCan not load ItemList.txt,check and restart,please.");
                     break;
                 case 3:
-                    MessageBox.Show("ItemList_Unique.txt讀取失敗，請確認後再重新啟動程式");
+                    MessageBox.Show("ItemList_Unique.txt讀取失敗，請確認後再重新啟動程式\r\nCan not load ItemList_Unique.txt,check and restart,please.");
                     break;
                 case 4:
                     Loaded = true;

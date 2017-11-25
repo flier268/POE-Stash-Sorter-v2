@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Reflection;
 using System.Text;
@@ -53,127 +54,94 @@ namespace Poe整理倉庫v2
             this.radioButton6 = new System.Windows.Forms.RadioButton();
             this.button_CheckUpdate = new System.Windows.Forms.Button();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.radioButton9 = new System.Windows.Forms.RadioButton();
+            this.radioButton8 = new System.Windows.Forms.RadioButton();
+            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Location = new System.Drawing.Point(31, 99);
+            resources.ApplyResources(this.pictureBox1, "pictureBox1");
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(480, 480);
-            this.pictureBox1.TabIndex = 1;
             this.pictureBox1.TabStop = false;
             // 
             // pictureBox2
             // 
-            this.pictureBox2.Location = new System.Drawing.Point(604, 99);
+            resources.ApplyResources(this.pictureBox2, "pictureBox2");
             this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(480, 480);
-            this.pictureBox2.TabIndex = 1;
             this.pictureBox2.TabStop = false;
             // 
             // button_StartSort
             // 
-            this.button_StartSort.Location = new System.Drawing.Point(977, 32);
+            resources.ApplyResources(this.button_StartSort, "button_StartSort");
             this.button_StartSort.Name = "button_StartSort";
-            this.button_StartSort.Size = new System.Drawing.Size(107, 54);
-            this.button_StartSort.TabIndex = 2;
-            this.button_StartSort.Text = "開始整理";
             this.button_StartSort.UseVisualStyleBackColor = true;
             this.button_StartSort.Click += new System.EventHandler(this.button_StartSort_Click);
             // 
             // button_ReLoadBox
             // 
-            this.button_ReLoadBox.Location = new System.Drawing.Point(227, 35);
+            resources.ApplyResources(this.button_ReLoadBox, "button_ReLoadBox");
             this.button_ReLoadBox.Name = "button_ReLoadBox";
-            this.button_ReLoadBox.Size = new System.Drawing.Size(132, 44);
-            this.button_ReLoadBox.TabIndex = 5;
-            this.button_ReLoadBox.Text = "重新讀取倉庫資料";
             this.button_ReLoadBox.UseVisualStyleBackColor = true;
             this.button_ReLoadBox.Click += new System.EventHandler(this.button_ReLoadBox_Click);
             // 
             // button_Setting
             // 
-            this.button_Setting.Location = new System.Drawing.Point(410, 31);
+            resources.ApplyResources(this.button_Setting, "button_Setting");
             this.button_Setting.Name = "button_Setting";
-            this.button_Setting.Size = new System.Drawing.Size(84, 52);
-            this.button_Setting.TabIndex = 15;
-            this.button_Setting.Text = "設定";
             this.button_Setting.UseVisualStyleBackColor = true;
             this.button_Setting.Click += new System.EventHandler(this.button_Setting_Click);
             // 
             // radioButton1
             // 
-            this.radioButton1.AutoSize = true;
+            resources.ApplyResources(this.radioButton1, "radioButton1");
             this.radioButton1.Checked = true;
-            this.radioButton1.Location = new System.Drawing.Point(17, 10);
             this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Size = new System.Drawing.Size(71, 16);
-            this.radioButton1.TabIndex = 16;
             this.radioButton1.TabStop = true;
-            this.radioButton1.Text = "一般模式";
             this.radioButton1.UseVisualStyleBackColor = true;
             // 
             // radioButton2
             // 
-            this.radioButton2.AutoSize = true;
-            this.radioButton2.Enabled = false;
-            this.radioButton2.Location = new System.Drawing.Point(17, 32);
+            resources.ApplyResources(this.radioButton2, "radioButton2");
             this.radioButton2.Name = "radioButton2";
-            this.radioButton2.Size = new System.Drawing.Size(95, 16);
-            this.radioButton2.TabIndex = 17;
             this.radioButton2.TabStop = true;
-            this.radioButton2.Text = "湊出玻璃彈珠";
             this.radioButton2.UseVisualStyleBackColor = true;
             // 
             // radioButton3
             // 
-            this.radioButton3.AutoSize = true;
-            this.radioButton3.Enabled = false;
-            this.radioButton3.Location = new System.Drawing.Point(17, 53);
+            resources.ApplyResources(this.radioButton3, "radioButton3");
             this.radioButton3.Name = "radioButton3";
-            this.radioButton3.Size = new System.Drawing.Size(119, 16);
-            this.radioButton3.TabIndex = 17;
             this.radioButton3.TabStop = true;
-            this.radioButton3.Text = "湊出寶石匠的稜鏡";
             this.radioButton3.UseVisualStyleBackColor = true;
             // 
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.radioButton5);
             this.groupBox1.Controls.Add(this.radioButton4);
-            this.groupBox1.Location = new System.Drawing.Point(93, 21);
+            resources.ApplyResources(this.groupBox1, "groupBox1");
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(128, 68);
-            this.groupBox1.TabIndex = 18;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "倉庫頁大小";
             // 
             // radioButton5
             // 
-            this.radioButton5.AutoSize = true;
-            this.radioButton5.Location = new System.Drawing.Point(18, 43);
+            resources.ApplyResources(this.radioButton5, "radioButton5");
             this.radioButton5.Name = "radioButton5";
-            this.radioButton5.Size = new System.Drawing.Size(95, 16);
-            this.radioButton5.TabIndex = 1;
             this.radioButton5.TabStop = true;
-            this.radioButton5.Text = "四倍大倉庫頁";
             this.radioButton5.UseVisualStyleBackColor = true;
             // 
             // radioButton4
             // 
-            this.radioButton4.AutoSize = true;
+            resources.ApplyResources(this.radioButton4, "radioButton4");
             this.radioButton4.Checked = true;
-            this.radioButton4.Location = new System.Drawing.Point(18, 21);
             this.radioButton4.Name = "radioButton4";
-            this.radioButton4.Size = new System.Drawing.Size(83, 16);
-            this.radioButton4.TabIndex = 0;
             this.radioButton4.TabStop = true;
-            this.radioButton4.Text = "一般倉庫頁";
             this.radioButton4.UseVisualStyleBackColor = true;
             // 
             // panel1
@@ -181,71 +149,81 @@ namespace Poe整理倉庫v2
             this.panel1.Controls.Add(this.radioButton3);
             this.panel1.Controls.Add(this.radioButton2);
             this.panel1.Controls.Add(this.radioButton1);
-            this.panel1.Location = new System.Drawing.Point(509, 22);
+            resources.ApplyResources(this.panel1, "panel1");
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(144, 68);
-            this.panel1.TabIndex = 19;
             // 
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.radioButton7);
             this.groupBox2.Controls.Add(this.radioButton6);
-            this.groupBox2.Location = new System.Drawing.Point(682, 23);
+            resources.ApplyResources(this.groupBox2, "groupBox2");
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(224, 67);
-            this.groupBox2.TabIndex = 20;
             this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "移動方式";
             // 
             // radioButton7
             // 
-            this.radioButton7.AutoSize = true;
-            this.radioButton7.Location = new System.Drawing.Point(6, 41);
+            resources.ApplyResources(this.radioButton7, "radioButton7");
             this.radioButton7.Name = "radioButton7";
-            this.radioButton7.Size = new System.Drawing.Size(214, 16);
-            this.radioButton7.TabIndex = 0;
             this.radioButton7.TabStop = true;
-            this.radioButton7.Text = "公會倉庫模式(需要清除背包第1,2格)";
             this.radioButton7.UseVisualStyleBackColor = true;
             // 
             // radioButton6
             // 
-            this.radioButton6.AutoSize = true;
+            resources.ApplyResources(this.radioButton6, "radioButton6");
             this.radioButton6.Checked = true;
-            this.radioButton6.Location = new System.Drawing.Point(6, 19);
             this.radioButton6.Name = "radioButton6";
-            this.radioButton6.Size = new System.Drawing.Size(71, 16);
-            this.radioButton6.TabIndex = 0;
             this.radioButton6.TabStop = true;
-            this.radioButton6.Text = "倉庫模式";
             this.radioButton6.UseVisualStyleBackColor = true;
             // 
             // button_CheckUpdate
             // 
-            this.button_CheckUpdate.Location = new System.Drawing.Point(946, 584);
+            resources.ApplyResources(this.button_CheckUpdate, "button_CheckUpdate");
             this.button_CheckUpdate.Name = "button_CheckUpdate";
-            this.button_CheckUpdate.Size = new System.Drawing.Size(94, 23);
-            this.button_CheckUpdate.TabIndex = 21;
-            this.button_CheckUpdate.Text = "Check Update";
             this.button_CheckUpdate.UseVisualStyleBackColor = true;
             this.button_CheckUpdate.Click += new System.EventHandler(this.button_CheckUpdate_Click);
             // 
             // linkLabel1
             // 
-            this.linkLabel1.AutoSize = true;
-            this.linkLabel1.Location = new System.Drawing.Point(1039, 590);
+            resources.ApplyResources(this.linkLabel1, "linkLabel1");
             this.linkLabel1.Name = "linkLabel1";
-            this.linkLabel1.Size = new System.Drawing.Size(86, 12);
-            this.linkLabel1.TabIndex = 22;
             this.linkLabel1.TabStop = true;
-            this.linkLabel1.Text = "Checking Update";
             this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.radioButton9);
+            this.groupBox3.Controls.Add(this.radioButton8);
+            resources.ApplyResources(this.groupBox3, "groupBox3");
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.TabStop = false;
+            // 
+            // radioButton9
+            // 
+            resources.ApplyResources(this.radioButton9, "radioButton9");
+            this.radioButton9.Name = "radioButton9";
+            this.radioButton9.UseVisualStyleBackColor = true;
+            this.radioButton9.CheckedChanged += new System.EventHandler(this.radioButton9_CheckedChanged);
+            // 
+            // radioButton8
+            // 
+            resources.ApplyResources(this.radioButton8, "radioButton8");
+            this.radioButton8.Name = "radioButton8";
+            this.radioButton8.UseVisualStyleBackColor = true;
+            this.radioButton8.CheckedChanged += new System.EventHandler(this.radioButton8_CheckedChanged);
+            // 
+            // button1
+            // 
+            resources.ApplyResources(this.button1, "button1");
+            this.button1.Name = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+            resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1130, 608);
+            this.Controls.Add(this.button1);
+            this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.linkLabel1);
             this.Controls.Add(this.button_CheckUpdate);
             this.Controls.Add(this.groupBox2);
@@ -256,9 +234,7 @@ namespace Poe整理倉庫v2
             this.Controls.Add(this.button_StartSort);
             this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.pictureBox1);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
-            this.Text = "POE整理倉庫v2      ";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_Closed);
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
@@ -269,6 +245,8 @@ namespace Poe整理倉庫v2
             this.panel1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -288,6 +266,10 @@ namespace Poe整理倉庫v2
             SubmitGoogleDoc();
 #endif
             CheckUpdate();
+            if (System.Threading.Thread.CurrentThread.CurrentUICulture == new CultureInfo("en"))
+                radioButton9.Checked = true;
+            else
+                radioButton8.Checked = true;
         }
         private async void SubmitGoogleDoc()
         {
@@ -326,5 +308,9 @@ namespace Poe整理倉庫v2
         private RadioButton radioButton6;
         private Button button_CheckUpdate;
         private LinkLabel linkLabel1;
+        private GroupBox groupBox3;
+        private RadioButton radioButton9;
+        private RadioButton radioButton8;
+        private Button button1;
     }
 }

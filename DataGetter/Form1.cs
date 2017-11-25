@@ -186,7 +186,13 @@ namespace DataGetter
                     {
                         //地圖的大小沒有在圖片的網址寫出來，但都固定是1x1
                         aaaaa = m.Groups[3].ToString();
-                        var BaseInfo = Data.Where(x => x.c == m.Groups[3].ToString()).FirstOrDefault();
+                        //Debug用
+                        //if (aaaaa.Contains("聖戰長靴"))
+                        //   MessageBox.Show("");
+                        Regex r_getbass = new Regex(".*\\s(.*?)$");
+                        r_getbass.Match(m.Groups[2].ToString());
+                        string name_base= r_getbass.Match(m.Groups[2].ToString().Trim()).Groups[1].ToString();
+                        var BaseInfo = Data.Where(x => x.c == name_base).FirstOrDefault();
                         roots.Add(new RootObject
                         {
                             GC = 'n',
@@ -277,8 +283,8 @@ namespace DataGetter
                             var GemColor = r_GemColor.Match(m.Groups[o4].ToString()).Groups;
                             roots.Add(new RootObject
                             {
-                                c = m.Groups[o2].ToString(),
-                                e = m.Groups[o3].ToString(),
+                                c = m.Groups[o2].ToString().Trim(),
+                                e = m.Groups[o3].ToString().Trim(),
                                 url = Icon_url,
                                 GC = 技能寶石 ? char.Parse(GemColor.Count == 1 ? "w" : GemColor[1].ToString()) : 'n',
                                 w = 沒有顯示大小 ? 1 : int.Parse(m_url.Groups[1].ToString()),
