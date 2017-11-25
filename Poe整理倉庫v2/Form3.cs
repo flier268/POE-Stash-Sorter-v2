@@ -60,15 +60,15 @@ namespace Poe整理倉庫v2
             }
         }
 
-       
+
 
         private void button_Save_Click(object sender, EventArgs e)
         {
             List<string> temp = new List<string>();
-            foreach(string t in listBox_TypeList.Items)
+            foreach (string t in listBox_TypeList.Items)
             {
-                temp.Add(SpeciesDic.Where(x => x.Value == t).FirstOrDefault().Key);               
-            }            
+                temp.Add(SpeciesDic.Where(x => x.Value == t).FirstOrDefault().Key);
+            }
             Config.Species = temp.ToArray();
 
             temp = new List<string>();
@@ -85,21 +85,21 @@ namespace Poe整理倉庫v2
             Config.Delay2 = trackBar_MouseMove.Value;
             Config.Delay_Scan = trackBar_Scan.Value;
             Config.Direction = comboBox_Direction.SelectedIndex == 0 ? "Vertical" : "Horizontal";
-            
-            using (StreamWriter w = new StreamWriter(Path.ChangeExtension(Application.ExecutablePath, ".cfg"),false, Encoding.UTF8))
+
+            using (StreamWriter w = new StreamWriter(Path.ChangeExtension(Application.ExecutablePath, ".cfg"), false, Encoding.UTF8))
             {
                 w.Write(Serialize.ToJson(Config));
                 w.Flush();
                 MessageBox.Show("Saved");
             }
-               
+
         }
         private int ToASCII(string Key)
         {
-            switch(Key)
+            switch (Key)
             {
                 case "F1":
-                    return 112;                    
+                    return 112;
                 case "F2":
                     return 113;
                 case "F3":
@@ -146,7 +146,7 @@ namespace Poe整理倉庫v2
                 SpeciesDic.Add(new KeyValuePair<string, string>("MiscMapItem", "Other"));
                 SpeciesDic.Add(new KeyValuePair<string, string>("UniqueFragment", "Unique Fragment"));
                 SpeciesDic.Add(new KeyValuePair<string, string>("Gem", "Gem"));
-            }    
+            }
             else
             {
                 SpeciesDic.Add(new KeyValuePair<string, string>("Amulet", "護身符"));
@@ -213,9 +213,9 @@ namespace Poe整理倉庫v2
             trackBar_Click.Value = Config.Delay1;
             trackBar_MouseMove.Value = Config.Delay2;
             trackBar_Scan.Value = Config.Delay_Scan;
-            label10.Text = "慢 " + Config.Delay1.ToString();
-            label11.Text = "慢 " + Config.Delay2.ToString();
-            label14.Text = "慢 " + Config.Delay_Scan.ToString();
+            label10.Text = System.Threading.Thread.CurrentThread.CurrentUICulture.Name == "en" ? "Slow {0}" : "慢 " + Config.Delay1.ToString();
+            label11.Text = System.Threading.Thread.CurrentThread.CurrentUICulture.Name == "en" ? "Slow {0}" : "慢 " + Config.Delay2.ToString();
+            label14.Text = System.Threading.Thread.CurrentThread.CurrentUICulture.Name == "en" ? "Slow {0}" : "慢 " + Config.Delay_Scan.ToString();
             comboBox_Direction.SelectedIndex = Config.Direction == "Horizontal" ? 1 : 0;
         }
         private string ToKode(int ASCII)
@@ -260,15 +260,15 @@ namespace Poe整理倉庫v2
         private void trackBar_Scroll(object sender, EventArgs e)
         {
             switch (((TrackBar)sender).Name)
-            {                
+            {
                 case "trackBar_Click":
-                    label10.Text = String.Format("慢 {0}", ((TrackBar)sender).Value);
+                    label10.Text = String.Format(System.Threading.Thread.CurrentThread.CurrentUICulture.Name == "en" ? "Slow {0}" : "慢 {0}", ((TrackBar)sender).Value);
                     break;
                 case "trackBar_MouseMove":
-                    label11.Text = String.Format("慢 {0}", ((TrackBar)sender).Value);
+                    label11.Text = String.Format(System.Threading.Thread.CurrentThread.CurrentUICulture.Name == "en" ? "Slow {0}" : "慢 {0}", ((TrackBar)sender).Value);
                     break;
                 case "trackBar_Scan":
-                    label14.Text = String.Format("慢 {0}", ((TrackBar)sender).Value);
+                    label14.Text = String.Format(System.Threading.Thread.CurrentThread.CurrentUICulture.Name == "en" ? "Slow {0}" : "慢 {0}", ((TrackBar)sender).Value);
                     break;
             }
         }

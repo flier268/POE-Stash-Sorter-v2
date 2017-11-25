@@ -145,6 +145,9 @@
   <data name="radioButton3.Text" xml:space="preserve">
     <value>Gemcutter's Prism Mode</value>
   </data>
+  <data name="groupBox1.Text" xml:space="preserve">
+    <value>Stash Tab Size</value>
+  </data>
   <data name="radioButton5.Size" type="System.Drawing.Size, System.Drawing">
     <value>96, 16</value>
   </data>
@@ -160,6 +163,12 @@
   <data name="panel1.Size" type="System.Drawing.Size, System.Drawing">
     <value>167, 68</value>
   </data>
+  <data name="groupBox2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>289, 67</value>
+  </data>
+  <data name="groupBox2.Text" xml:space="preserve">
+    <value>Way</value>
+  </data>
   <data name="radioButton7.Size" type="System.Drawing.Size, System.Drawing">
     <value>278, 16</value>
   </data>
@@ -172,11 +181,8 @@
   <data name="radioButton6.Text" xml:space="preserve">
     <value>Stash Tab Mode</value>
   </data>
-  <data name="groupBox2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>289, 67</value>
-  </data>
-  <data name="groupBox2.Text" xml:space="preserve">
-    <value>Way</value>
+  <data name="groupBox3.Text" xml:space="preserve">
+    <value>Language</value>
   </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>

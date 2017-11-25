@@ -204,6 +204,16 @@ namespace Poe整理倉庫v2
                 Controls[i].Dispose();
             }
             InitializeComponent();
+            radioButton8.CheckedChanged -= radioButton8_CheckedChanged;
+            radioButton9.CheckedChanged -= radioButton9_CheckedChanged;
+            if (System.Threading.Thread.CurrentThread.CurrentUICulture.Name == "en")
+                radioButton9.Checked = true;
+            else
+                radioButton8.Checked = true;
+
+            radioButton8.CheckedChanged += radioButton8_CheckedChanged;
+            radioButton9.CheckedChanged += radioButton9_CheckedChanged;
+            CheckUpdate();
         }
 
         private void radioButton9_CheckedChanged(object sender, EventArgs e)
@@ -214,6 +224,16 @@ namespace Poe整理倉庫v2
                 Controls[i].Dispose();
             }
             InitializeComponent();
+            radioButton8.CheckedChanged -= radioButton8_CheckedChanged;
+            radioButton9.CheckedChanged -= radioButton9_CheckedChanged;
+            if (System.Threading.Thread.CurrentThread.CurrentUICulture.Name == "en")
+                radioButton9.Checked = true;
+            else
+                radioButton8.Checked = true;
+
+            radioButton8.CheckedChanged += radioButton8_CheckedChanged;
+            radioButton9.CheckedChanged += radioButton9_CheckedChanged;
+            CheckUpdate();
         }
 
         private void button1_Click(object sender, EventArgs e)
