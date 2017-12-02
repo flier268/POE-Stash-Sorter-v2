@@ -123,9 +123,9 @@ namespace Poe整理倉庫v2
             // 
             // groupBox1
             // 
-            resources.ApplyResources(this.groupBox1, "groupBox1");
             this.groupBox1.Controls.Add(this.radioButton5);
             this.groupBox1.Controls.Add(this.radioButton4);
+            resources.ApplyResources(this.groupBox1, "groupBox1");
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.TabStop = false;
             // 
@@ -146,17 +146,17 @@ namespace Poe整理倉庫v2
             // 
             // panel1
             // 
-            resources.ApplyResources(this.panel1, "panel1");
             this.panel1.Controls.Add(this.radioButton3);
             this.panel1.Controls.Add(this.radioButton2);
             this.panel1.Controls.Add(this.radioButton1);
+            resources.ApplyResources(this.panel1, "panel1");
             this.panel1.Name = "panel1";
             // 
             // groupBox2
             // 
-            resources.ApplyResources(this.groupBox2, "groupBox2");
             this.groupBox2.Controls.Add(this.radioButton7);
             this.groupBox2.Controls.Add(this.radioButton6);
+            resources.ApplyResources(this.groupBox2, "groupBox2");
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.TabStop = false;
             // 
@@ -191,9 +191,9 @@ namespace Poe整理倉庫v2
             // 
             // groupBox3
             // 
-            resources.ApplyResources(this.groupBox3, "groupBox3");
             this.groupBox3.Controls.Add(this.radioButton9);
             this.groupBox3.Controls.Add(this.radioButton8);
+            resources.ApplyResources(this.groupBox3, "groupBox3");
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.TabStop = false;
             // 
@@ -255,9 +255,21 @@ namespace Poe整理倉庫v2
         private void Form1_Load(object sender, EventArgs e)
         {
             this.Text = String.Format("{0}{1}: {2}", this.Text, "Version", Assembly.GetExecutingAssembly().GetName().Version.ToString());
+            if (!File.Exists(Path.ChangeExtension(Application.ExecutablePath, ".cfg")))
+            {
+                MessageBox.Show(String.Format("\"{0}\" 讀取失敗，請確認後再重新啟動程式\r\nCan not load \"{0}\" ,check and restart,please.", Path.ChangeExtension(Path.GetFileName(Application.ExecutablePath), ".cfg")));
+                this.Close();
+                return;
+            }
             using (StreamReader r = new StreamReader(Path.ChangeExtension(Application.ExecutablePath, ".cfg"), Encoding.UTF8))
             {
                 Config = Setting.FromJson(r.ReadToEnd());
+                if (Config == null)
+                {
+                    MessageBox.Show(String.Format("\"{0}\" 讀取失敗，請確認後再重新啟動程式\r\nCan not load \"{0}\" ,check and restart,please.", Path.ChangeExtension(Path.GetFileName(Application.ExecutablePath), ".cfg")));
+                    this.Close();
+                    return;
+                }
             }
             Flier.SuperTools.Hook.KeyBoard.Global_Hook.GlobalKeyDown += new Flier.SuperTools.Hook.KeyBoard.Global_Hook.KeyEventHandlerEx(this.GlobalKeyDown);
             ItemList_Load();

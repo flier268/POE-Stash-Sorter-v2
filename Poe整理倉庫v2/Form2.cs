@@ -19,7 +19,7 @@ namespace Poe整理倉庫v2
         }
         List<KeyValuePair<string, string>> SpeciesDic = new List<KeyValuePair<string, string>>();
         List<RootObject> ItemList = new List<RootObject>();
-        public Form2(string clip,string Name)
+        public Form2(string clip, string Name)
         {
             InitializeComponent();
             ApplicationHelper.SetForegroundWindow(this.Handle);
@@ -64,7 +64,7 @@ namespace Poe整理倉庫v2
             textBox4.Text = "question-mark.png";
 
         }
-      
+
         private void Form2_Load(object sender, EventArgs e)
         {
 
@@ -72,6 +72,12 @@ namespace Poe整理倉庫v2
 
         private void button1_Click(object sender, EventArgs e)
         {
+            if (!File.Exists(Path.Combine(Application.StartupPath, "ItemList_Adden.txt")))
+            {
+                StreamWriter w = new StreamWriter(Path.Combine(Application.StartupPath, "ItemList_Adden.txt"), false, Encoding.UTF8);
+                w.Close();
+            }
+            File.CreateText(Path.Combine(Application.StartupPath, "ItemList_Adden.txt"));
             using (StreamReader r = new StreamReader(Path.Combine(Application.StartupPath, "ItemList_Adden.txt"), Encoding.UTF8))
             {
                 ItemList = JsonConvert.DeserializeObject<List<JsonClass.RootObject>>(r.ReadToEnd());
@@ -89,8 +95,8 @@ namespace Poe整理倉庫v2
                 });
                 r.Close();
                 using (StreamWriter w = new StreamWriter(Path.Combine(Application.StartupPath, "ItemList_Adden.txt"), false, Encoding.UTF8))
-                {                    
-                    w.Write(JsonConvert.SerializeObject(ItemList,Formatting.Indented));
+                {
+                    w.Write(JsonConvert.SerializeObject(ItemList, Formatting.Indented));
                     w.Flush();
                 }
             }

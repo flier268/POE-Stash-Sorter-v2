@@ -80,7 +80,7 @@ namespace Poe整理倉庫v2
             if (arrProcesses.Length <= 0)
                 arrProcesses = Process.GetProcessesByName("PathOfExileSteam");
             if (arrProcesses.Length <= 0)
-                arrProcesses = Process.GetProcessesByName("PathOfExileSteam_x64");
+                arrProcesses = Process.GetProcessesByName("PathOfExile_x64Steam");
             if (arrProcesses.Length > 0)
             {
                 currentProcess = arrProcesses[0];
