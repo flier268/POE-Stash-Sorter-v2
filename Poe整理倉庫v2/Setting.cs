@@ -3,6 +3,9 @@ namespace Poe整理倉庫v2
 {
     public partial class Setting
     {
+        [JsonProperty("Hotkey_Scan")]
+        public int HotkeyScan { get; set; }
+
         [JsonProperty("Hotkey_Start")]
         public int HotkeyStart { get; set; }
         

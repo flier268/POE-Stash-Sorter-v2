@@ -77,7 +77,7 @@ namespace Poe整理倉庫v2
                 temp.Add(PriorityDic.Where(x => x.Value == t).FirstOrDefault().Key);
             }
             Config.Priority = temp.ToArray();
-
+            Config.HotkeyScan = ToASCII(comboBox_hotkey_Scan.SelectedItem.ToString());
             Config.HotkeyStart = ToASCII(comboBox_hotkey_Start.SelectedItem.ToString());
             Config.HotkeyStop = ToASCII(comboBox_hotkey_Stop.SelectedItem.ToString());
             Config.LowQ = Int32.Parse(textBox1.Text) * (checkBox1.Checked ? 1 : -1);
@@ -205,7 +205,7 @@ namespace Poe整理倉庫v2
                 listBox_Priority.Items.Add(PriorityDic.Where(x => x.Key == t).FirstOrDefault().Value);
             }
 
-
+            comboBox_hotkey_Scan.SelectedItem = ToKode(Config.HotkeyScan);
             comboBox_hotkey_Start.SelectedItem = ToKode(Config.HotkeyStart);
             comboBox_hotkey_Stop.SelectedItem = ToKode(Config.HotkeyStop);
             checkBox1.Checked = Config.LowQ > 0;

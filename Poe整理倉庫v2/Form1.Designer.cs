@@ -58,6 +58,8 @@ namespace Poe整理倉庫v2
             this.radioButton9 = new System.Windows.Forms.RadioButton();
             this.radioButton8 = new System.Windows.Forms.RadioButton();
             this.button1 = new System.Windows.Forms.Button();
+            this.label_DataGetter = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -218,10 +220,23 @@ namespace Poe整理倉庫v2
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
+            // label_DataGetter
+            // 
+            this.label_DataGetter.ForeColor = System.Drawing.Color.Red;
+            resources.ApplyResources(this.label_DataGetter, "label_DataGetter");
+            this.label_DataGetter.Name = "label_DataGetter";
+            // 
+            // label1
+            // 
+            resources.ApplyResources(this.label1, "label1");
+            this.label1.Name = "label1";
+            // 
             // Form1
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.label_DataGetter);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.linkLabel1);
@@ -324,5 +339,7 @@ namespace Poe整理倉庫v2
         private RadioButton radioButton9;
         private RadioButton radioButton8;
         private Button button1;
+        private Label label_DataGetter;
+        private Label label1;
     }
 }

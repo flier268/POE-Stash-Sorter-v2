@@ -131,7 +131,7 @@
     <value>11, 91</value>
   </data>
   <data name="&gt;&gt;label6.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>5</value>
   </data>
   <data name="&gt;&gt;groupBox1.ZOrder" xml:space="preserve">
     <value>3</value>
@@ -140,16 +140,16 @@
     <value>停止</value>
   </data>
   <data name="&gt;&gt;label5.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>6</value>
+  </data>
+  <data name="&gt;&gt;label17.Name" xml:space="preserve">
+    <value>label17</value>
   </data>
   <data name="&gt;&gt;label3.Parent" xml:space="preserve">
     <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;label15.Name" xml:space="preserve">
     <value>label15</value>
-  </data>
-  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>365, 580</value>
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="label4.TabIndex" type="System.Int32, mscorlib">
@@ -161,8 +161,8 @@
   <data name="listBox_TypeList.Size" type="System.Drawing.Size, System.Drawing">
     <value>108, 88</value>
   </data>
-  <data name="groupBox1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 350</value>
+  <data name="&gt;&gt;button_TypeListDown.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="comboBox_Direction.Size" type="System.Drawing.Size, System.Drawing">
     <value>72, 20</value>
@@ -176,9 +176,6 @@
   <data name="button_Save.Location" type="System.Drawing.Point, System.Drawing">
     <value>89, 526</value>
   </data>
-  <data name="&gt;&gt;comboBox_hotkey_Stop.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
   <data name="label14.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -187,6 +184,9 @@
   </data>
   <data name="&gt;&gt;label8.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="comboBox_hotkey_Scan.Items" xml:space="preserve">
+    <value>None</value>
   </data>
   <data name="&gt;&gt;checkBox1.Parent" xml:space="preserve">
     <value>groupBox2</value>
@@ -218,8 +218,11 @@
   <data name="checkBox1.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="&gt;&gt;label15.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;label7.Name" xml:space="preserve">
+    <value>label7</value>
+  </data>
+  <data name="comboBox_hotkey_Scan.Items6" xml:space="preserve">
+    <value>F6</value>
   </data>
   <data name="trackBar_Click.TabIndex" type="System.Int32, mscorlib">
     <value>15</value>
@@ -236,14 +239,17 @@
   <data name="&gt;&gt;button_TypeListUp.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
+  <data name="comboBox_hotkey_Scan.TabIndex" type="System.Int32, mscorlib">
+    <value>31</value>
+  </data>
   <data name="label3.Location" type="System.Drawing.Point, System.Drawing">
     <value>9, 59</value>
   </data>
   <data name="label10.Size" type="System.Drawing.Size, System.Drawing">
     <value>17, 12</value>
   </data>
-  <data name="listBox_Priority.Items6" xml:space="preserve">
-    <value>類型</value>
+  <data name="comboBox_hotkey_Scan.Items1" xml:space="preserve">
+    <value>F1</value>
   </data>
   <data name="label12.Size" type="System.Drawing.Size, System.Drawing">
     <value>221, 12</value>
@@ -260,11 +266,14 @@
   <data name="&gt;&gt;label4.Parent" xml:space="preserve">
     <value>groupBox1</value>
   </data>
+  <data name="label19.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
   <data name="label14.Location" type="System.Drawing.Point, System.Drawing">
     <value>270, 90</value>
   </data>
   <data name="label6.Location" type="System.Drawing.Point, System.Drawing">
-    <value>94, 7</value>
+    <value>198, 9</value>
   </data>
   <data name="label11.Text" xml:space="preserve">
     <value>慢</value>
@@ -285,7 +294,7 @@
     <value>3.快捷鍵</value>
   </data>
   <data name="panel1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>264, 28</value>
+    <value>342, 28</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>設定</value>
@@ -298,6 +307,9 @@
   </data>
   <data name="&gt;&gt;label11.Name" xml:space="preserve">
     <value>label11</value>
+  </data>
+  <data name="label19.Size" type="System.Drawing.Size, System.Drawing">
+    <value>29, 12</value>
   </data>
   <data name="checkBox1.TabIndex" type="System.Int32, mscorlib">
     <value>25</value>
@@ -326,8 +338,11 @@
   <data name="textBox1.TabIndex" type="System.Int32, mscorlib">
     <value>24</value>
   </data>
-  <data name="label15.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
+  <data name="&gt;&gt;label18.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label15.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;comboBox_Direction.Name" xml:space="preserve">
     <value>comboBox_Direction</value>
@@ -337,6 +352,9 @@
   </data>
   <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
     <value>6</value>
+  </data>
+  <data name="&gt;&gt;comboBox_hotkey_Scan.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
     <value>7</value>
@@ -353,14 +371,17 @@
   <data name="label9.TabIndex" type="System.Int32, mscorlib">
     <value>31</value>
   </data>
-  <data name="&gt;&gt;label17.Name" xml:space="preserve">
-    <value>label17</value>
+  <data name="label15.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="button_TypeListUp.Size" type="System.Drawing.Size, System.Drawing">
+    <value>27, 23</value>
   </data>
   <data name="textBox1.Location" type="System.Drawing.Point, System.Drawing">
     <value>94, 17</value>
   </data>
-  <data name="&gt;&gt;button_TypeListDown.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="comboBox_hotkey_Scan.Size" type="System.Drawing.Size, System.Drawing">
+    <value>50, 20</value>
   </data>
   <data name="label14.Size" type="System.Drawing.Size, System.Drawing">
     <value>17, 12</value>
@@ -383,6 +404,9 @@
   <data name="label14.Text" xml:space="preserve">
     <value>慢</value>
   </data>
+  <data name="label19.Location" type="System.Drawing.Point, System.Drawing">
+    <value>85, 9</value>
+  </data>
   <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
     <value>109, 12</value>
   </data>
@@ -391,6 +415,9 @@
   </data>
   <data name="button_TypeListUp.Text" xml:space="preserve">
     <value>↑</value>
+  </data>
+  <data name="comboBox_hotkey_Scan.Items11" xml:space="preserve">
+    <value>F12</value>
   </data>
   <data name="&gt;&gt;label14.Parent" xml:space="preserve">
     <value>groupBox1</value>
@@ -425,6 +452,9 @@
   <data name="&gt;&gt;groupBox1.Name" xml:space="preserve">
     <value>groupBox1</value>
   </data>
+  <data name="label18.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
   <data name="&gt;&gt;groupBox1.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
@@ -455,8 +485,8 @@
   <data name="&gt;&gt;label14.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="label17.TabIndex" type="System.Int32, mscorlib">
-    <value>27</value>
+  <data name="comboBox_hotkey_Scan.Items13" xml:space="preserve">
+    <value>F14</value>
   </data>
   <data name="&gt;&gt;comboBox_hotkey_Start.Name" xml:space="preserve">
     <value>comboBox_hotkey_Start</value>
@@ -479,8 +509,14 @@
   <data name="&gt;&gt;trackBar_Scan.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
+  <data name="comboBox_hotkey_Scan.Items5" xml:space="preserve">
+    <value>F5</value>
+  </data>
   <data name="comboBox_hotkey_Start.Items8" xml:space="preserve">
     <value>F8</value>
+  </data>
+  <data name="comboBox_hotkey_Stop.Items9" xml:space="preserve">
+    <value>F9</value>
   </data>
   <data name="&gt;&gt;panel1.Name" xml:space="preserve">
     <value>panel1</value>
@@ -496,6 +532,12 @@
   </data>
   <data name="&gt;&gt;label13.Name" xml:space="preserve">
     <value>label13</value>
+  </data>
+  <data name="&gt;&gt;comboBox_hotkey_Scan.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="comboBox_hotkey_Scan.Items14" xml:space="preserve">
+    <value>F15</value>
   </data>
   <data name="&gt;&gt;label15.ZOrder" xml:space="preserve">
     <value>1</value>
@@ -515,6 +557,9 @@
   <data name="&gt;&gt;label9.Name" xml:space="preserve">
     <value>label9</value>
   </data>
+  <data name="&gt;&gt;label18.Name" xml:space="preserve">
+    <value>label18</value>
+  </data>
   <data name="&gt;&gt;label1.Name" xml:space="preserve">
     <value>label1</value>
   </data>
@@ -524,8 +569,11 @@
   <data name="trackBar_Click.Size" type="System.Drawing.Size, System.Drawing">
     <value>141, 45</value>
   </data>
-  <data name="&gt;&gt;label7.Name" xml:space="preserve">
-    <value>label7</value>
+  <data name="&gt;&gt;label12.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="listBox_Priority.Items6" xml:space="preserve">
+    <value>類型</value>
   </data>
   <data name="&gt;&gt;comboBox_hotkey_Stop.Type" xml:space="preserve">
     <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -542,17 +590,23 @@
   <data name="textBox1.Size" type="System.Drawing.Size, System.Drawing">
     <value>37, 22</value>
   </data>
+  <data name="comboBox_hotkey_Scan.Items3" xml:space="preserve">
+    <value>F3</value>
+  </data>
   <data name="label1.Text" xml:space="preserve">
     <value>2.類型順序</value>
   </data>
+  <data name="&gt;&gt;label19.Name" xml:space="preserve">
+    <value>label19</value>
+  </data>
   <data name="label6.Size" type="System.Drawing.Size, System.Drawing">
-    <value>71, 12</value>
+    <value>59, 12</value>
   </data>
   <data name="&gt;&gt;label6.Parent" xml:space="preserve">
     <value>panel1</value>
   </data>
-  <data name="&gt;&gt;label12.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="groupBox1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 350</value>
   </data>
   <data name="&gt;&gt;label13.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -575,11 +629,11 @@
   <data name="&gt;&gt;listBox_Priority.Name" xml:space="preserve">
     <value>listBox_Priority</value>
   </data>
-  <data name="&gt;&gt;comboBox_hotkey_Start.Parent" xml:space="preserve">
-    <value>panel1</value>
+  <data name="comboBox_hotkey_Stop.Items4" xml:space="preserve">
+    <value>F4</value>
   </data>
   <data name="&gt;&gt;label7.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>4</value>
   </data>
   <data name="label4.Location" type="System.Drawing.Point, System.Drawing">
     <value>9, 22</value>
@@ -590,11 +644,14 @@
   <data name="label16.Location" type="System.Drawing.Point, System.Drawing">
     <value>14, 12</value>
   </data>
+  <data name="label18.Size" type="System.Drawing.Size, System.Drawing">
+    <value>29, 12</value>
+  </data>
   <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
     <value>77, 12</value>
   </data>
   <data name="label5.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 7</value>
+    <value>116, 9</value>
   </data>
   <data name="comboBox_hotkey_Stop.Items1" xml:space="preserve">
     <value>F1</value>
@@ -623,11 +680,11 @@
   <data name="comboBox_Direction.TabIndex" type="System.Int32, mscorlib">
     <value>26</value>
   </data>
-  <data name="listBox_TypeList.ItemHeight" type="System.Int32, mscorlib">
-    <value>12</value>
+  <data name="label19.TabIndex" type="System.Int32, mscorlib">
+    <value>32</value>
   </data>
-  <data name="label17.Size" type="System.Drawing.Size, System.Drawing">
-    <value>62, 12</value>
+  <data name="&gt;&gt;comboBox_hotkey_Scan.Parent" xml:space="preserve">
+    <value>panel1</value>
   </data>
   <data name="listBox_Priority.Items4" xml:space="preserve">
     <value>技能寶石等級</value>
@@ -1019,6 +1076,9 @@
   <data name="listBox_Priority.ItemHeight" type="System.Int32, mscorlib">
     <value>12</value>
   </data>
+  <data name="label18.TabIndex" type="System.Int32, mscorlib">
+    <value>30</value>
+  </data>
   <data name="label3.TabIndex" type="System.Int32, mscorlib">
     <value>23</value>
   </data>
@@ -1073,8 +1133,11 @@
   <data name="comboBox_hotkey_Stop.Items8" xml:space="preserve">
     <value>F8</value>
   </data>
-  <data name="groupBox2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>23, 267</value>
+  <data name="label5.Size" type="System.Drawing.Size, System.Drawing">
+    <value>29, 12</value>
+  </data>
+  <data name="comboBox_hotkey_Scan.Items12" xml:space="preserve">
+    <value>F13</value>
   </data>
   <data name="comboBox_hotkey_Start.Items4" xml:space="preserve">
     <value>F4</value>
@@ -1115,9 +1178,6 @@
   <data name="&gt;&gt;comboBox_Direction.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <data name="comboBox_hotkey_Stop.Items4" xml:space="preserve">
-    <value>F4</value>
-  </data>
   <data name="button_PriorityUp.TabIndex" type="System.Int32, mscorlib">
     <value>18</value>
   </data>
@@ -1128,13 +1188,13 @@
     <value>groupBox1</value>
   </data>
   <data name="comboBox_hotkey_Stop.Size" type="System.Drawing.Size, System.Drawing">
-    <value>58, 20</value>
-  </data>
-  <data name="comboBox_hotkey_Start.Location" type="System.Drawing.Point, System.Drawing">
-    <value>38, 3</value>
+    <value>50, 20</value>
   </data>
   <data name="button_TypeListDown.TabIndex" type="System.Int32, mscorlib">
     <value>19</value>
+  </data>
+  <data name="&gt;&gt;label19.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="comboBox_hotkey_Start.Items3" xml:space="preserve">
     <value>F3</value>
@@ -1172,11 +1232,20 @@
   <data name="trackBar_Scan.Size" type="System.Drawing.Size, System.Drawing">
     <value>141, 45</value>
   </data>
+  <data name="comboBox_hotkey_Scan.Items4" xml:space="preserve">
+    <value>F4</value>
+  </data>
   <data name="&gt;&gt;trackBar_MouseMove.Name" xml:space="preserve">
     <value>trackBar_MouseMove</value>
   </data>
   <data name="label13.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
+  </data>
+  <data name="comboBox_hotkey_Start.Size" type="System.Drawing.Size, System.Drawing">
+    <value>50, 20</value>
+  </data>
+  <data name="label18.Text" xml:space="preserve">
+    <value>按下</value>
   </data>
   <data name="label5.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1199,8 +1268,8 @@
   <data name="&gt;&gt;button_TypeListUp.ZOrder" xml:space="preserve">
     <value>11</value>
   </data>
-  <data name="comboBox_hotkey_Start.Items12" xml:space="preserve">
-    <value>F13</value>
+  <data name="&gt;&gt;label18.Parent" xml:space="preserve">
+    <value>panel1</value>
   </data>
   <data name="label13.Text" xml:space="preserve">
     <value>掃描速度</value>
@@ -1226,17 +1295,23 @@
   <data name="&gt;&gt;listBox_TypeList.Type" xml:space="preserve">
     <value>System.Windows.Forms.ListBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="label17.TabIndex" type="System.Int32, mscorlib">
+    <value>27</value>
+  </data>
   <data name="label6.Text" xml:space="preserve">
-    <value>啟動      按下</value>
+    <value>啟動  按下</value>
   </data>
   <data name="comboBox_hotkey_Stop.Items6" xml:space="preserve">
     <value>F6</value>
   </data>
+  <data name="&gt;&gt;label19.Parent" xml:space="preserve">
+    <value>panel1</value>
+  </data>
   <data name="&gt;&gt;textBox1.Type" xml:space="preserve">
     <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;$this.Name" xml:space="preserve">
-    <value>Form3</value>
+  <data name="&gt;&gt;comboBox_hotkey_Stop.ZOrder" xml:space="preserve">
+    <value>0</value>
   </data>
   <data name="button_TypeListDown.Text" xml:space="preserve">
     <value>↓</value>
@@ -1252,6 +1327,12 @@
   </data>
   <data name="comboBox_hotkey_Stop.Items14" xml:space="preserve">
     <value>F15</value>
+  </data>
+  <data name="label18.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 9</value>
+  </data>
+  <data name="&gt;&gt;label18.ZOrder" xml:space="preserve">
+    <value>3</value>
   </data>
   <data name="&gt;&gt;groupBox2.Name" xml:space="preserve">
     <value>groupBox2</value>
@@ -1271,6 +1352,9 @@
   <data name="label3.Text" xml:space="preserve">
     <value>滑鼠移動速度</value>
   </data>
+  <data name="label19.Text" xml:space="preserve">
+    <value>掃描</value>
+  </data>
   <data name="comboBox_hotkey_Start.Items13" xml:space="preserve">
     <value>F14</value>
   </data>
@@ -1278,7 +1362,7 @@
     <value>234, 31</value>
   </data>
   <data name="&gt;&gt;comboBox_hotkey_Start.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>7</value>
   </data>
   <data name="comboBox_hotkey_Start.Items" xml:space="preserve">
     <value>None</value>
@@ -1289,11 +1373,14 @@
   <data name="&gt;&gt;label9.ZOrder" xml:space="preserve">
     <value>7</value>
   </data>
+  <data name="groupBox2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>23, 267</value>
+  </data>
   <data name="label2.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="button_PriorityDown.Text" xml:space="preserve">
-    <value>↓</value>
+  <data name="&gt;&gt;label19.ZOrder" xml:space="preserve">
+    <value>1</value>
   </data>
   <data name="label10.Text" xml:space="preserve">
     <value>慢</value>
@@ -1307,8 +1394,8 @@
   <data name="label9.Size" type="System.Drawing.Size, System.Drawing">
     <value>17, 12</value>
   </data>
-  <data name="comboBox_hotkey_Stop.Items9" xml:space="preserve">
-    <value>F9</value>
+  <data name="comboBox_hotkey_Scan.Items8" xml:space="preserve">
+    <value>F8</value>
   </data>
   <data name="&gt;&gt;label6.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -1334,6 +1421,9 @@
   <data name="button_TypeListUp.TabIndex" type="System.Int32, mscorlib">
     <value>18</value>
   </data>
+  <data name="&gt;&gt;$this.Name" xml:space="preserve">
+    <value>Form3</value>
+  </data>
   <data name="&gt;&gt;label1.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
@@ -1349,23 +1439,29 @@
   <data name="&gt;&gt;textBox1.Parent" xml:space="preserve">
     <value>groupBox2</value>
   </data>
+  <data name="comboBox_hotkey_Scan.Location" type="System.Drawing.Point, System.Drawing">
+    <value>32, 5</value>
+  </data>
   <data name="label17.Location" type="System.Drawing.Point, System.Drawing">
     <value>32, 46</value>
   </data>
   <data name="&gt;&gt;label1.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="label5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>29, 12</value>
+  <data name="&gt;&gt;comboBox_hotkey_Start.Parent" xml:space="preserve">
+    <value>panel1</value>
   </data>
   <data name="label9.Text" xml:space="preserve">
     <value>快</value>
   </data>
+  <data name="comboBox_hotkey_Start.Location" type="System.Drawing.Point, System.Drawing">
+    <value>145, 5</value>
+  </data>
   <data name="&gt;&gt;comboBox_hotkey_Start.Type" xml:space="preserve">
     <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="listBox_Priority.Size" type="System.Drawing.Size, System.Drawing">
-    <value>108, 88</value>
+  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
+    <value>365, 580</value>
   </data>
   <data name="&gt;&gt;label4.Name" xml:space="preserve">
     <value>label4</value>
@@ -1388,11 +1484,20 @@
   <data name="label8.Location" type="System.Drawing.Point, System.Drawing">
     <value>125, 19</value>
   </data>
+  <data name="button_PriorityDown.Text" xml:space="preserve">
+    <value>↓</value>
+  </data>
   <data name="&gt;&gt;trackBar_MouseMove.Parent" xml:space="preserve">
     <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;label5.Name" xml:space="preserve">
     <value>label5</value>
+  </data>
+  <data name="comboBox_hotkey_Scan.Items9" xml:space="preserve">
+    <value>F9</value>
+  </data>
+  <data name="comboBox_hotkey_Start.Items12" xml:space="preserve">
+    <value>F13</value>
   </data>
   <data name="&gt;&gt;label16.Name" xml:space="preserve">
     <value>label16</value>
@@ -1403,8 +1508,14 @@
   <data name="button_TypeListUp.Location" type="System.Drawing.Point, System.Drawing">
     <value>234, 123</value>
   </data>
+  <data name="comboBox_hotkey_Scan.Items10" xml:space="preserve">
+    <value>F11</value>
+  </data>
   <data name="&gt;&gt;button_Save.Type" xml:space="preserve">
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="listBox_TypeList.ItemHeight" type="System.Int32, mscorlib">
+    <value>12</value>
   </data>
   <data name="&gt;&gt;label3.Name" xml:space="preserve">
     <value>label3</value>
@@ -1419,10 +1530,10 @@
     <value>4</value>
   </data>
   <data name="panel1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>34, 228</value>
+    <value>16, 228</value>
   </data>
   <data name="comboBox_hotkey_Stop.Location" type="System.Drawing.Point, System.Drawing">
-    <value>165, 3</value>
+    <value>259, 5</value>
   </data>
   <data name="comboBox_hotkey_Stop.Items2" xml:space="preserve">
     <value>F2</value>
@@ -1433,8 +1544,8 @@
   <data name="button_Save.TabIndex" type="System.Int32, mscorlib">
     <value>26</value>
   </data>
-  <data name="button_TypeListUp.Size" type="System.Drawing.Size, System.Drawing">
-    <value>27, 23</value>
+  <data name="comboBox_hotkey_Scan.Items7" xml:space="preserve">
+    <value>F7</value>
   </data>
   <data name="comboBox_hotkey_Start.Items6" xml:space="preserve">
     <value>F6</value>
@@ -1449,13 +1560,19 @@
     <value>3</value>
   </data>
   <data name="label7.Location" type="System.Drawing.Point, System.Drawing">
-    <value>225, 7</value>
+    <value>311, 9</value>
   </data>
   <data name="&gt;&gt;button_PriorityUp.Name" xml:space="preserve">
     <value>button_PriorityUp</value>
   </data>
-  <data name="comboBox_hotkey_Start.Size" type="System.Drawing.Size, System.Drawing">
-    <value>58, 20</value>
+  <data name="comboBox_hotkey_Scan.Items2" xml:space="preserve">
+    <value>F2</value>
+  </data>
+  <data name="&gt;&gt;comboBox_hotkey_Scan.Name" xml:space="preserve">
+    <value>comboBox_hotkey_Scan</value>
+  </data>
+  <data name="label17.Size" type="System.Drawing.Size, System.Drawing">
+    <value>62, 12</value>
   </data>
   <data name="&gt;&gt;label3.ZOrder" xml:space="preserve">
     <value>9</value>
@@ -1478,6 +1595,9 @@
   <data name="label6.TabIndex" type="System.Int32, mscorlib">
     <value>28</value>
   </data>
+  <data name="listBox_Priority.Size" type="System.Drawing.Size, System.Drawing">
+    <value>108, 88</value>
+  </data>
   <data name="listBox_TypeList.TabIndex" type="System.Int32, mscorlib">
     <value>17</value>
   </data>
@@ -1489,5 +1609,8 @@
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
+  </metadata>
+  <metadata name="$this.Language" type="System.Globalization.CultureInfo, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>en</value>
   </metadata>
 </root>

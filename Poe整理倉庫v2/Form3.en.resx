@@ -159,16 +159,28 @@
     <value>Press</value>
   </data>
   <data name="label6.Size" type="System.Drawing.Size, System.Drawing">
-    <value>67, 12</value>
+    <value>58, 12</value>
   </data>
   <data name="label6.Text" xml:space="preserve">
-    <value>Start      Press</value>
+    <value>Start   Press</value>
   </data>
   <data name="label7.Size" type="System.Drawing.Size, System.Drawing">
     <value>26, 12</value>
   </data>
   <data name="label7.Text" xml:space="preserve">
     <value>Stop</value>
+  </data>
+  <data name="label19.Size" type="System.Drawing.Size, System.Drawing">
+    <value>27, 12</value>
+  </data>
+  <data name="label19.Text" xml:space="preserve">
+    <value>Scan</value>
+  </data>
+  <data name="label18.Size" type="System.Drawing.Size, System.Drawing">
+    <value>28, 12</value>
+  </data>
+  <data name="label18.Text" xml:space="preserve">
+    <value>Press</value>
   </data>
   <data name="label8.Location" type="System.Drawing.Point, System.Drawing">
     <value>122, 19</value>

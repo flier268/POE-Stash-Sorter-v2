@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -25,7 +26,6 @@ namespace DataGetter
         private static int running = 0;
         private void button1_Click(object sender, EventArgs e)
         {
-            File.Delete(FileName);
             var List_cn = GetList_cn();
             
            /* foreach (cn a in List_cn)
@@ -107,6 +107,9 @@ namespace DataGetter
         {
             while (running != 0)
                 await Task.Delay(1);
+            if (MessageBox.Show("Start downloading...", "Message", MessageBoxButtons.OKCancel) != DialogResult.OK)
+                return;
+            File.Delete(FileName);
             string strJson = JsonConvert.SerializeObject(Data, Formatting.Indented);
             //輸出結果
             //System.Diagnostics.Debug.Write(strJson);
@@ -115,14 +118,16 @@ namespace DataGetter
             {
                 w.Write(strJson);
                 w.Flush();
-            }
-            using (StreamWriter w = new StreamWriter("111.txt"))
+            }            
+            /*
+            using (StreamWriter w = new StreamWriter("TypeList.txt"))
             {
                 var t = Data.Where(s => s.h * s.w == 1).Select(x => x.type).Distinct().ToList();
-                foreach(string r in t)
-                w.WriteLine(r);
+                foreach (string r in t)
+                    w.WriteLine(r);
                 w.Flush();
-            }            
+            }    
+            */       
             //------------
             running++;
             DownloadData_Async_unique();
@@ -138,32 +143,32 @@ namespace DataGetter
                 w.Flush();
             }
 
-            if (MessageBox.Show("Download Image?", "", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            if (MessageBox.Show("Download Image?", "", MessageBoxButtons.YesNo) == DialogResult.No)
+                return;
+
+            System.Net.WebClient WC = new System.Net.WebClient();
+            if (!Directory.Exists(Path.Combine(Application.StartupPath, "Image")))
+                Directory.CreateDirectory(Path.Combine(Application.StartupPath, "Image"));
+            string basepath = Path.Combine(Application.StartupPath, "Image");
+            foreach (RootObject r in Data)
             {
-                System.Net.WebClient WC = new System.Net.WebClient();
-                if (!Directory.Exists(Path.Combine(Application.StartupPath, "Image")))
-                    Directory.CreateDirectory(Path.Combine(Application.StartupPath, "Image"));
-                string basepath = Path.Combine(Application.StartupPath, "Image");
-                foreach (RootObject r in Data)
+                try
                 {
-                    try
-                    {
-                        if (!r.e.EndsWith("</del>") && !File.Exists(Path.Combine(basepath, r.e + ".png")) )
-                            WC.DownloadFile(r.url, Path.Combine(basepath, r.e + ".png"));
-                    }
-                    catch(Exception e)
-                    { Debug.Print(e.Message + "," + r.e); }
+                    if (!r.e.EndsWith("</del>") && !File.Exists(Path.Combine(basepath, r.e + ".png")))
+                        WC.DownloadFile(r.url, Path.Combine(basepath, r.e + ".png"));
                 }
-                foreach (RootObject r in Data_unique)
+                catch (Exception e)
+                { Debug.Print(e.Message + "," + r.e); }
+            }
+            foreach (RootObject r in Data_unique)
+            {
+                try
                 {
-                    try
-                    {
-                        if (!r.e.EndsWith("</del>") &&!File.Exists(Path.Combine(basepath, r.e + ".png")) )
-                            WC.DownloadFile(r.url, Path.Combine(basepath, r.e + ".png"));
-                    }
-                    catch (Exception e)
-                    { Debug.Print(e.Message + "," + r.e); }
+                    if (!r.e.EndsWith("</del>") && !File.Exists(Path.Combine(basepath, r.e + ".png")))
+                        WC.DownloadFile(r.url, Path.Combine(basepath, r.e + ".png"));
                 }
+                catch (Exception e)
+                { Debug.Print(e.Message + "," + r.e); }
             }
             MessageBox.Show("Success!");
         }
@@ -315,5 +320,9 @@ namespace DataGetter
 
         }
 
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            this.Text = String.Format("{0}   {1}: {2}", this.Text, "Ver", Assembly.GetExecutingAssembly().GetName().Version.ToString());
+        }
     }
 }

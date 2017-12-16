@@ -47,6 +47,9 @@
             this.label7 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.comboBox_hotkey_Stop = new System.Windows.Forms.ComboBox();
+            this.label19 = new System.Windows.Forms.Label();
+            this.comboBox_hotkey_Scan = new System.Windows.Forms.ComboBox();
+            this.label18 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
@@ -189,10 +192,13 @@
             // panel1
             // 
             resources.ApplyResources(this.panel1, "panel1");
+            this.panel1.Controls.Add(this.comboBox_hotkey_Stop);
+            this.panel1.Controls.Add(this.label19);
+            this.panel1.Controls.Add(this.comboBox_hotkey_Scan);
+            this.panel1.Controls.Add(this.label18);
             this.panel1.Controls.Add(this.label7);
             this.panel1.Controls.Add(this.label6);
             this.panel1.Controls.Add(this.label5);
-            this.panel1.Controls.Add(this.comboBox_hotkey_Stop);
             this.panel1.Controls.Add(this.comboBox_hotkey_Start);
             this.panel1.Name = "panel1";
             // 
@@ -218,6 +224,39 @@
             resources.GetString("comboBox_hotkey_Stop.Items13"),
             resources.GetString("comboBox_hotkey_Stop.Items14")});
             this.comboBox_hotkey_Stop.Name = "comboBox_hotkey_Stop";
+            // 
+            // label19
+            // 
+            resources.ApplyResources(this.label19, "label19");
+            this.label19.Name = "label19";
+            // 
+            // comboBox_hotkey_Scan
+            // 
+            resources.ApplyResources(this.comboBox_hotkey_Scan, "comboBox_hotkey_Scan");
+            this.comboBox_hotkey_Scan.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox_hotkey_Scan.FormattingEnabled = true;
+            this.comboBox_hotkey_Scan.Items.AddRange(new object[] {
+            resources.GetString("comboBox_hotkey_Scan.Items"),
+            resources.GetString("comboBox_hotkey_Scan.Items1"),
+            resources.GetString("comboBox_hotkey_Scan.Items2"),
+            resources.GetString("comboBox_hotkey_Scan.Items3"),
+            resources.GetString("comboBox_hotkey_Scan.Items4"),
+            resources.GetString("comboBox_hotkey_Scan.Items5"),
+            resources.GetString("comboBox_hotkey_Scan.Items6"),
+            resources.GetString("comboBox_hotkey_Scan.Items7"),
+            resources.GetString("comboBox_hotkey_Scan.Items8"),
+            resources.GetString("comboBox_hotkey_Scan.Items9"),
+            resources.GetString("comboBox_hotkey_Scan.Items10"),
+            resources.GetString("comboBox_hotkey_Scan.Items11"),
+            resources.GetString("comboBox_hotkey_Scan.Items12"),
+            resources.GetString("comboBox_hotkey_Scan.Items13"),
+            resources.GetString("comboBox_hotkey_Scan.Items14")});
+            this.comboBox_hotkey_Scan.Name = "comboBox_hotkey_Scan";
+            // 
+            // label18
+            // 
+            resources.ApplyResources(this.label18, "label18");
+            this.label18.Name = "label18";
             // 
             // label8
             // 
@@ -317,14 +356,6 @@
             // 
             resources.ApplyResources(this.listBox_Priority, "listBox_Priority");
             this.listBox_Priority.FormattingEnabled = true;
-            this.listBox_Priority.Items.AddRange(new object[] {
-            resources.GetString("listBox_Priority.Items"),
-            resources.GetString("listBox_Priority.Items1"),
-            resources.GetString("listBox_Priority.Items2"),
-            resources.GetString("listBox_Priority.Items3"),
-            resources.GetString("listBox_Priority.Items4"),
-            resources.GetString("listBox_Priority.Items5"),
-            resources.GetString("listBox_Priority.Items6")});
             this.listBox_Priority.Name = "listBox_Priority";
             // 
             // button_PriorityUp
@@ -417,5 +448,8 @@
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.ComboBox comboBox_Direction;
+        private System.Windows.Forms.Label label19;
+        private System.Windows.Forms.ComboBox comboBox_hotkey_Scan;
+        private System.Windows.Forms.Label label18;
     }
 }

@@ -178,6 +178,7 @@ namespace Poe整理倉庫v2
                             else
                             {
                                 ChangeControlText("Have update", linkLabel1);
+                                MessageBox.Show("發現新版本！請點擊右下角連結到Github更新\nFound new version,click right and down to connect to Github to update,please.");
                             }
                         }
                     }
@@ -219,7 +220,7 @@ namespace Poe整理倉庫v2
         private void radioButton9_CheckedChanged(object sender, EventArgs e)
         {
             System.Threading.Thread.CurrentThread.CurrentUICulture = new CultureInfo("en");
-            for (int i = Controls.Count - 1; i > 0; i--)
+            for (int i = Controls.Count-1 ; i > 0; i--)
             {
                 Controls[i].Dispose();
             }
@@ -333,6 +334,12 @@ namespace Poe整理倉庫v2
         }
         private void GlobalKeyDown(object sender, Flier.SuperTools.Hook.KeyBoard.Global_Hook.KeyEventArgsEx e)
         {
+            if (Config.HotkeyScan != 0)
+                if (e.KeyValue == Config.HotkeyScan)
+                {
+                    Stop = false;
+                    button_ReLoadBox.PerformClick();
+                }
             if (Config.HotkeyStart != 0)
                 if (e.KeyValue == Config.HotkeyStart)
                 {
@@ -343,6 +350,7 @@ namespace Poe整理倉庫v2
             if (Config.HotkeyStop != 0)
                 if (e.KeyValue == Config.HotkeyStop)
                     Stop = true;
+
         }
     }
 }
