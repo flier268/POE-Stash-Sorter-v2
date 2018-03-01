@@ -58,7 +58,9 @@
       <DependentUpon>Form1.cs</DependentUpon>
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="ImageUtilities.cs" />
     <Compile Include="JsonClass.cs" />
+    <Compile Include="poedbJson.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form1.resx">

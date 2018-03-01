@@ -37,7 +37,7 @@ namespace Poe整理倉庫v2
                 SpeciesDic.Add(new KeyValuePair<string, string>("Map", "Map"));
                 SpeciesDic.Add(new KeyValuePair<string, string>("DivinationCard", "Divination Card"));
                 SpeciesDic.Add(new KeyValuePair<string, string>("Leaguestone", "Leaguestone"));
-                SpeciesDic.Add(new KeyValuePair<string, string>("MiscMapItem", "Other"));
+                SpeciesDic.Add(new KeyValuePair<string, string>("MiscMapItem", "OtherMapItem"));
                 SpeciesDic.Add(new KeyValuePair<string, string>("UniqueFragment", "Unique Fragment"));
                 SpeciesDic.Add(new KeyValuePair<string, string>("Gem", "Gem"));
                 SpeciesDic.Add(new KeyValuePair<string, string>("Other", "Other"));
@@ -51,7 +51,7 @@ namespace Poe整理倉庫v2
                 SpeciesDic.Add(new KeyValuePair<string, string>("Map", "地圖"));
                 SpeciesDic.Add(new KeyValuePair<string, string>("DivinationCard", "命運卡"));
                 SpeciesDic.Add(new KeyValuePair<string, string>("Leaguestone", "聯盟石"));
-                SpeciesDic.Add(new KeyValuePair<string, string>("MiscMapItem", "其他"));
+                SpeciesDic.Add(new KeyValuePair<string, string>("MiscMapItem", "其他地圖道具"));
                 SpeciesDic.Add(new KeyValuePair<string, string>("UniqueFragment", "碎片"));
                 SpeciesDic.Add(new KeyValuePair<string, string>("Gem", "技能寶石"));
                 SpeciesDic.Add(new KeyValuePair<string, string>("Other", "其他"));
@@ -72,13 +72,19 @@ namespace Poe整理倉庫v2
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (!File.Exists(Path.Combine(Application.StartupPath, "ItemList_Adden.txt")))
+            string path = Path.Combine(Application.StartupPath, "ItemList_Adden.txt");
+            if (!File.Exists(path))
             {
-                StreamWriter w = new StreamWriter(Path.Combine(Application.StartupPath, "ItemList_Adden.txt"), false, Encoding.UTF8);
-                w.Close();
+                using (StreamWriter w = new StreamWriter(path, false, Encoding.UTF8))
+                {
+                    w.Write("");
+                    w.Flush();
+                    w.Close();
+                }
+                    
             }
-            File.CreateText(Path.Combine(Application.StartupPath, "ItemList_Adden.txt"));
-            using (StreamReader r = new StreamReader(Path.Combine(Application.StartupPath, "ItemList_Adden.txt"), Encoding.UTF8))
+            //File.CreateText(path);
+            using (StreamReader r = new StreamReader(path, Encoding.UTF8))
             {
                 ItemList = JsonConvert.DeserializeObject<List<JsonClass.RootObject>>(r.ReadToEnd());
                 if (ItemList == null)
@@ -94,7 +100,7 @@ namespace Poe整理倉庫v2
                     url = textBox4.Text
                 });
                 r.Close();
-                using (StreamWriter w = new StreamWriter(Path.Combine(Application.StartupPath, "ItemList_Adden.txt"), false, Encoding.UTF8))
+                using (StreamWriter w = new StreamWriter(path, false, Encoding.UTF8))
                 {
                     w.Write(JsonConvert.SerializeObject(ItemList, Formatting.Indented));
                     w.Flush();

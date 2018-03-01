@@ -1,4 +1,6 @@
-﻿namespace DataGetter
+﻿using System.Collections.Generic;
+
+namespace DataGetter
 {
     class JsonClass
     {

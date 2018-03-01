@@ -57,6 +57,9 @@ namespace Poe整理倉庫v2
                         case "GemColor":
                             value = value == 0 ? s1.GC.CompareTo(s2.GC) : value;
                             break;
+                        case "GemLevel":
+                            value = value == 0 ? s1.level.CompareTo(s2.level) : value;
+                            break;
                         case "Rarity":
                             value = value == 0 ? RarityToInt(s1.Rarity).CompareTo(RarityToInt(s2.Rarity)) : value;
                             break;

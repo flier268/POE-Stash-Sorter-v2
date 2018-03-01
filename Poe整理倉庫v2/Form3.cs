@@ -170,6 +170,7 @@ namespace Poe整理倉庫v2
                 PriorityDic.Add(new KeyValuePair<string, string>("Name", "Name"));
                 PriorityDic.Add(new KeyValuePair<string, string>("ItemLevel", "Item Level"));
                 PriorityDic.Add(new KeyValuePair<string, string>("GemColor", "Gem's Color"));
+                PriorityDic.Add(new KeyValuePair<string, string>("GemLevel", "GemLevel"));
                 PriorityDic.Add(new KeyValuePair<string, string>("Rarity", "Rarity"));
                 PriorityDic.Add(new KeyValuePair<string, string>("Type", "Type"));
             }
@@ -180,6 +181,7 @@ namespace Poe整理倉庫v2
                 PriorityDic.Add(new KeyValuePair<string, string>("Name", "物品名稱"));
                 PriorityDic.Add(new KeyValuePair<string, string>("ItemLevel", "物品等級"));
                 PriorityDic.Add(new KeyValuePair<string, string>("GemColor", "寶石顏色"));
+                PriorityDic.Add(new KeyValuePair<string, string>("GemLevel", "寶石等級"));
                 PriorityDic.Add(new KeyValuePair<string, string>("Rarity", "稀有度"));
                 PriorityDic.Add(new KeyValuePair<string, string>("Type", "類型"));
             }
@@ -197,14 +199,23 @@ namespace Poe整理倉庫v2
             {
                 listBox_TypeList.Items.Add(SpeciesDic.Where(x => x.Key == t).FirstOrDefault().Value);
             }
+            foreach (var t in SpeciesDic)
+            {
+                if (!listBox_TypeList.Items.Contains(t.Value))
+                    listBox_TypeList.Items.Add(t.Value);
+            }
 
             AddPriorityDic();
-            listBox_Priority.Items.Clear();
+            listBox_Priority.Items.Clear();           
             foreach (string t in Config.Priority)
             {
                 listBox_Priority.Items.Add(PriorityDic.Where(x => x.Key == t).FirstOrDefault().Value);
             }
-
+            foreach (var t in PriorityDic)
+            {
+                if (!listBox_Priority.Items.Contains(t.Value))
+                    listBox_Priority.Items.Add(t.Value);
+            }
             comboBox_hotkey_Scan.SelectedItem = ToKode(Config.HotkeyScan);
             comboBox_hotkey_Start.SelectedItem = ToKode(Config.HotkeyStart);
             comboBox_hotkey_Stop.SelectedItem = ToKode(Config.HotkeyStop);

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
@@ -10,6 +11,7 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Utilities;
 using static DataGetter.JsonClass;
 
 namespace DataGetter
@@ -32,7 +34,7 @@ namespace DataGetter
                 if (!File.Exists(Path.Combine(Application.StartupPath, a.name + ".txt")))
                     Debug.Print(a.name);*/
             Data.Clear();
-            running = List_cn.Count - 2;
+            running = List_cn.Count - 3;
             foreach (var cn in List_cn)
             {
                 DownloadData_Async(cn);
@@ -43,14 +45,10 @@ namespace DataGetter
 
         }
 
-        string reg1 = @"<tr><td><img\s+src=\'(.*?)\'\/>.*?<a\shref=.*?\'>(.*?)<\/a>.*?class=\'mod_grey\'>(.*?)<\/span>";
-        string reg_gem = @"<tr.*?>.*?<td><a\s+.*?<img\s+.*?src=\'(.*?)'/>.*?<a(.*?)'><img\s.*?>(.*?)</a><br>(.*?)<td>";
-        string reg_Currency = @"<tr.*?>.*?<td><a\s+.*?<img\s+.*?src=\'(.*?)\'\/>(.*?)<\/a>\((.*?)\)";
-        string reg_Flask = @"Flask'>(.*?)<\/a>\((.*?)\).*?<img\s+src='(.*?)'\/>";
-        string reg_Map = @"<tr><td><img\s+src=\'(.*?)\'\/><td><a\s+.*?'>(.*?)</a><br>.*?class='mod_grey'>(.*?)</span>";
-        string reg_Microtransaction = @"<tr><td><img\s+src=\'(.*?)\'\/><td>(.*?)<br>.*?class='mod_grey'>(.*?)</span>";
+        string reg_Name = @"<a\s.*?>(.*?)</a>.*<span.*?>(.*?)</span>";
+        string reg_Name2 = @"(.*?)<br>.*>(.*?)</span>";
+        string reg_imgURL = @"<img\s+src='(.*?)'";
         string reg_unique = @"<tr><td><img\s+src=\'(.*?)\'\/>.*?<a\s.*?href=.*?\'>(.*?\s(.*?))<\/a>.*?grey'>(.*?)</span>";
-        string reg_Prophecy = @"<td><a\shref='item\.php\?n=.*?'>(.*?)<\/a><br>(.*?)<td>()";
         private List<cn> GetList_cn()
         {
             List<cn> a = new List<cn>();
@@ -103,12 +101,12 @@ namespace DataGetter
         private Object thislock = new object();
         private List<RootObject> Data = new List<RootObject>();
         private List<RootObject> Data_unique = new List<RootObject>();
-        private async void wait()
+        private async Task wait()
         {
             while (running != 0)
                 await Task.Delay(1);
-            if (MessageBox.Show("Start downloading...", "Message", MessageBoxButtons.OKCancel) != DialogResult.OK)
-                return;
+            /*if (MessageBox.Show("Start downloading...", "Message", MessageBoxButtons.OKCancel) != DialogResult.OK)
+                return;*/
             File.Delete(FileName);
             string strJson = JsonConvert.SerializeObject(Data, Formatting.Indented);
             //輸出結果
@@ -118,16 +116,15 @@ namespace DataGetter
             {
                 w.Write(strJson);
                 w.Flush();
-            }            
+            }
             /*
             using (StreamWriter w = new StreamWriter("TypeList.txt"))
             {
-                var t = Data.Where(s => s.h * s.w == 1).Select(x => x.type).Distinct().ToList();
+                var t = Data.Select(x => x.type).Distinct().ToList();
                 foreach (string r in t)
                     w.WriteLine(r);
                 w.Flush();
-            }    
-            */       
+            }    */
             //------------
             running++;
             DownloadData_Async_unique();
@@ -143,38 +140,12 @@ namespace DataGetter
                 w.Flush();
             }
 
-            if (MessageBox.Show("Download Image?", "", MessageBoxButtons.YesNo) == DialogResult.No)
-                return;
-
-            System.Net.WebClient WC = new System.Net.WebClient();
-            if (!Directory.Exists(Path.Combine(Application.StartupPath, "Image")))
-                Directory.CreateDirectory(Path.Combine(Application.StartupPath, "Image"));
-            string basepath = Path.Combine(Application.StartupPath, "Image");
-            foreach (RootObject r in Data)
-            {
-                try
-                {
-                    if (!r.e.EndsWith("</del>") && !File.Exists(Path.Combine(basepath, r.e + ".png")))
-                        WC.DownloadFile(r.url, Path.Combine(basepath, r.e + ".png"));
-                }
-                catch (Exception e)
-                { Debug.Print(e.Message + "," + r.e); }
-            }
-            foreach (RootObject r in Data_unique)
-            {
-                try
-                {
-                    if (!r.e.EndsWith("</del>") && !File.Exists(Path.Combine(basepath, r.e + ".png")))
-                        WC.DownloadFile(r.url, Path.Combine(basepath, r.e + ".png"));
-                }
-                catch (Exception e)
-                { Debug.Print(e.Message + "," + r.e); }
-            }
+            
             MessageBox.Show("Success!");
         }
-        private async void DownloadData_Async_unique()
+        private async Task DownloadData_Async_unique()
         {
-            string aaaaa = "";
+            string basename = "";
             try
             {
                 HttpClient client = new HttpClient();
@@ -189,25 +160,33 @@ namespace DataGetter
                 {
                     foreach (Match m in mm)
                     {
-                        //地圖的大小沒有在圖片的網址寫出來，但都固定是1x1
-                        aaaaa = m.Groups[3].ToString();
-                        //Debug用
-                        //if (aaaaa.Contains("聖戰長靴"))
-                        //   MessageBox.Show("");
-                        Regex r_getbass = new Regex(".*\\s(.*?)$");
-                        r_getbass.Match(m.Groups[2].ToString());
-                        string name_base= r_getbass.Match(m.Groups[2].ToString().Trim()).Groups[1].ToString();
-                        var BaseInfo = Data.Where(x => x.c == name_base).FirstOrDefault();
-                        roots.Add(new RootObject
+                        try
                         {
-                            GC = 'n',
-                            c = m.Groups[2].ToString(),
-                            e = m.Groups[4].ToString(),
-                            url = m.Groups[1].ToString(),
-                            w = BaseInfo.w,
-                            h = BaseInfo.h,
-                            type=BaseInfo.type
-                        });
+                            //地圖的大小沒有在圖片的網址寫出來，但都固定是1x1
+                            basename = m.Groups[3].ToString();
+                            //Debug用
+                            //if (aaaaa.Contains("聖戰長靴"))
+                            //   MessageBox.Show("");
+                            Regex r_getbass = new Regex(".*\\s(.*?)$");
+                            r_getbass.Match(m.Groups[2].ToString());
+                            string name_base = r_getbass.Match(m.Groups[2].ToString().Trim()).Groups[1].ToString();
+                            var BaseInfo = Data.Where(x => x.c == name_base).FirstOrDefault();
+                            roots.Add(new RootObject
+                            {
+                                GC = 'n',
+                                c = m.Groups[2].ToString().Trim(),
+                                e = m.Groups[4].ToString().Trim(),
+                                url = m.Groups[1].ToString(),
+                                w = BaseInfo.w,
+                                h = BaseInfo.h,
+                                type = BaseInfo.type
+                            });
+                        }
+                        catch (Exception e)
+                        {
+                            Debug.Print(basename);
+                            Debug.Print(e.Message);
+                        }
                     }
                 }
 
@@ -225,99 +204,131 @@ namespace DataGetter
             }
             catch (Exception e)
             {
-                Debug.Print(aaaaa);
+                Debug.Print(basename);
                 Debug.Print(e.Message);
             }
-        }
-        private async void DownloadData_Async(cn l)
-        {
-            if (l.name != "藏身處裝飾" &&  l.name != "保險箱")
+            System.Net.WebClient WC = new System.Net.WebClient();
+            if (!Directory.Exists(Path.Combine(Application.StartupPath, "Image")))
+                Directory.CreateDirectory(Path.Combine(Application.StartupPath, "Image"));
+            string basepath = Path.Combine(Application.StartupPath, "Image");
+            foreach (RootObject r in Data_unique)
+            {
                 try
                 {
-                    HttpClient client = new HttpClient();
-                    HttpResponseMessage response = await client.GetAsync(String.Format("http://poedb.tw/{0}", l.url));
-                    response.EnsureSuccessStatusCode();
-                    string responseBody = await response.Content.ReadAsStringAsync();
-                    Regex r;
-                    if (l.url.ToLower().Contains("gem"))
-                        r = new Regex(reg_gem, RegexOptions.IgnoreCase);
-                    else if (l.url.ToLower().Contains("flask"))
-                        r = new Regex(reg_Flask, RegexOptions.IgnoreCase);
-                    else if (l.url.ToLower().Contains("currency"))
-                        r = new Regex(reg_Currency, RegexOptions.IgnoreCase);
-                    else if (l.url.ToLower().EndsWith("map"))
-                        r = new Regex(reg_Map, RegexOptions.IgnoreCase);
-                    else if (l.url.ToLower().EndsWith("microtransaction"))
-                        r = new Regex(reg_Microtransaction, RegexOptions.IgnoreCase);
-                    else if(l.url.ToLower().EndsWith("prophecy"))
-                        r = new Regex(reg_Prophecy, RegexOptions.IgnoreCase);
-                    else
-                        r = new Regex(reg1, RegexOptions.IgnoreCase | RegexOptions.Singleline);
-                    MatchCollection mm = r.Matches(responseBody);
-
-                    //從網址解析出物品大小
-                    Regex r_url = new Regex(@"&w=(\d)&h=(\d)", RegexOptions.IgnoreCase);
-                    Regex r_GemColor = new Regex(@"class='gem_(.)", RegexOptions.IgnoreCase);
-                    List<RootObject> roots = new List<RootObject>();
-                    if (mm.Count > 0)
-                    {
-                        //一般的順序
-                        int o1 = 1, o2 = 2, o3 = 3, o4 = 4;
-
-                        //由於藥水、地圖、通貨的排版特別，因此要另外處理
-                        bool 順序不同 = (l.url.ToLower().Contains("flask")) || l.url.ToLower().EndsWith("prophecy");
-                        bool 沒有顯示大小 = (l.url.ToLower().Contains("currency"));
-                        bool 技能寶石 = (l.url.ToLower().Contains("gem"));
-                        if (順序不同)
-                        {
-                            o1 = 3; o2 = 1; o3 = 2;
-                        }
-                        if (技能寶石)
-                        {
-                            o1 = 1; o2 = 3; o3 = 4; o4 = 2;
-                        }
-
-                        foreach (Match m in mm)
-                        {
-                            string Icon_url = m.Groups[o1].ToString();
-                            if (l.url.ToLower().EndsWith("prophecy"))
-                                Icon_url = "http://web.poecdn.com/image/Art/2DItems/Currency/ProphecyOrbRed.png?scale=1&w=1&h=1";
-
-                            //地圖的大小沒有在圖片的網址寫出來，但都固定是1x1
-                            Match m_url = 沒有顯示大小 ? null : r_url.Match(Icon_url);
-                            var GemColor = r_GemColor.Match(m.Groups[o4].ToString()).Groups;
-                            roots.Add(new RootObject
-                            {
-                                c = m.Groups[o2].ToString().Trim(),
-                                e = m.Groups[o3].ToString().Trim(),
-                                url = Icon_url,
-                                GC = 技能寶石 ? char.Parse(GemColor.Count == 1 ? "w" : GemColor[1].ToString()) : 'n',
-                                w = 沒有顯示大小 ? 1 : int.Parse(m_url.Groups[1].ToString()),
-                                h = 沒有顯示大小 ? 1 : int.Parse(m_url.Groups[2].ToString()),
-                                type = l.name_eng
-                            });
-                        }
-                    }
-
-                    lock (thislock)
-                    {
-                        running--;
-
-                        Data.AddRange(roots);
-                        /*
-                         * 依照類型寫入各個檔案
-                         using (StreamWriter w = new StreamWriter(Application.StartupPath + "/" + l.name + ".txt", false, Encoding.UTF8))
-                        {
-                            w.WriteAsync(JsonConvert.SerializeObject(roots, Formatting.Indented));
-                            w.FlushAsync();
-                        }*/
-                    }
+                    if (!r.e.EndsWith("</del>") && !File.Exists(Path.Combine(basepath, r.e + ".png")))
+                        WC.DownloadFile(r.url, Path.Combine(basepath, r.e + ".png"));
                 }
                 catch (Exception e)
-                {
-                    Debug.Print(l.name + "," + e.Message);
-                }
+                { Debug.Print(e.Message + "," + r.e); }
+            }
+        }
+        private async Task DownloadData_Async(cn l)
+        {
+            switch (l.name_eng)
+            {
+                case "Microtransaction":
+                    return;
+                case "HideoutDoodad":
+                    return;
+                case "Chest":
+                    return;
+            }
+            try
+            {                
+                bool 技能寶石 = (l.url.ToLower().Contains("gem"));
+                HttpClient client = new HttpClient();
+                HttpResponseMessage response = await client.GetAsync(String.Format("http://poedb.tw/json.php/item_class?cn={0}", l.name_eng));
+                response.EnsureSuccessStatusCode();
+                string responseBody = await response.Content.ReadAsStringAsync();
+                var gg = poedbJson.FromJson(responseBody);
+                Regex r_Name = new Regex(reg_Name, RegexOptions.IgnoreCase | RegexOptions.Singleline);
+                Regex r_Name2 = new Regex(reg_Name2, RegexOptions.IgnoreCase | RegexOptions.Singleline);
+                Regex r_imgURL = new Regex(reg_imgURL, RegexOptions.IgnoreCase);
+                Regex r_GemColor = new Regex(@".Gems/(.*?)'.*?>(.*)", RegexOptions.IgnoreCase);
 
+
+                //有時nameC會變成<img .....，因此需要再處理一次
+                Regex r_realName = new Regex(@"<img\s.*/>(.*)", RegexOptions.IgnoreCase);
+
+                List<RootObject> roots = new List<RootObject>();
+
+
+
+                foreach (var tt in gg.Data)
+                {
+                    if (tt[1].Contains("巨靈脛甲"))
+                        Debug.Print("");
+                    GroupCollection NameGroup = tt[1].StartsWith("<a") ?  r_Name.Match(tt[1]).Groups: r_Name2.Match(tt[1]).Groups;
+                    var url = r_imgURL.Match(tt[0]).Groups[1].ToString();
+                    string nameC = NameGroup[1].ToString().Trim(), nameE = NameGroup[2].ToString().Trim();
+                    
+                    char colorGem = 'n';
+                    if (技能寶石)
+                    {
+                        var temp = r_GemColor.Match(nameC).Groups;
+                        nameC = temp[2].ToString().Trim();
+                        switch (temp[1].ToString())
+                        {
+                            case "IntelligenceGem.png":
+                                colorGem = 'b';
+                                break;
+                            case "DexterityGem.png":
+                                colorGem = 'g';
+                                break;
+                            case "StrengthGem.png":
+                                colorGem = 'r';
+                                break;
+                        }
+                    }
+                    if (nameC.StartsWith("<img"))
+                        nameC = r_realName.Match(nameC).Groups[1].ToString().Trim();
+                    System.Net.WebClient WC = new System.Net.WebClient();
+                    if (!Directory.Exists(Path.Combine(Application.StartupPath, "Image")))
+                        Directory.CreateDirectory(Path.Combine(Application.StartupPath, "Image"));
+                    string filepath = Path.Combine(Path.Combine(Application.StartupPath, "Image"), nameE + ".png");
+                    try
+                    {
+                        if (!nameE.EndsWith("</del>") && !File.Exists(filepath))
+                            WC.DownloadFile(url, filepath);
+                    }
+                    catch (Exception e)
+                    { Debug.Print(e.Message + "," + nameE); }
+
+                    Size size = ImageUtilities.GetDimensions(filepath);
+                    /*
+                    Uri uri = new Uri(url);
+                    var actual = ImageUtilities.GetWebDimensions(uri);*/
+
+                    roots.Add(new RootObject
+                    {
+                        c = nameC,
+                        e = NameGroup[2].ToString(),
+                        url = url,
+                        GC = colorGem,
+                        w = size.Width / 47,
+                        h = size.Height / 47,
+                        type = l.name_eng
+                    });
+                }
+                lock (thislock)
+                {
+                    running--;
+
+                    Data.AddRange(roots);
+                    /*
+                     * 依照類型寫入各個檔案
+                     using (StreamWriter w = new StreamWriter(Application.StartupPath + "/" + l.name + ".txt", false, Encoding.UTF8))
+                    {
+                        w.WriteAsync(JsonConvert.SerializeObject(roots, Formatting.Indented));
+                        w.FlushAsync();
+                    }*/
+                }
+            }
+            catch (Exception e)
+            {
+                running--;
+                Debug.Print(l.name + "," + e.Message);
+            }
         }
 
         private void Form1_Load(object sender, EventArgs e)

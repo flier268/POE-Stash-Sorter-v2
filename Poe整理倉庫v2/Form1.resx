@@ -640,7 +640,7 @@
     <value>24</value>
   </data>
   <data name="button1.Text" xml:space="preserve">
-    <value>button1</value>
+    <value>測試</value>
   </data>
   <data name="button1.Visible" type="System.Boolean, mscorlib">
     <value>False</value>

@@ -120,7 +120,7 @@ namespace Poe整理倉庫v2
 
                     JsonClass.RootObject t;
                     if (m.Groups[1].ToString() == "傳奇" || m.Groups[1].ToString() == "Unique")
-                    {
+                    {                        
                         t = ItemList_Unique.Where(a => a.c.EndsWith(PrivateFunction.GetStringAfterSomething(temp.Name, "」")) || a.e.EndsWith(PrivateFunction.GetStringAfterSomething(temp.Name, "」"))).FirstOrDefault();
                     }
                     else
@@ -138,13 +138,14 @@ namespace Poe整理倉庫v2
                     {
                         Form2 f = new Form2(clip, temp.Name);
                         f.ShowDialog();
-                        if(File.Exists(Path.Combine(Application.StartupPath, "ItemList_Adden.txt")))
-                        using (StreamReader rr = new StreamReader(Path.Combine(Application.StartupPath, "ItemList_Adden.txt"), Encoding.UTF8))
-                        {
-                            ItemList_Adden = JsonConvert.DeserializeObject<List<JsonClass.RootObject>>(rr.ReadToEnd());
-                            if (ItemList_Adden == null)
-                                ItemList_Adden = new List<RootObject>();
-                        }
+                        if (File.Exists(Path.Combine(Application.StartupPath, "ItemList_Adden.txt")))
+                            using (StreamReader rr = new StreamReader(Path.Combine(Application.StartupPath, "ItemList_Adden.txt"), Encoding.UTF8))
+                            {
+                                ItemList_Adden = JsonConvert.DeserializeObject<List<JsonClass.RootObject>>(rr.ReadToEnd());
+                                if (ItemList_Adden == null)
+                                    ItemList_Adden = new List<RootObject>();
+                                rr.Close();
+                            }
                         t = ItemList_Adden.Where(a => temp.Name.Equals(a.c) || temp.Name.Equals(a.e)).FirstOrDefault();
                     }
                     temp.w = t.w;
