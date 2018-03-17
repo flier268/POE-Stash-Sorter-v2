@@ -36,6 +36,7 @@ namespace Poe整理倉庫v2
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
@@ -55,11 +56,12 @@ namespace Poe整理倉庫v2
             this.button_CheckUpdate = new System.Windows.Forms.Button();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.radioButton9 = new System.Windows.Forms.RadioButton();
-            this.radioButton8 = new System.Windows.Forms.RadioButton();
+            this.radioButton_langEN = new System.Windows.Forms.RadioButton();
+            this.radioButton_langTW = new System.Windows.Forms.RadioButton();
             this.button1 = new System.Windows.Forms.Button();
             this.label_DataGetter = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -73,12 +75,14 @@ namespace Poe整理倉庫v2
             resources.ApplyResources(this.pictureBox1, "pictureBox1");
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.TabStop = false;
+            this.pictureBox1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.ShowItemInfo);
             // 
             // pictureBox2
             // 
             resources.ApplyResources(this.pictureBox2, "pictureBox2");
             this.pictureBox2.Name = "pictureBox2";
             this.pictureBox2.TabStop = false;
+            this.pictureBox2.MouseMove += new System.Windows.Forms.MouseEventHandler(this.ShowItemInfo);
             // 
             // button_StartSort
             // 
@@ -193,25 +197,25 @@ namespace Poe整理倉庫v2
             // 
             // groupBox3
             // 
-            this.groupBox3.Controls.Add(this.radioButton9);
-            this.groupBox3.Controls.Add(this.radioButton8);
+            this.groupBox3.Controls.Add(this.radioButton_langEN);
+            this.groupBox3.Controls.Add(this.radioButton_langTW);
             resources.ApplyResources(this.groupBox3, "groupBox3");
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.TabStop = false;
             // 
             // radioButton9
             // 
-            resources.ApplyResources(this.radioButton9, "radioButton9");
-            this.radioButton9.Name = "radioButton9";
-            this.radioButton9.UseVisualStyleBackColor = true;
-            this.radioButton9.CheckedChanged += new System.EventHandler(this.radioButton9_CheckedChanged);
+            resources.ApplyResources(this.radioButton_langEN, "radioButton9");
+            this.radioButton_langEN.Name = "radioButton9";
+            this.radioButton_langEN.UseVisualStyleBackColor = true;
+            this.radioButton_langEN.CheckedChanged += new System.EventHandler(this.radioButton9_CheckedChanged);
             // 
             // radioButton8
             // 
-            resources.ApplyResources(this.radioButton8, "radioButton8");
-            this.radioButton8.Name = "radioButton8";
-            this.radioButton8.UseVisualStyleBackColor = true;
-            this.radioButton8.CheckedChanged += new System.EventHandler(this.radioButton8_CheckedChanged);
+            resources.ApplyResources(this.radioButton_langTW, "radioButton8");
+            this.radioButton_langTW.Name = "radioButton8";
+            this.radioButton_langTW.UseVisualStyleBackColor = true;
+            this.radioButton_langTW.CheckedChanged += new System.EventHandler(this.radioButton8_CheckedChanged);
             // 
             // button1
             // 
@@ -294,9 +298,9 @@ namespace Poe整理倉庫v2
 #endif
             CheckUpdate();
             if (System.Threading.Thread.CurrentThread.CurrentUICulture.Name == "en")
-                radioButton9.Checked = true;
+                radioButton_langEN.Checked = true;
             else
-                radioButton8.Checked = true;
+                radioButton_langTW.Checked = true;
         }
         private async void SubmitGoogleDoc()
         {
@@ -336,10 +340,11 @@ namespace Poe整理倉庫v2
         private Button button_CheckUpdate;
         private LinkLabel linkLabel1;
         private GroupBox groupBox3;
-        private RadioButton radioButton9;
-        private RadioButton radioButton8;
+        private RadioButton radioButton_langEN;
+        private RadioButton radioButton_langTW;
         private Button button1;
         private Label label_DataGetter;
         private Label label1;
+        private ToolTip toolTip1;
     }
 }

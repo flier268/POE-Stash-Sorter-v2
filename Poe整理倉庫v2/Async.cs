@@ -46,8 +46,7 @@ namespace Poe整理倉庫v2
             Items.Clear();
             used.Clear();
             resoult.Clear();
-            
-            //可能需要英文化
+
             string reg_itemlevel = @"物品等級:\s(\d+)", reg_itemlevel_eng = @"Item Level:\s(\d+)";
             string reg_quality = @"品質:\s\+(\d+)", reg_quality_eng= @"Quality:\s\+(\d+)";
             string reg_level = @"(?<!需求:)\r\n^等級:\s(\d+)", reg_level_eng = @"(?<!Requirements:)\r\n^Level:\s(\d+)";
@@ -196,8 +195,6 @@ namespace Poe整理倉庫v2
                        Items.ForEach(x => _Items.Add((Item)x.Clone()));
                        if (radioButton6.Checked)
                        {
-                           //由於ClipBoard的緣故，需要在STAThread執行
-
                            //從結果找到一個跟目前同個ID但不同位置的物品
                            var diff = resoult.Where(x => !x.point.Equals(_Items.Where(y => y.id == x.id).FirstOrDefault().point)).Select(t => t).FirstOrDefault();
                            Item onHand = null;

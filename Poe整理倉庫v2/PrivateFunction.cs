@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Poe整理倉庫v2
 {
-    public class PrivateFunction
+    public static class PrivateFunction
     {
         public static bool IsChineseContain(string s)
         {
@@ -106,6 +107,30 @@ namespace Poe整理倉庫v2
                 return hash;
             }
             return 0;
+        }
+        /// <summary>
+        /// 判斷數值是否在兩者之間
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="minimum"></param>
+        /// <param name="maximum"></param>
+        /// <returns></returns>
+        public static bool IsWithin(this int value, int minimum, int maximum)
+        {
+            return value >= minimum && value <= maximum;
+        }
+        /// <summary>
+        /// 判斷數值是否在兩者之間
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="minimum"></param>
+        /// <param name="maximum"></param>
+        /// <returns></returns>
+        public static bool IsWithin(this Point value, Point minimum, Point maximum)
+        {
+            if (Point.Equals(value, minimum))
+                return true;
+            return value.X >= minimum.X && value.Y >= minimum.Y && value.X <= maximum.X && value.Y <= maximum.Y;
         }
     }
 }

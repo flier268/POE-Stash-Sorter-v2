@@ -206,15 +206,15 @@ namespace Poe整理倉庫v2
                 Controls[i].Dispose();
             }
             InitializeComponent();
-            radioButton8.CheckedChanged -= radioButton8_CheckedChanged;
-            radioButton9.CheckedChanged -= radioButton9_CheckedChanged;
+            radioButton_langTW.CheckedChanged -= radioButton8_CheckedChanged;
+            radioButton_langEN.CheckedChanged -= radioButton9_CheckedChanged;
             if (System.Threading.Thread.CurrentThread.CurrentUICulture.Name == "en")
-                radioButton9.Checked = true;
+                radioButton_langEN.Checked = true;
             else
-                radioButton8.Checked = true;
+                radioButton_langTW.Checked = true;
 
-            radioButton8.CheckedChanged += radioButton8_CheckedChanged;
-            radioButton9.CheckedChanged += radioButton9_CheckedChanged;
+            radioButton_langTW.CheckedChanged += radioButton8_CheckedChanged;
+            radioButton_langEN.CheckedChanged += radioButton9_CheckedChanged;
             CheckUpdate();
         }
 
@@ -226,15 +226,15 @@ namespace Poe整理倉庫v2
                 Controls[i].Dispose();
             }
             InitializeComponent();
-            radioButton8.CheckedChanged -= radioButton8_CheckedChanged;
-            radioButton9.CheckedChanged -= radioButton9_CheckedChanged;
+            radioButton_langTW.CheckedChanged -= radioButton8_CheckedChanged;
+            radioButton_langEN.CheckedChanged -= radioButton9_CheckedChanged;
             if (System.Threading.Thread.CurrentThread.CurrentUICulture.Name == "en")
-                radioButton9.Checked = true;
+                radioButton_langEN.Checked = true;
             else
-                radioButton8.Checked = true;
+                radioButton_langTW.Checked = true;
 
-            radioButton8.CheckedChanged += radioButton8_CheckedChanged;
-            radioButton9.CheckedChanged += radioButton9_CheckedChanged;
+            radioButton_langTW.CheckedChanged += radioButton8_CheckedChanged;
+            radioButton_langEN.CheckedChanged += radioButton9_CheckedChanged;
             CheckUpdate();
         }
         public struct table
@@ -409,18 +409,9 @@ namespace Poe整理倉庫v2
                 {
                     List<path> _Path = new List<path>();
                     _Path.Add(new path() { end = false, mom = 0, count = PrivateFunction.CalcArrayTotal(t), age = 1, id = _id++, total = t, totalHashCode = PrivateFunction.GetHashCode(t) });
-                    int ageMax = 0;
                     int notendCount = 1;
-                    int r = 0;
                     while (!notendCount.Equals(0))
                     {
-                        /*   if (r == 100)
-                           {
-                               r = 0;
-                               _Path.Sort(new pathComparer_end());
-                           }
-                           else
-                               r++;*/
                         var temp = _Path.FindLast(x => !x.end);//.Where(y => !y.end).FirstOrDefault();
                         var answerlist = FindAnswer(ref TableTemp, PrivateFunction.ArrayMinus(QCount, temp.total));
 
@@ -489,9 +480,9 @@ namespace Poe整理倉庫v2
                 {
                     Path.ForEach(x => ww.WriteLine(x.age + "#" + string.Join(",", x.total)));
                     ww.Flush();
-                }
+                }/*
                 var _ttemp = Path[PathC - 1];
-                /*
+                
                 while (_temp.mom != 0)
                 {
                     PathC++;
@@ -533,6 +524,23 @@ namespace Poe整理倉庫v2
                 }
                 #endregion 1
             }
+        }
+        private void ShowItemInfo(object sender, MouseEventArgs e)
+        {
+            var showwhat = ((PictureBox)sender) == pictureBox1 ? pictureBox1 : pictureBox2;
+            var temp = ((PictureBox)sender) == pictureBox1 ? Items : resoult;
+            Point p = new Point(((int)Math.Floor((double)e.X / 40 * (radioButton4.Checked ? 1 : 2))), ((int)Math.Floor((double)e.Y / 40 * (radioButton4.Checked ? 1 : 2))));
+            var item = temp.Where(x => PrivateFunction.IsWithin(p, x.point, Point.Add(x.point, new Size(x.w - 1, x.h - 1)))).FirstOrDefault();
+            // toolTip1.SetToolTip(showwhat, String.Format("{0},{1}", e.X, e.Y));
+            if (item != null)
+            {
+                if (System.Threading.Thread.CurrentThread.CurrentUICulture.Name == "en")
+                    toolTip1.SetToolTip(showwhat, String.Format("Name:{0}\nItem level:{1}\nQuality:{2}\nRarity:{3}\nLevel:{4}", item.Name_eng, item.itemlevel, item.quality, item.Rarity, item.level));
+                else
+                    toolTip1.SetToolTip(showwhat, String.Format("物品名稱:{0}\n物品等級:{1}\n品質:{2}\n稀有度:{3}\n等級:{4}", item.Name, item.itemlevel, item.quality, item.Rarity, item.level));
+            }
+            else
+                toolTip1.SetToolTip(showwhat, "");
         }
 
         private async void ItemList_Load()

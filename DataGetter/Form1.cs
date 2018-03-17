@@ -9,6 +9,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Reflection;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Utilities;
@@ -28,21 +29,35 @@ namespace DataGetter
         private static int running = 0;
         private void button1_Click(object sender, EventArgs e)
         {
-            var List_cn = GetList_cn();
+            button1.Text = "Downloading...";
+            button1.Enabled = false;
+            List<cn> List_cn = new List<cn>();
+            var tasks = Task.Run(() =>
+            {
+                List_cn=GetList_cn();
+            });
+            tasks.Wait();
             
-           /* foreach (cn a in List_cn)
-                if (!File.Exists(Path.Combine(Application.StartupPath, a.name + ".txt")))
-                    Debug.Print(a.name);*/
+            //var t1 = new Task<List<cn>>(GetList_cn);
+            //t1.Start();
+            //t1.Wait();
+            //List<cn> List_cn = t1.Result;
+            /* foreach (cn a in List_cn)
+                 if (!File.Exists(Path.Combine(Application.StartupPath, a.name + ".txt")))
+                     Debug.Print(a.name);*/
             Data.Clear();
             running = List_cn.Count - 3;
+            
             foreach (var cn in List_cn)
-            {
-                DownloadData_Async(cn);
+            {                
+                Task.Run(() => DownloadData_Async(cn));
             }
-            wait();
+            running++;
+            Task.Run(() => DownloadData_Async_unique());
+            Task.Run(() => wait()).Wait();
+            button1.Text = "從poedb取得資料";
+            button1.Enabled = true;
             //物件序列化
-
-
         }
 
         string reg_Name = @"<a\s.*?>(.*?)</a>.*<span.*?>(.*?)</span>";
@@ -57,7 +72,6 @@ namespace DataGetter
             Regex r = new Regex(reg_pre, RegexOptions.IgnoreCase | RegexOptions.Singleline);
             string reg_getcn = ".*?cn=(.*)";
             Regex r_getcn = new Regex(reg_getcn, RegexOptions.IgnoreCase | RegexOptions.Singleline);
-            
 
             Match m = r.Match(temp);
             if (m.Success)
@@ -75,6 +89,7 @@ namespace DataGetter
                     }
                     //特殊狀況
                     a.Add(new cn { name = "預言", name_eng = "Prophecy", url = "item.php?cn=Prophecy" });
+                    a.Add(new cn { name = "任務物品", name_eng = "QuestItem", url = "item.php?cn=QuestItem" });
                 }
             }
             return a;
@@ -101,36 +116,28 @@ namespace DataGetter
         private Object thislock = new object();
         private List<RootObject> Data = new List<RootObject>();
         private List<RootObject> Data_unique = new List<RootObject>();
-        private async Task wait()
+        private void wait()
         {
             while (running != 0)
-                await Task.Delay(1);
-            /*if (MessageBox.Show("Start downloading...", "Message", MessageBoxButtons.OKCancel) != DialogResult.OK)
-                return;*/
+                SpinWait.SpinUntil(() => running == 0);
+
             File.Delete(FileName);
             string strJson = JsonConvert.SerializeObject(Data, Formatting.Indented);
-            //輸出結果
-            //System.Diagnostics.Debug.Write(strJson);
 
             using (StreamWriter w = new StreamWriter(FileName))
             {
                 w.Write(strJson);
                 w.Flush();
             }
-            /*
+#if DEBUG
             using (StreamWriter w = new StreamWriter("TypeList.txt"))
             {
                 var t = Data.Select(x => x.type).Distinct().ToList();
                 foreach (string r in t)
                     w.WriteLine(r);
                 w.Flush();
-            }    */
-            //------------
-            running++;
-            DownloadData_Async_unique();
-            while (running != 0)
-                await Task.Delay(1);
-
+            } 
+#endif
             strJson = JsonConvert.SerializeObject(Data_unique, Formatting.Indented);
             //輸出結果
             //System.Diagnostics.Debug.Write(strJson);
@@ -139,8 +146,6 @@ namespace DataGetter
                 w.Write(strJson);
                 w.Flush();
             }
-
-            
             MessageBox.Show("Success!");
         }
         private async Task DownloadData_Async_unique()
@@ -256,8 +261,6 @@ namespace DataGetter
 
                 foreach (var tt in gg.Data)
                 {
-                    if (tt[1].Contains("巨靈脛甲"))
-                        Debug.Print("");
                     GroupCollection NameGroup = tt[1].StartsWith("<a") ?  r_Name.Match(tt[1]).Groups: r_Name2.Match(tt[1]).Groups;
                     var url = r_imgURL.Match(tt[0]).Groups[1].ToString();
                     string nameC = NameGroup[1].ToString().Trim(), nameE = NameGroup[2].ToString().Trim();
@@ -293,8 +296,13 @@ namespace DataGetter
                     }
                     catch (Exception e)
                     { Debug.Print(e.Message + "," + nameE); }
-
-                    Size size = ImageUtilities.GetDimensions(filepath);
+                    Size size=new Size();
+                    try
+                    {
+                        size = ImageUtilities.GetDimensions(filepath);
+                    }
+                    catch (Exception e) { size = new Size(47, 47); url = "question-mark.png"; Debug.Print(e.Message + "," + filepath); }
+                    
                     /*
                     Uri uri = new Uri(url);
                     var actual = ImageUtilities.GetWebDimensions(uri);*/
@@ -313,15 +321,15 @@ namespace DataGetter
                 lock (thislock)
                 {
                     running--;
-
                     Data.AddRange(roots);
-                    /*
-                     * 依照類型寫入各個檔案
-                     using (StreamWriter w = new StreamWriter(Application.StartupPath + "/" + l.name + ".txt", false, Encoding.UTF8))
+/*
+                    // 依照類型寫入各個檔案
+                    using (StreamWriter w = new StreamWriter(Application.StartupPath + "/" + l.name + ".txt", false, System.Text.Encoding.UTF8))
                     {
                         w.WriteAsync(JsonConvert.SerializeObject(roots, Formatting.Indented));
                         w.FlushAsync();
-                    }*/
+                    }
+*/
                 }
             }
             catch (Exception e)
