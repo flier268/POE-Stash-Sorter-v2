@@ -31,13 +31,14 @@ namespace DataGetter
         {
             button1.Text = "Downloading...";
             button1.Enabled = false;
+            running = 0;
             List<cn> List_cn = new List<cn>();
             var tasks = Task.Run(() =>
             {
                 List_cn=GetList_cn();
             });
             tasks.Wait();
-            
+            MessageBox.Show("Please wait,it may cost several minute.");
             //var t1 = new Task<List<cn>>(GetList_cn);
             //t1.Start();
             //t1.Wait();
@@ -47,14 +48,18 @@ namespace DataGetter
                      Debug.Print(a.name);*/
             Data.Clear();
             running = List_cn.Count - 3;
-            
+            List<Task> tasklist = new List<Task>();
             foreach (var cn in List_cn)
-            {                
-                Task.Run(() => DownloadData_Async(cn));
+            {
+                tasklist.Add(Task.Run(() => DownloadData_Async(cn)));
+                if (tasklist.Count >= 4)
+                {
+                    tasklist.ForEach(x => x.Wait());
+                    tasklist.Clear();
+                }
             }
             running++;
-            Task.Run(() => DownloadData_Async_unique());
-            MessageBox.Show("Please wait,it may cost several minute.");
+            Task.Run(() => DownloadData_Async_unique()).Wait();
             Task.Run(() => wait()).Wait();
             button1.Text = "從poedb取得資料";
             button1.Enabled = true;
@@ -222,7 +227,7 @@ namespace DataGetter
                 try
                 {
                     if (!r.e.EndsWith("</del>") && !File.Exists(Path.Combine(basepath, r.e + ".png")))
-                        WC.DownloadFile(r.url, Path.Combine(basepath, r.e + ".png"));
+                        await WC.DownloadFileTaskAsync(r.url, Path.Combine(basepath, r.e + ".png"));
                 }
                 catch (Exception e)
                 { Debug.Print(e.Message + "," + r.e); }
