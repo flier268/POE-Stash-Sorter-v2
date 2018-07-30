@@ -63,7 +63,7 @@ namespace DataGetter
         string reg_Name = @"<a\s.*?>(.*?)</a>.*<span.*?>(.*?)</span>";
         string reg_Name2 = @"(.*?)<br>.*>(.*?)</span>";
         string reg_imgURL = @"<img\s+src='(.*?)'";
-        string reg_unique = @"<tr><td><img\s+src=\'(.*?)\'\/>.*?<a\s.*?href=.*?\'>(.*?\s(.*?))<\/a>.*?grey'>(.*?)</span>";
+        string reg_unique = @"<tr.*?><td><img\s+src=[""|'](.*?)[""|']\/>.*?<a\s.*?href=[""|'].*?[""|']>(.*?\s(.*?))<\/a>.*?grey[""|']>(.*?)<\/span>";
         private List<cn> GetList_cn()
         {
             List<cn> a = new List<cn>();
