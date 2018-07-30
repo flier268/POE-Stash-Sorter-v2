@@ -54,6 +54,7 @@ namespace DataGetter
             }
             running++;
             Task.Run(() => DownloadData_Async_unique());
+            MessageBox.Show("Please wait,it may cost several minute.");
             Task.Run(() => wait()).Wait();
             button1.Text = "從poedb取得資料";
             button1.Enabled = true;
@@ -62,7 +63,7 @@ namespace DataGetter
 
         string reg_Name = @"<a\s.*?>(.*?)</a>.*<span.*?>(.*?)</span>";
         string reg_Name2 = @"(.*?)<br>.*>(.*?)</span>";
-        string reg_imgURL = @"<img\s+src='(.*?)'";
+        string reg_imgURL = @"<img\s+src=[""|'](.*?)[""|']";
         string reg_unique = @"<tr.*?><td><img\s+src=[""|'](.*?)[""|']\/>.*?<a\s.*?href=[""|'].*?[""|']>(.*?\s(.*?))<\/a>.*?grey[""|']>(.*?)<\/span>";
         private List<cn> GetList_cn()
         {
@@ -292,7 +293,7 @@ namespace DataGetter
                     try
                     {
                         if (!nameE.EndsWith("</del>") && !File.Exists(filepath))
-                            WC.DownloadFile(url, filepath);
+                            await WC.DownloadFileTaskAsync(new Uri( url), filepath);
                     }
                     catch (Exception e)
                     { Debug.Print(e.Message + "," + nameE); }
