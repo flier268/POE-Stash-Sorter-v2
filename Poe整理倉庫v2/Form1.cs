@@ -156,7 +156,7 @@ namespace Poe整理倉庫v2
                 {
                     using (var client = new HttpClient())
                     {
-                        var response = client.GetAsync("https://github.com/flier268/POE-Stash-Sorter-v2/blob/master/Poe%E6%95%B4%E7%90%86%E5%80%89%E5%BA%ABv2/Properties/AssemblyInfo.cs").Result;
+                        var response = client.GetAsync("https://raw.githubusercontent.com/flier268/POE-Stash-Sorter-v2/master/Poe%E6%95%B4%E7%90%86%E5%80%89%E5%BA%ABv2/Properties/AssemblyInfo.cs").Result;
 
                         if (response.IsSuccessStatusCode)
                         {
@@ -165,9 +165,9 @@ namespace Poe整理倉庫v2
 
                             // by calling .Result you are synchronously reading the result
                             string responseString = responseContent.ReadAsStringAsync().Result;
-                            Regex r = new Regex(@"[^/\s]\[assembly: AssemblyVersion.*?([\d|\.]+).*?\]", RegexOptions.IgnoreCase | RegexOptions.Singleline);
-                            var m = r.Match(responseString);
-
+                            Regex r = new Regex(@"\[assembly: AssemblyVersion.*?([\d|\.]+).*?\]", RegexOptions.IgnoreCase);
+                            var ms = r.Matches(responseString);
+                            var m = ms[ms.Count-1];
                             Version ver = new Version(m.Groups[1].ToString());
                             Version verson = Assembly.GetEntryAssembly().GetName().Version;
                             int tm = verson.CompareTo(ver);
