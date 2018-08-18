@@ -105,7 +105,7 @@ namespace Poe整理倉庫v2
 
                     temp.Rarity = m.Groups[1].ToString().Trim();
                     m_itemlevel = r_itemlevel.Match(m.Groups[4].ToString());
-                    m_itemlevel = m_itemlevel.Groups.Count == 1 ? r_itemlevel_eng.Match(m.Groups[4].ToString()) : m_itemlevel;                    
+                    m_itemlevel = m_itemlevel.Groups.Count == 1 ? r_itemlevel_eng.Match(m.Groups[4].ToString()) : m_itemlevel;
                     m_level = r_level.Match(m.Groups[4].ToString());
                     m_level = m_level.Groups.Count == 1 ? r_level_eng.Match(m.Groups[4].ToString()) : m_level;
                     m_maplevel = r_maplevel.Match(m.Groups[4].ToString());
@@ -119,8 +119,8 @@ namespace Poe整理倉庫v2
 
                     JsonClass.RootObject t;
                     if (m.Groups[1].ToString() == "傳奇" || m.Groups[1].ToString() == "Unique")
-                    {                        
-                        t = ItemList_Unique.Where(a => a.c.EndsWith(PrivateFunction.GetStringAfterSomething(temp.Name, "」")) || a.e.EndsWith(PrivateFunction.GetStringAfterSomething(temp.Name, "」"))).FirstOrDefault();
+                    {
+                        t = ItemList_Unique.Where(a => a.c.EndsWith(PrivateFunction.GetStringAfterSomething(temp.Name, "」")) || a.e.StartsWith(PrivateFunction.GetStringAfterSomething(temp.Name, "」"))).FirstOrDefault();
                     }
                     else
                     {
@@ -131,7 +131,7 @@ namespace Poe整理倉庫v2
                             t = ItemList.Where(a => temp.Name.Contains(a.e)).FirstOrDefault();
                     }
                     if (t == null)
-                        t = ItemList_Adden.Where(a => a.c.EndsWith(PrivateFunction.GetStringAfterSomething(temp.Name, "」")) || a.e.EndsWith(PrivateFunction.GetStringAfterSomething(temp.Name, "」"))).FirstOrDefault();
+                        t = ItemList_Adden.Where(a => a.c.EndsWith(PrivateFunction.GetStringAfterSomething(temp.Name, "」")) || a.e.StartsWith(PrivateFunction.GetStringAfterSomething(temp.Name, "」"))).FirstOrDefault();
 
                     while (t == null)
                     {
