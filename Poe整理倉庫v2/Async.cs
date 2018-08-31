@@ -120,7 +120,10 @@ namespace Poe整理倉庫v2
                     JsonClass.RootObject t;
                     if (m.Groups[1].ToString() == "傳奇" || m.Groups[1].ToString() == "Unique")
                     {
-                        t = ItemList_Unique.Where(a => a.c.EndsWith(PrivateFunction.GetStringAfterSomething(temp.Name, "」")) || a.e.StartsWith(PrivateFunction.GetStringAfterSomething(temp.Name, "」"))).FirstOrDefault();
+                        t = ItemList_Unique.Where(a => a.c.EndsWith(PrivateFunction.GetStringAfterSomething(temp.Name, "」")) ||
+                            PrivateFunction.GetStringAfterSomething(temp.Name, "」").StartsWith(a.e) ||
+                            PrivateFunction.GetStringAfterSomething(temp.Name, "」").Contains(a.e)
+                        ).FirstOrDefault();
                     }
                     else
                     {
