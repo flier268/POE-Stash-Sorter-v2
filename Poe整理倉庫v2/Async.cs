@@ -1,15 +1,14 @@
-﻿using Newtonsoft.Json;
+﻿using DataGetter;
+using SQLite;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using static Poe整理倉庫v2.JsonClass;
 
 namespace Poe整理倉庫v2
 {
@@ -117,53 +116,52 @@ namespace Poe整理倉庫v2
                     temp.quality = m_quality.Groups.Count == 1 ? 0 : int.Parse(m_quality.Groups[1].ToString());
                     temp.maplevel = m_maplevel.Groups.Count == 1 ? 0 : int.Parse(m_maplevel.Groups[1].ToString());
 
-                    JsonClass.RootObject t;
+                    Data t;
                     if (m.Groups[1].ToString() == "傳奇" || m.Groups[1].ToString() == "Unique")
                     {
-                        t = ItemList_Unique.Where(a => a.c.EndsWith(PrivateFunction.GetStringAfterSomething(temp.Name, "」")) ||
-                            PrivateFunction.GetStringAfterSomething(temp.Name, "」").StartsWith(a.e) ||
-                            PrivateFunction.GetStringAfterSomething(temp.Name, "」").Contains(a.e)
+                        t = ItemList_Unique.Where(a => a.Name_Chinese.EndsWith(PrivateFunction.GetStringAfterSomething(temp.Name, "」")) ||
+                            PrivateFunction.GetStringAfterSomething(temp.Name, "」").StartsWith(a.Name_English) ||
+                            PrivateFunction.GetStringAfterSomething(temp.Name, "」").Contains(a.Name_English)
                         ).FirstOrDefault();
                     }
                     else
                     {
-                        t = ItemList.Where(a => temp.Name.Equals(a.c) || temp.Name.Equals(a.e)).FirstOrDefault();
+                        t = ItemList.Where(a => temp.Name.Equals(a.Name_Chinese) || temp.Name.Equals(a.Name_English)).FirstOrDefault();
                         if (t == null)
-                            t = ItemList.Where(a => temp.Name.EndsWith(a.c) || temp.Name.EndsWith(a.e)).FirstOrDefault();
+                            t = ItemList.Where(a => temp.Name.EndsWith(a.Name_Chinese) || temp.Name.EndsWith(a.Name_English)).FirstOrDefault();
                         if (t == null)
-                            t = ItemList.Where(a => temp.Name.Contains(a.e)).FirstOrDefault();
+                            t = ItemList.Where(a => temp.Name.Contains(a.Name_English)).FirstOrDefault();
                     }
                     if (t == null)
-                        t = ItemList_Adden.Where(a => a.c.EndsWith(PrivateFunction.GetStringAfterSomething(temp.Name, "」")) || a.e.StartsWith(PrivateFunction.GetStringAfterSomething(temp.Name, "」"))).FirstOrDefault();
+                        t = ItemList_Adden.Where(a => a.Name_Chinese.EndsWith(PrivateFunction.GetStringAfterSomething(temp.Name, "」")) || a.Name_English.StartsWith(PrivateFunction.GetStringAfterSomething(temp.Name, "」"))).FirstOrDefault();
 
                     while (t == null)
                     {
                         Form2 f = new Form2(clip, temp.Name);
                         f.ShowDialog();
-                        if (File.Exists(Path.Combine(Application.StartupPath, "ItemList_Adden.txt")))
-                            using (StreamReader rr = new StreamReader(Path.Combine(Application.StartupPath, "ItemList_Adden.txt"), Encoding.UTF8))
-                            {
-                                ItemList_Adden = JsonConvert.DeserializeObject<List<JsonClass.RootObject>>(rr.ReadToEnd());
-                                if (ItemList_Adden == null)
-                                    ItemList_Adden = new List<RootObject>();
-                                rr.Close();
-                            }
-                        t = ItemList_Adden.Where(a => temp.Name.Equals(a.c) || temp.Name.Equals(a.e)).FirstOrDefault();
+                        var databasePath = Path.Combine(Application.StartupPath, "Datas_Adden.db");
+                        var db = new SQLiteAsyncConnection(databasePath);
+                        await db.CreateTableAsync<Data>();
+                        await db.CreateIndexAsync("Data", "Name_Chinese");
+                        await db.CreateIndexAsync("Data", "Name_English");
+                        ItemList_Adden = await db.Table<Data>().ToListAsync();
+                        await db.CloseAsync();
+                        t = ItemList_Adden.Where(a => temp.Name.Equals(a.Name_Chinese) || temp.Name.Equals(a.Name_English)).FirstOrDefault();
                     }
-                    temp.w = t.w;
-                    temp.h = t.h;
+                    temp.w = t.Width;
+                    temp.h = t.Height;
                     temp.point = new POINT(x, y);
-                    temp.url = t.url;
-                    temp.GC = t.GC;
-                    temp.Name_eng = t.e;
-                    temp.type = t.type;
+                    temp.url = t.ImageURL;
+                    temp.GC = t.GemColor.ToCharArray()[0];
+                    temp.Name_eng = t.Name_English;
+                    temp.type = t.Type;
 
-                    temp.priority = Array.IndexOf(Config.Species, t.type);
+                    temp.priority = Array.IndexOf(Config.Species, t.Type);
 
                     temp.id = ++id;
 
-                    for (int i = x; i < x + t.w; i++)
-                        for (int j = y; j < y + t.h; j++)
+                    for (int i = x; i < x + t.Width; i++)
+                        for (int j = y; j < y + t.Height; j++)
                             used.Add(new POINT(i, j));
                     Items.Add(temp);
                 }
@@ -376,7 +374,7 @@ namespace Poe整理倉庫v2
                 img = Image.FromFile(Path.Combine(Application.StartupPath, "Image", PanelGridName));
             else
             {
-                stream = new MemoryStream(WC.DownloadData("https://web.poe.garena.tw/image/gen/inventory/" + PanelGridName));
+                stream = new MemoryStream(WC.DownloadData("https://web.poecdn.com/image/inventory/" + PanelGridName));
                 img = Image.FromStream(stream);
                 stream.Close();
             }
@@ -390,8 +388,9 @@ namespace Poe整理倉庫v2
                 {
                     if (item.url != "question-mark.png")
                     {
-                        if (File.Exists(Path.Combine(Application.StartupPath, "Image", Path.ChangeExtension(item.Name_eng, ".png"))))
-                            img = Image.FromFile(Path.Combine(Application.StartupPath, "Image", Path.ChangeExtension(item.Name_eng, ".png")));
+                        string path = Path.Combine(Application.StartupPath, "Image", Path.ChangeExtension(item.type == "Prophecy" ? "Prophecy" : item.Name_eng, ".png"));
+                        if (File.Exists(path))
+                            img = Image.FromFile(path);
                         else
                         {
                             stream = new MemoryStream(WC.DownloadData(item.url));
@@ -416,8 +415,9 @@ namespace Poe整理倉庫v2
                 {
                     if (item.url != "question-mark.png")
                     {
-                        if (File.Exists(Path.Combine(Application.StartupPath, "Image", Path.ChangeExtension(item.Name_eng, ".png"))))
-                            img = Image.FromFile(Path.Combine(Application.StartupPath, "Image", Path.ChangeExtension(item.Name_eng, ".png")));
+                        string path = Path.Combine(Application.StartupPath, "Image", Path.ChangeExtension(item.type == "Prophecy" ? "Prophecy" : item.Name_eng, ".png"));
+                        if (File.Exists(path))
+                            img = Image.FromFile(path);
                         else
                         {
                             stream = new MemoryStream(WC.DownloadData(item.url));

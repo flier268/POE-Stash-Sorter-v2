@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+﻿using SQLite;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -9,11 +9,9 @@ using System.Linq;
 using System.Net.Http;
 using System.Reflection;
 using System.Text.RegularExpressions;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Utilities;
-using static DataGetter.JsonClass;
 
 namespace DataGetter
 {
@@ -24,43 +22,29 @@ namespace DataGetter
         {
             InitializeComponent();
         }
-        string FileName = Path.Combine(Application.StartupPath , "ItemList.txt");
-        string FileName_Unique = Path.Combine(Application.StartupPath , "ItemList_Unique.txt");
-        private static int running = 0;
-        private void button1_Click(object sender, EventArgs e)
+        string FileName = Path.Combine(Application.StartupPath, "ItemList.txt");
+        string FileName_Unique = Path.Combine(Application.StartupPath, "ItemList_Unique.txt");
+        private async void button1_Click(object sender, EventArgs e)
         {
             button1.Text = "Downloading...";
             button1.Enabled = false;
-            running = 0;
             List<cn> List_cn = new List<cn>();
-            var tasks = Task.Run(() =>
-            {
-                List_cn=GetList_cn();
-            });
-            tasks.Wait();
+            List_cn = await GetList_cn();
+
+
             MessageBox.Show("Please wait,it may cost several minute.");
-            //var t1 = new Task<List<cn>>(GetList_cn);
-            //t1.Start();
-            //t1.Wait();
-            //List<cn> List_cn = t1.Result;
-            /* foreach (cn a in List_cn)
-                 if (!File.Exists(Path.Combine(Application.StartupPath, a.name + ".txt")))
-                     Debug.Print(a.name);*/
             Data.Clear();
-            running = List_cn.Count - 3;
-            List<Task> tasklist = new List<Task>();
+            Data_unique.Clear();
+            Data_Prophecy.Clear();
+            await DownloadData_Async_Prophecy();
             foreach (var cn in List_cn)
             {
-                tasklist.Add(Task.Run(() => DownloadData_Async(cn)));
-                if (tasklist.Count >= 4)
-                {
-                    tasklist.ForEach(x => x.Wait());
-                    tasklist.Clear();
-                }
+                await DownloadData_Async(cn);
+                await Task.Delay(500);
             }
-            running++;
-            Task.Run(() => DownloadData_Async_unique()).Wait();
-            Task.Run(() => wait()).Wait();
+            await DownloadData_Async_unique();
+
+            await WriteToSqlite();
             button1.Text = "從poedb取得資料";
             button1.Enabled = true;
             //物件序列化
@@ -68,12 +52,12 @@ namespace DataGetter
 
         string reg_Name = @"<a\s.*?>(.*?)</a>.*<span.*?>(.*?)</span>";
         string reg_Name2 = @"(.*?)<br>.*>(.*?)</span>";
-        string reg_imgURL = @"<img\s+src=[""|'](.*?)[""|']";
-        string reg_unique = @"<tr.*?><td><img\s+src=[""|'](.*?)[""|']\/>.*?<a\s.*?href=[""|'].*?[""|']>(.*?\s(.*?))<\/a>.*?grey[""|']>(.*?)<\/span>";
-        private List<cn> GetList_cn()
+        string reg_imgURL = @"<img\s+src=[""|'](.*?)[""|']/>";
+        string reg_unique = "<img\\s+src=[\"'](.*?)[\"']/></a><td><a class=[\"']item_unique[\"'].*?>(.*?)</a>.*?<span class=[\"']item_description[\"']>(.*?)</span>";
+        private async Task<List<cn>> GetList_cn()
         {
             List<cn> a = new List<cn>();
-            string temp = DownloadData("http://poedb.tw/item.php");
+            string temp = await DownloadData("http://poedb.tw/item.php");
             string reg_pre = @"id=""navbar-collapse2"">\s*<ul class=""nav navbar-nav"">(.*?)</ul>\s*</div>";
             Regex r = new Regex(reg_pre, RegexOptions.IgnoreCase | RegexOptions.Singleline);
             string reg_getcn = ".*?cn=(.*)";
@@ -91,21 +75,22 @@ namespace DataGetter
                     foreach (Match t1 in mm)
                     {
                         Match m_getcn = r_getcn.Match(t1.Groups[1].ToString());
-                        a.Add(new cn { name = t1.Groups[2].ToString(), url = t1.Groups[1].ToString().Replace("area.php?cn=", "item.php?cn="),name_eng= m_getcn.Groups[1].ToString() });
+                        a.Add(new cn { name = t1.Groups[2].ToString(), url = t1.Groups[1].ToString().Replace("area.php?cn=", "item.php?cn="), name_eng = m_getcn.Groups[1].ToString() });
                     }
                     //特殊狀況
-                    a.Add(new cn { name = "預言", name_eng = "Prophecy", url = "item.php?cn=Prophecy" });
+                    a.Add(new cn { name = "異界地圖", name_eng = "Map", url = "item.php?cn=Map" });
+                    a.Add(new cn { name = "聯盟石", name_eng = "Leaguestone", url = "item.php?cn=Leaguestone" });
                     a.Add(new cn { name = "任務物品", name_eng = "QuestItem", url = "item.php?cn=QuestItem" });
                 }
             }
             return a;
         }
 
-        private string DownloadData(string url)
+        private async Task<string> DownloadData(string url)
         {
             using (var client = new HttpClient())
             {
-                var response = client.GetAsync(url).Result;
+                var response = await client.GetAsync(url);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -113,60 +98,45 @@ namespace DataGetter
                     var responseContent = response.Content;
 
                     // by calling .Result you are synchronously reading the result
-                    string responseString = responseContent.ReadAsStringAsync().Result;
+                    string responseString = await responseContent.ReadAsStringAsync();
                     return responseString;
                 }
                 return "";
             }
         }
         private Object thislock = new object();
-        private List<RootObject> Data = new List<RootObject>();
-        private List<RootObject> Data_unique = new List<RootObject>();
-        private void wait()
+        private List<Data> Data = new List<Data>();
+        private List<Data> Data_unique = new List<Data>();
+        private List<Data> Data_Prophecy = new List<Data>();
+
+        private async Task WriteToSqlite()
         {
-            while (running != 0)
-                SpinWait.SpinUntil(() => running == 0);
-
-            File.Delete(FileName);
-            string strJson = JsonConvert.SerializeObject(Data, Formatting.Indented);
-
-            using (StreamWriter w = new StreamWriter(FileName))
-            {
-                w.Write(strJson);
-                w.Flush();
-            }
-#if DEBUG
-            using (StreamWriter w = new StreamWriter("TypeList.txt"))
-            {
-                var t = Data.Select(x => x.type).Distinct().ToList();
-                foreach (string r in t)
-                    w.WriteLine(r);
-                w.Flush();
-            } 
-#endif
-            strJson = JsonConvert.SerializeObject(Data_unique, Formatting.Indented);
-            //輸出結果
-            //System.Diagnostics.Debug.Write(strJson);
-            using (StreamWriter w = new StreamWriter(FileName_Unique))
-            {
-                w.Write(strJson);
-                w.Flush();
-            }
+            var databasePath = Path.Combine(Application.StartupPath, "Datas.db");
+            var db = new SQLiteAsyncConnection(databasePath);
+            await db.CreateTableAsync<Data>();
+            await db.CreateIndexAsync("Data", "Name_Chinese");
+            await db.CreateIndexAsync("Data", "Name_English");
+            await db.RunInTransactionAsync(conn => Data.ForEach(x => db.InsertOrReplaceAsync(x)));
+            await db.RunInTransactionAsync(conn => Data_unique.ForEach(x => db.InsertOrReplaceAsync(x)));
+            await db.RunInTransactionAsync(conn => Data_Prophecy.ForEach(x => db.InsertOrReplaceAsync(x)));
+            await db.CloseAsync();
             MessageBox.Show("Success!");
         }
+        HttpClient client = new HttpClient();
         private async Task DownloadData_Async_unique()
         {
             string basename = "";
             try
             {
-                HttpClient client = new HttpClient();
                 HttpResponseMessage response = await client.GetAsync("http://poedb.tw/unique.php?l=1");
                 response.EnsureSuccessStatusCode();
                 string responseBody = await response.Content.ReadAsStringAsync();
+
                 Regex r = new Regex(reg_unique, RegexOptions.IgnoreCase | RegexOptions.Singleline);
                 MatchCollection mm = r.Matches(responseBody);
 
-                List<RootObject> roots = new List<RootObject>();
+                List<Data> roots = new List<Data>();
+                DateTime Now = DateTime.Now;
                 if (mm.Count > 0)
                 {
                     foreach (Match m in mm)
@@ -174,24 +144,33 @@ namespace DataGetter
                         try
                         {
                             //地圖的大小沒有在圖片的網址寫出來，但都固定是1x1
-                            basename = m.Groups[3].ToString();
-                            //Debug用
-                            //if (aaaaa.Contains("聖戰長靴"))
-                            //   MessageBox.Show("");
-                            Regex r_getbass = new Regex(".*\\s(.*?)$");
-                            r_getbass.Match(m.Groups[2].ToString());
-                            string name_base = r_getbass.Match(m.Groups[2].ToString().Trim()).Groups[1].ToString();
-                            var BaseInfo = Data.Where(x => x.c == name_base).FirstOrDefault();
-                            roots.Add(new RootObject
+                            var match_GetBaseName = Regex.Match(m.Groups[2].Value.Trim(), "(.*) (.*)");
+                            if (m.Groups[2].Value.StartsWith(m.Groups[3].Value))
                             {
-                                GC = 'n',
-                                c = m.Groups[2].ToString().Trim(),
-                                e = m.Groups[4].ToString().Trim(),
-                                url = m.Groups[1].ToString(),
-                                w = BaseInfo.w,
-                                h = BaseInfo.h,
-                                type = BaseInfo.type
-                            });
+                                basename = m.Groups[2].Value.Substring(m.Groups[3].Value.Length + 1);
+                            }
+                            else
+                            {
+                                basename = match_GetBaseName.Groups[2].Value;
+                            }
+                            var BaseInfo = Data.Where(x => x.Name_Chinese == basename || x.Name_English == basename).FirstOrDefault();
+                            if (BaseInfo != null)
+                                roots.Add(new Data
+                                {
+                                    GemColor = "n",
+                                    Name_Chinese = match_GetBaseName.Groups[1].Value.Trim(),
+                                    Name_English = m.Groups[3].Value.Trim(),
+                                    Rarity = 1,
+                                    ImageURL = m.Groups[1].Value,
+                                    Width = BaseInfo.Width,
+                                    Height = BaseInfo.Height,
+                                    Type = BaseInfo.Type,
+                                    UpdateDate = Now
+                                });
+                            else
+                            {
+
+                            }
                         }
                         catch (Exception e)
                         {
@@ -203,14 +182,7 @@ namespace DataGetter
 
                 lock (thislock)
                 {
-                    running--;
                     Data_unique.AddRange(roots);
-                    /*
-                    using (StreamWriter w = new StreamWriter(Application.StartupPath + "/" + "傳奇" + ".txt", false, Encoding.UTF8))
-                    {
-                        w.WriteAsync(JsonConvert.SerializeObject(roots, Formatting.Indented));
-                        w.FlushAsync();
-                    }*/
                 }
             }
             catch (Exception e)
@@ -222,15 +194,15 @@ namespace DataGetter
             if (!Directory.Exists(Path.Combine(Application.StartupPath, "Image")))
                 Directory.CreateDirectory(Path.Combine(Application.StartupPath, "Image"));
             string basepath = Path.Combine(Application.StartupPath, "Image");
-            foreach (RootObject r in Data_unique)
+            foreach (var r in Data_unique)
             {
                 try
                 {
-                    if (!r.e.EndsWith("</del>") && !File.Exists(Path.Combine(basepath, r.e + ".png")))
-                        await WC.DownloadFileTaskAsync(r.url, Path.Combine(basepath, r.e + ".png"));
+                    if (!r.Name_English.EndsWith("</del>") && !File.Exists(Path.Combine(basepath, r.Name_English + ".png")))
+                        await WC.DownloadFileTaskAsync(r.ImageURL, Path.Combine(basepath, r.Name_English + ".png"));
                 }
                 catch (Exception e)
-                { Debug.Print(e.Message + "," + r.e); }
+                { Debug.Print(e.Message + "," + r.Name_English); }
             }
         }
         private async Task DownloadData_Async(cn l)
@@ -245,9 +217,9 @@ namespace DataGetter
                     return;
             }
             try
-            {                
+            {
+                DateTime Now = DateTime.Now;
                 bool 技能寶石 = (l.url.ToLower().Contains("gem"));
-                HttpClient client = new HttpClient();
                 HttpResponseMessage response = await client.GetAsync(String.Format("http://poedb.tw/json.php/item_class?cn={0}", l.name_eng));
                 response.EnsureSuccessStatusCode();
                 string responseBody = await response.Content.ReadAsStringAsync();
@@ -261,16 +233,16 @@ namespace DataGetter
                 //有時nameC會變成<img .....，因此需要再處理一次
                 Regex r_realName = new Regex(@"<img\s.*/>(.*)", RegexOptions.IgnoreCase);
 
-                List<RootObject> roots = new List<RootObject>();
+                List<Data> roots = new List<Data>();
 
 
 
                 foreach (var tt in gg.Data)
                 {
-                    GroupCollection NameGroup = tt[1].StartsWith("<a") ?  r_Name.Match(tt[1]).Groups: r_Name2.Match(tt[1]).Groups;
+                    GroupCollection NameGroup = tt[1].StartsWith("<a") ? r_Name.Match(tt[1]).Groups : r_Name2.Match(tt[1]).Groups;
                     var url = r_imgURL.Match(tt[0]).Groups[1].ToString();
                     string nameC = NameGroup[1].ToString().Trim(), nameE = NameGroup[2].ToString().Trim();
-                    
+
                     char colorGem = 'n';
                     if (技能寶石)
                     {
@@ -297,54 +269,101 @@ namespace DataGetter
                     string filepath = Path.Combine(Path.Combine(Application.StartupPath, "Image"), nameE + ".png");
                     try
                     {
-                        if (!nameE.EndsWith("</del>") && !File.Exists(filepath))
-                            await WC.DownloadFileTaskAsync(new Uri( url), filepath);
+                        if (!nameE.EndsWith("</del>"))
+                            if (!File.Exists(filepath) || (File.Exists(filepath) && new FileInfo(filepath).Length == 0))
+                                await WC.DownloadFileTaskAsync(new Uri(url), filepath);
                     }
                     catch (Exception e)
                     { Debug.Print(e.Message + "," + nameE); }
-                    Size size=new Size();
+                    Size size = new Size();
                     try
                     {
                         size = ImageUtilities.GetDimensions(filepath);
                     }
                     catch (Exception e) { size = new Size(47, 47); url = "question-mark.png"; Debug.Print(e.Message + "," + filepath); }
-                    
-                    /*
-                    Uri uri = new Uri(url);
-                    var actual = ImageUtilities.GetWebDimensions(uri);*/
 
-                    roots.Add(new RootObject
+                    roots.Add(new Data
                     {
-                        c = nameC,
-                        e = NameGroup[2].ToString(),
-                        url = url,
-                        GC = colorGem,
-                        w = size.Width / 47,
-                        h = size.Height / 47,
-                        type = l.name_eng
+                        Name_Chinese = nameC,
+                        Name_English = NameGroup[2].ToString(),
+                        Rarity = 0,
+                        ImageURL = url,
+                        GemColor = colorGem.ToString(),
+                        Width = size.Width / 47,
+                        Height = size.Height / 47,
+                        Type = l.name_eng,
+                        UpdateDate = Now
                     });
                 }
                 lock (thislock)
                 {
-                    running--;
                     Data.AddRange(roots);
-/*
-                    // 依照類型寫入各個檔案
-                    using (StreamWriter w = new StreamWriter(Application.StartupPath + "/" + l.name + ".txt", false, System.Text.Encoding.UTF8))
-                    {
-                        w.WriteAsync(JsonConvert.SerializeObject(roots, Formatting.Indented));
-                        w.FlushAsync();
-                    }
-*/
                 }
             }
             catch (Exception e)
             {
-                running--;
                 Debug.Print(l.name + "," + e.Message);
             }
         }
+        private async Task DownloadData_Async_Prophecy()
+        {
+            try
+            {
+                HttpResponseMessage response = await client.GetAsync("http://poedb.tw/item.php?cn=Prophecy");
+                response.EnsureSuccessStatusCode();
+                string responseBody = await response.Content.ReadAsStringAsync();
 
+                Regex r = new Regex("<tr><td><a href=.*?>(.*?)</a><br>(.*?)<td>", RegexOptions.IgnoreCase | RegexOptions.Singleline);
+                MatchCollection mm = r.Matches(responseBody);
+
+                List<Data> roots = new List<Data>();
+                DateTime Now = DateTime.Now;
+                if (mm.Count > 0)
+                {
+                    foreach (Match m in mm)
+                    {
+                        try
+                        {
+                            roots.Add(new Data
+                            {
+                                GemColor = "n",
+                                Name_Chinese = m.Groups[1].Value,
+                                Name_English = m.Groups[2].Value,
+                                Rarity = 0,
+                                ImageURL = "https://web.poecdn.com/image/Art/2DItems/Currency/ProphecyOrbRed.png?scale=1&w=1&h=1",
+                                Width = 1,
+                                Height = 1,
+                                Type = "Prophecy",
+                                UpdateDate = Now
+                            });
+                        }
+                        catch
+                        {
+                        }
+                    }
+                }
+
+                lock (thislock)
+                {
+                    Data_Prophecy.AddRange(roots);
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.Print(e.Message);
+            }
+            System.Net.WebClient WC = new System.Net.WebClient();
+            if (!Directory.Exists(Path.Combine(Application.StartupPath, "Image")))
+                Directory.CreateDirectory(Path.Combine(Application.StartupPath, "Image"));
+            string basepath = Path.Combine(Application.StartupPath, "Image");
+            try
+            {
+                await WC.DownloadFileTaskAsync("https://web.poecdn.com/image/Art/2DItems/Currency/ProphecyOrbRed.png?scale=1&w=1&h=1", Path.Combine(basepath, "Prophecy.png"));
+            }
+            catch (Exception e)
+            { Debug.Print(e.Message); }
+            
+        }
         private void Form1_Load(object sender, EventArgs e)
         {
             this.Text = String.Format("{0}   {1}: {2}", this.Text, "Ver", Assembly.GetExecutingAssembly().GetName().Version.ToString());

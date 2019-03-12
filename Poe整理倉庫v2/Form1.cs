@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using DataGetter;
+using SQLite;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -13,7 +14,6 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using static Poe整理倉庫v2.JsonClass;
 
 namespace Poe整理倉庫v2
 {
@@ -28,9 +28,9 @@ namespace Poe整理倉庫v2
         private Point bagstartPos;
         bool Loaded = false;
         IntPtr poeHwnd = IntPtr.Zero;
-        List<RootObject> ItemList = new List<RootObject>();
-        List<RootObject> ItemList_Adden = new List<RootObject>();
-        List<RootObject> ItemList_Unique = new List<RootObject>();
+        List<Data> ItemList = new List<Data>();
+        List<Data> ItemList_Adden = new List<Data>();
+        List<Data> ItemList_Unique = new List<Data>();
         List<Item> Items = new List<Item>();
         List<POINT> used = new List<POINT>();
         List<Item> resoult = new List<Item>();
@@ -546,44 +546,34 @@ namespace Poe整理倉庫v2
         private async void ItemList_Load()
         {
             await Task.Delay(0);
-            if (!File.Exists(Path.Combine(Application.StartupPath, "ItemList.txt")) || !File.Exists(Path.Combine(Application.StartupPath, "ItemList_Unique.txt")))
+            if (!File.Exists(Path.Combine(Application.StartupPath, "Datas.db")))
             {
-                MessageBox.Show("找不到ItemList.txt或ItemList_Unique.txt，請確認是否解壓縮完整\r\nCan't find ItemList.txt or ItemList_Unique.txt,please check full unzip or not.");
+                MessageBox.Show("找不到Datas.db，請確認是否解壓縮完整\r\nCan't find Datas.db,please check full unzip or not.");
                 return;
             }
+
             int stats = 0;
-            using (StreamReader r = new StreamReader(Path.Combine(Application.StartupPath, "ItemList.txt"), Encoding.UTF8))
+            var databasePath = Path.Combine(Application.StartupPath, "Datas.db");
+            if (File.Exists(databasePath))
             {
-                ItemList = JsonConvert.DeserializeObject<List<JsonClass.RootObject>>(r.ReadToEnd());
-                if (!ItemList.Count.Equals(0))
-                    stats = stats + 1;
+                var db = new SQLiteAsyncConnection(databasePath);
+                ItemList = await db.Table<Data>().ToListAsync();
+                await db.CloseAsync();
+                stats += 1;
             }
-            if (File.Exists(Path.Combine(Application.StartupPath, "ItemList_Adden.txt")))
-                using (StreamReader r = new StreamReader(Path.Combine(Application.StartupPath, "ItemList_Adden.txt"), Encoding.UTF8))
-                {
-                    ItemList_Adden = JsonConvert.DeserializeObject<List<JsonClass.RootObject>>(r.ReadToEnd());
-                    r.Close();
-                }
-            if (ItemList_Adden == null)
-                ItemList_Adden = new List<RootObject>();
-            using (StreamReader r = new StreamReader(Path.Combine(Application.StartupPath, "ItemList_Unique.txt"), Encoding.UTF8))
+            databasePath = Path.Combine(Application.StartupPath, "Datas_Adden.db");
+            if (File.Exists(databasePath))
             {
-                ItemList_Unique = JsonConvert.DeserializeObject<List<JsonClass.RootObject>>(r.ReadToEnd());
-                if (!ItemList_Unique.Count.Equals(0))
-                    stats = stats + 3;
+                var db = new SQLiteAsyncConnection(databasePath);
+                ItemList_Adden = await db.Table<Data>().ToListAsync();
+                await db.CloseAsync();
             }
             switch (stats)
             {
                 case 0:
-                    MessageBox.Show("ItemList.txt與ItemList_Unique.txt讀取失敗，請確認後再重新啟動程式\r\nCan not load ItemList.txt and ItemList_Unique.txt,check and restart,please.");
+                    MessageBox.Show("Datas.db讀取失敗，請確認後再重新啟動程式\r\nCan not load Datas.db,check and restart,please.");
                     break;
-                case 1:
-                    MessageBox.Show("ItemList.txt讀取失敗，請確認後再重新啟動程式\r\nCan not load ItemList.txt,check and restart,please.");
-                    break;
-                case 3:
-                    MessageBox.Show("ItemList_Unique.txt讀取失敗，請確認後再重新啟動程式\r\nCan not load ItemList_Unique.txt,check and restart,please.");
-                    break;
-                case 4:
+                default:
                     Loaded = true;
                     break;
             }

@@ -146,6 +146,7 @@ namespace Poe整理倉庫v2
                 SpeciesDic.Add(new KeyValuePair<string, string>("MiscMapItem", "Other"));
                 SpeciesDic.Add(new KeyValuePair<string, string>("UniqueFragment", "Unique Fragment"));
                 SpeciesDic.Add(new KeyValuePair<string, string>("Gem", "Gem"));
+                SpeciesDic.Add(new KeyValuePair<string, string>("Prophec", "Prophec"));
             }
             else
             {
@@ -159,6 +160,7 @@ namespace Poe整理倉庫v2
                 SpeciesDic.Add(new KeyValuePair<string, string>("MiscMapItem", "其他"));
                 SpeciesDic.Add(new KeyValuePair<string, string>("UniqueFragment", "碎片"));
                 SpeciesDic.Add(new KeyValuePair<string, string>("Gem", "技能寶石"));
+                SpeciesDic.Add(new KeyValuePair<string, string>("Prophec", "預言"));
             }
         }
         private void AddPriorityDic()
