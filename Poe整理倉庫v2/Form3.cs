@@ -146,7 +146,7 @@ namespace Poe整理倉庫v2
                 SpeciesDic.Add(new KeyValuePair<string, string>("MiscMapItem", "Other"));
                 SpeciesDic.Add(new KeyValuePair<string, string>("UniqueFragment", "Unique Fragment"));
                 SpeciesDic.Add(new KeyValuePair<string, string>("Gem", "Gem"));
-                SpeciesDic.Add(new KeyValuePair<string, string>("Prophec", "Prophec"));
+                SpeciesDic.Add(new KeyValuePair<string, string>("Prophec", "Prophecy"));
             }
             else
             {
@@ -168,11 +168,11 @@ namespace Poe整理倉庫v2
             if (System.Threading.Thread.CurrentThread.CurrentUICulture.Name == "en")
             {
                 PriorityDic.Add(new KeyValuePair<string, string>("MapLevel", "Map Level"));
-                PriorityDic.Add(new KeyValuePair<string, string>("Q", "Q"));
+                PriorityDic.Add(new KeyValuePair<string, string>("Q", "Quality"));
                 PriorityDic.Add(new KeyValuePair<string, string>("Name", "Name"));
                 PriorityDic.Add(new KeyValuePair<string, string>("ItemLevel", "Item Level"));
-                PriorityDic.Add(new KeyValuePair<string, string>("GemColor", "Gem's Color"));
-                PriorityDic.Add(new KeyValuePair<string, string>("GemLevel", "GemLevel"));
+                PriorityDic.Add(new KeyValuePair<string, string>("GemColor", "Gem Color"));
+                PriorityDic.Add(new KeyValuePair<string, string>("GemLevel", "Gem Level"));
                 PriorityDic.Add(new KeyValuePair<string, string>("Rarity", "Rarity"));
                 PriorityDic.Add(new KeyValuePair<string, string>("Type", "Type"));
             }

@@ -97,13 +97,13 @@ namespace Poe整理倉庫v2
             Stop = false;
             if (!Loaded)
             {
-                MessageBox.Show("還未載入完全\r\nDoes not loaded.");
+                MessageBox.Show("還未載入完全\r\nNot loaded");
                 return;
             }
             poeHwnd = ApplicationHelper.OpenPathOfExile();
             if (poeHwnd == IntPtr.Zero)
             {
-                MessageBox.Show("未偵測到Path Of Exile\r\nDid't find Path Of Exile");
+                MessageBox.Show("未偵測到Path Of Exile\r\nCould not find Path Of Exile");
                 return;
             }
             GetStashDimentions();
@@ -126,13 +126,13 @@ namespace Poe整理倉庫v2
             Stop = false;
             if (!Loaded)
             {
-                MessageBox.Show("還未載入完全\r\nDoes not loaded.");
+                MessageBox.Show("還未載入完全\r\nNot loaded.");
                 return;
             }
             poeHwnd = ApplicationHelper.OpenPathOfExile();
             if (poeHwnd == IntPtr.Zero)
             {
-                MessageBox.Show("未偵測到Path Of Exile\r\nDid't find Path Of Exile");
+                MessageBox.Show("未偵測到Path Of Exile\r\nCould not find Path Of Exile");
                 return;
             }
             GetStashDimentions();
@@ -174,19 +174,19 @@ namespace Poe整理倉庫v2
 
                             if (tm >= 0)
                             {
-                                ChangeControlText("It is newst.", linkLabel1);
+                                ChangeControlText("Up to Date.", linkLabel1);
                             }
                             else
                             {
-                                ChangeControlText("Have update", linkLabel1);
-                                MessageBox.Show("發現新版本！請點擊右下角連結到Github更新\nFound new version,click right and down to connect to Github to update,please.");
+                                ChangeControlText("Update Available", linkLabel1);
+                                MessageBox.Show("發現新版本！請點擊右下角連結到Github更新\nNew version available. Click to download the update from GitHub.");
                             }
                         }
                     }
                 }
                 catch
                 {
-                    ChangeControlText("Check error.", linkLabel1);
+                    ChangeControlText("Error checking for update.", linkLabel1);
                 }
             });
             
@@ -194,7 +194,7 @@ namespace Poe整理倉庫v2
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            if (linkLabel1.Text == "Have update" || linkLabel1.Text == "Check error.")
+            if (linkLabel1.Text == "Update available" || linkLabel1.Text == "Error checking for update.")
                 System.Diagnostics.Process.Start("https://github.com/flier268/POE-Stash-Sorter-v2/releases/latest");
         }
 
@@ -548,7 +548,7 @@ namespace Poe整理倉庫v2
             await Task.Delay(0);
             if (!File.Exists(Path.Combine(Application.StartupPath, "Datas.db")))
             {
-                MessageBox.Show("找不到Datas.db，請確認是否解壓縮完整\r\nCan't find Datas.db,please check full unzip or not.");
+                MessageBox.Show("找不到Datas.db，請確認是否解壓縮完整\r\nCan't find Datas.db, please check that the zip file uncompressed properly.");
                 return;
             }
 
@@ -571,7 +571,7 @@ namespace Poe整理倉庫v2
             switch (stats)
             {
                 case 0:
-                    MessageBox.Show("Datas.db讀取失敗，請確認後再重新啟動程式\r\nCan not load Datas.db,check and restart,please.");
+                    MessageBox.Show("Datas.db讀取失敗，請確認後再重新啟動程式\r\nCan not load Datas.db. Please check the file exists and restart the program.");
                     break;
                 default:
                     Loaded = true;
