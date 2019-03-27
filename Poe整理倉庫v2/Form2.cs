@@ -40,7 +40,7 @@ namespace Poe整理倉庫v2
                 SpeciesDic.Add(new KeyValuePair<string, string>("UniqueFragment", "Unique Fragment"));
                 SpeciesDic.Add(new KeyValuePair<string, string>("Gem", "Gem"));
                 SpeciesDic.Add(new KeyValuePair<string, string>("Other", "Other"));
-                SpeciesDic.Add(new KeyValuePair<string, string>("Prophec", "Prophec"));
+                SpeciesDic.Add(new KeyValuePair<string, string>("Prophec", "Prophecy"));
             }
             else
             {
