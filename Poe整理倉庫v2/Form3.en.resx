@@ -174,7 +174,7 @@
     <value>Start</value>
   </data>
   <data name="label6.Location" type="System.Drawing.Point, System.Drawing">
-    <value>236, 8</value>
+    <value>236, 10</value>
   </data>
   <data name="label6.Size" type="System.Drawing.Size, System.Drawing">
     <value>29, 13</value>
@@ -207,7 +207,7 @@
     <value> </value>
   </data>
   <data name="label18.Location" type="System.Drawing.Point, System.Drawing">
-    <value>113, 8</value>
+    <value>113, 10</value>
   </data>
   <data name="label18.Size" type="System.Drawing.Size, System.Drawing">
     <value>32, 13</value>
