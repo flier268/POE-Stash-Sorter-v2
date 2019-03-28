@@ -117,8 +117,8 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="&gt;&gt;textBox3.ZOrder" xml:space="preserve">
-    <value>14</value>
+  <data name="&gt;&gt;richTextBox1.Parent" xml:space="preserve">
+    <value>$this</value>
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
@@ -152,8 +152,8 @@
   <data name="label5.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
   </data>
-  <data name="label6.Text" xml:space="preserve">
-    <value>寶石顏色</value>
+  <data name="&gt;&gt;textBox3.ZOrder" xml:space="preserve">
+    <value>14</value>
   </data>
   <data name="&gt;&gt;label1.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -161,11 +161,14 @@
   <data name="&gt;&gt;label6.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;label2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;comboBox1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="comboBox3.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
+  </data>
+  <data name="label4.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
   </data>
   <data name="textBox4.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -218,8 +221,8 @@
   <data name="textBox2.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
-  <data name="textBox1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>289, 20</value>
+  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
+    <value>6, 13</value>
   </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -587,8 +590,8 @@
         AAA=
 </value>
   </data>
-  <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
-    <value>10</value>
+  <data name="label5.Size" type="System.Drawing.Size, System.Drawing">
+    <value>31, 13</value>
   </data>
   <data name="&gt;&gt;textBox3.Parent" xml:space="preserve">
     <value>$this</value>
@@ -608,6 +611,9 @@
   <data name="label3.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
+  <data name="&gt;&gt;label2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="textBox4.Size" type="System.Drawing.Size, System.Drawing">
     <value>289, 20</value>
   </data>
@@ -617,11 +623,20 @@
   <data name="&gt;&gt;label5.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="label8.Size" type="System.Drawing.Size, System.Drawing">
-    <value>225, 13</value>
+  <data name="&gt;&gt;label1.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
+    <value>10</value>
   </data>
   <data name="&gt;&gt;textBox3.Type" xml:space="preserve">
     <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label7.Name" xml:space="preserve">
+    <value>label7</value>
+  </data>
+  <data name="label6.Text" xml:space="preserve">
+    <value>寶石顏色</value>
   </data>
   <data name="textBox3.Location" type="System.Drawing.Point, System.Drawing">
     <value>379, 193</value>
@@ -631,6 +646,9 @@
   </data>
   <data name="label8.Text" xml:space="preserve">
     <value>紅色 (r)  綠色 (g)  藍色 (b)  白色 (w)  其他 (n)</value>
+  </data>
+  <data name="&gt;&gt;textBox2.ZOrder" xml:space="preserve">
+    <value>15</value>
   </data>
   <data name="comboBox3.Items1" xml:space="preserve">
     <value>2</value>
@@ -656,8 +674,8 @@
   <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
     <value>266, 15</value>
   </data>
-  <data name="&gt;&gt;comboBox1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="label8.Size" type="System.Drawing.Size, System.Drawing">
+    <value>225, 13</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>Form2</value>
@@ -740,9 +758,6 @@
   <data name="label1.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
   </data>
-  <data name="label5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>31, 13</value>
-  </data>
   <data name="label3.Location" type="System.Drawing.Point, System.Drawing">
     <value>266, 99</value>
   </data>
@@ -757,9 +772,6 @@
   </data>
   <data name="&gt;&gt;textBox4.Type" xml:space="preserve">
     <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label3.Name" xml:space="preserve">
-    <value>label3</value>
   </data>
   <data name="&gt;&gt;button1.ZOrder" xml:space="preserve">
     <value>1</value>
@@ -776,17 +788,14 @@
   <data name="&gt;&gt;label7.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;comboBox1.ZOrder" xml:space="preserve">
-    <value>4</value>
+  <data name="&gt;&gt;label3.Name" xml:space="preserve">
+    <value>label3</value>
   </data>
   <data name="&gt;&gt;label6.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;label1.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;richTextBox1.Parent" xml:space="preserve">
-    <value>$this</value>
+  <data name="comboBox2.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
     <value>System.Windows.Forms.Form, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -827,12 +836,6 @@
   <data name="&gt;&gt;label8.Name" xml:space="preserve">
     <value>label8</value>
   </data>
-  <data name="textBox3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>51, 20</value>
-  </data>
-  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
-    <value>6, 13</value>
-  </data>
   <data name="label5.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -869,9 +872,6 @@
   <data name="textBox3.MaxLength" type="System.Int32, mscorlib">
     <value>1</value>
   </data>
-  <data name="label1.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Microsoft Sans Serif, 8.25pt, style=Bold</value>
-  </data>
   <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
     <value>266, 43</value>
   </data>
@@ -881,14 +881,14 @@
   <data name="comboBox3.Items" xml:space="preserve">
     <value>1</value>
   </data>
-  <data name="&gt;&gt;label7.Name" xml:space="preserve">
-    <value>label7</value>
-  </data>
-  <data name="comboBox2.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
+  <data name="&gt;&gt;comboBox1.ZOrder" xml:space="preserve">
+    <value>4</value>
   </data>
   <data name="&gt;&gt;label6.ZOrder" xml:space="preserve">
     <value>6</value>
+  </data>
+  <data name="label1.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 8.25pt, style=Bold</value>
   </data>
   <data name="button1.Location" type="System.Drawing.Point, System.Drawing">
     <value>269, 264</value>
@@ -899,9 +899,6 @@
   <data name="textBox2.Size" type="System.Drawing.Size, System.Drawing">
     <value>289, 20</value>
   </data>
-  <data name="label1.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
   <data name="comboBox2.Location" type="System.Drawing.Point, System.Drawing">
     <value>379, 129</value>
   </data>
@@ -911,8 +908,8 @@
   <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
     <value>31, 13</value>
   </data>
-  <data name="&gt;&gt;textBox2.ZOrder" xml:space="preserve">
-    <value>15</value>
+  <data name="textBox3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>51, 20</value>
   </data>
   <data name="&gt;&gt;textBox2.Parent" xml:space="preserve">
     <value>$this</value>
@@ -929,16 +926,16 @@
   <data name="textBox1.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
-  <data name="label4.AutoSize" type="System.Boolean, mscorlib">
+  <data name="label1.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <data name="label4.Text" xml:space="preserve">
     <value>寬度</value>
   </data>
+  <data name="textBox1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>289, 20</value>
+  </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
-  </metadata>
-  <metadata name="$this.Language" type="System.Globalization.CultureInfo, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>en</value>
   </metadata>
 </root>

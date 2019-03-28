@@ -91,8 +91,8 @@
             // 
             // listBox_TypeList
             // 
-            this.listBox_TypeList.FormattingEnabled = true;
             resources.ApplyResources(this.listBox_TypeList, "listBox_TypeList");
+            this.listBox_TypeList.FormattingEnabled = true;
             this.listBox_TypeList.Name = "listBox_TypeList";
             // 
             // trackBar_Click
@@ -153,6 +153,7 @@
             // 
             // comboBox_hotkey_Start
             // 
+            resources.ApplyResources(this.comboBox_hotkey_Start, "comboBox_hotkey_Start");
             this.comboBox_hotkey_Start.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox_hotkey_Start.FormattingEnabled = true;
             this.comboBox_hotkey_Start.Items.AddRange(new object[] {
@@ -172,7 +173,6 @@
             resources.GetString("comboBox_hotkey_Start.Items13"),
             resources.GetString("comboBox_hotkey_Start.Items14"),
             resources.GetString("comboBox_hotkey_Start.Items15")});
-            resources.ApplyResources(this.comboBox_hotkey_Start, "comboBox_hotkey_Start");
             this.comboBox_hotkey_Start.Name = "comboBox_hotkey_Start";
             // 
             // label5
@@ -192,6 +192,7 @@
             // 
             // panel1
             // 
+            resources.ApplyResources(this.panel1, "panel1");
             this.panel1.Controls.Add(this.comboBox_hotkey_Stop);
             this.panel1.Controls.Add(this.label19);
             this.panel1.Controls.Add(this.comboBox_hotkey_Scan);
@@ -200,11 +201,11 @@
             this.panel1.Controls.Add(this.label6);
             this.panel1.Controls.Add(this.label5);
             this.panel1.Controls.Add(this.comboBox_hotkey_Start);
-            resources.ApplyResources(this.panel1, "panel1");
             this.panel1.Name = "panel1";
             // 
             // comboBox_hotkey_Stop
             // 
+            resources.ApplyResources(this.comboBox_hotkey_Stop, "comboBox_hotkey_Stop");
             this.comboBox_hotkey_Stop.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox_hotkey_Stop.FormattingEnabled = true;
             this.comboBox_hotkey_Stop.Items.AddRange(new object[] {
@@ -224,7 +225,6 @@
             resources.GetString("comboBox_hotkey_Stop.Items13"),
             resources.GetString("comboBox_hotkey_Stop.Items14"),
             resources.GetString("comboBox_hotkey_Stop.Items15")});
-            resources.ApplyResources(this.comboBox_hotkey_Stop, "comboBox_hotkey_Stop");
             this.comboBox_hotkey_Stop.Name = "comboBox_hotkey_Stop";
             // 
             // label19
@@ -234,6 +234,7 @@
             // 
             // comboBox_hotkey_Scan
             // 
+            resources.ApplyResources(this.comboBox_hotkey_Scan, "comboBox_hotkey_Scan");
             this.comboBox_hotkey_Scan.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox_hotkey_Scan.FormattingEnabled = true;
             this.comboBox_hotkey_Scan.Items.AddRange(new object[] {
@@ -252,7 +253,6 @@
             resources.GetString("comboBox_hotkey_Scan.Items12"),
             resources.GetString("comboBox_hotkey_Scan.Items13"),
             resources.GetString("comboBox_hotkey_Scan.Items14")});
-            resources.ApplyResources(this.comboBox_hotkey_Scan, "comboBox_hotkey_Scan");
             this.comboBox_hotkey_Scan.Name = "comboBox_hotkey_Scan";
             // 
             // label18
@@ -282,6 +282,7 @@
             // 
             // groupBox1
             // 
+            resources.ApplyResources(this.groupBox1, "groupBox1");
             this.groupBox1.Controls.Add(this.label14);
             this.groupBox1.Controls.Add(this.label15);
             this.groupBox1.Controls.Add(this.trackBar_Scan);
@@ -295,7 +296,6 @@
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.trackBar_MouseMove);
             this.groupBox1.Controls.Add(this.trackBar_Click);
-            resources.ApplyResources(this.groupBox1, "groupBox1");
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.TabStop = false;
             // 
@@ -331,11 +331,11 @@
             // 
             // groupBox2
             // 
+            resources.ApplyResources(this.groupBox2, "groupBox2");
             this.groupBox2.Controls.Add(this.label17);
             this.groupBox2.Controls.Add(this.comboBox_Direction);
             this.groupBox2.Controls.Add(this.textBox1);
             this.groupBox2.Controls.Add(this.checkBox1);
-            resources.ApplyResources(this.groupBox2, "groupBox2");
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.TabStop = false;
             // 
@@ -346,18 +346,18 @@
             // 
             // comboBox_Direction
             // 
+            resources.ApplyResources(this.comboBox_Direction, "comboBox_Direction");
             this.comboBox_Direction.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox_Direction.FormattingEnabled = true;
             this.comboBox_Direction.Items.AddRange(new object[] {
             resources.GetString("comboBox_Direction.Items"),
             resources.GetString("comboBox_Direction.Items1")});
-            resources.ApplyResources(this.comboBox_Direction, "comboBox_Direction");
             this.comboBox_Direction.Name = "comboBox_Direction";
             // 
             // listBox_Priority
             // 
-            this.listBox_Priority.FormattingEnabled = true;
             resources.ApplyResources(this.listBox_Priority, "listBox_Priority");
+            this.listBox_Priority.FormattingEnabled = true;
             this.listBox_Priority.Name = "listBox_Priority";
             // 
             // button_PriorityUp
