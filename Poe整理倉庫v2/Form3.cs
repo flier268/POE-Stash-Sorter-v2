@@ -226,9 +226,9 @@ namespace Poe整理倉庫v2
             trackBar_Click.Value = Config.Delay1;
             trackBar_MouseMove.Value = Config.Delay2;
             trackBar_Scan.Value = Config.Delay_Scan;
-            label10.Text = System.Threading.Thread.CurrentThread.CurrentUICulture.Name == "en" ? "Slow {0}" : "慢 " + Config.Delay1.ToString();
-            label11.Text = System.Threading.Thread.CurrentThread.CurrentUICulture.Name == "en" ? "Slow {0}" : "慢 " + Config.Delay2.ToString();
-            label14.Text = System.Threading.Thread.CurrentThread.CurrentUICulture.Name == "en" ? "Slow {0}" : "慢 " + Config.Delay_Scan.ToString();
+            label10.Text = System.Threading.Thread.CurrentThread.CurrentUICulture.Name == "en" ? $"Slow {Config.Delay1}" : $"慢 {Config.Delay1}";
+            label11.Text = System.Threading.Thread.CurrentThread.CurrentUICulture.Name == "en" ? $"Slow {Config.Delay2}" : $"慢 {Config.Delay2}";
+            label14.Text = System.Threading.Thread.CurrentThread.CurrentUICulture.Name == "en" ? $"Slow {Config.Delay_Scan}" : $"慢 {Config.Delay_Scan}";
             comboBox_Direction.SelectedIndex = Config.Direction == "Horizontal" ? 1 : 0;
         }
         private string ToKode(int ASCII)
