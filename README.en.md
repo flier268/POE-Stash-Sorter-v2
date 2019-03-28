@@ -2,6 +2,8 @@
 
 # Path of Exile Stash Sorter v2 #
 
+*Please report any bugs you find via the issue tracker above*
+
 ### Features:
 1. Automatic stash sorting of 1x1 items (currency, gems, jewels, amulets, rings, etc)
 2. Sorting can be done horizontally or vertically
