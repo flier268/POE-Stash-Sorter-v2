@@ -34,7 +34,6 @@
             this.listBox_TypeList = new System.Windows.Forms.ListBox();
             this.trackBar_Click = new System.Windows.Forms.TrackBar();
             this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
@@ -42,24 +41,21 @@
             this.trackBar_MouseMove = new System.Windows.Forms.TrackBar();
             this.label3 = new System.Windows.Forms.Label();
             this.comboBox_hotkey_Start = new System.Windows.Forms.ComboBox();
-            this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
-            this.panel1 = new System.Windows.Forms.Panel();
             this.comboBox_hotkey_Stop = new System.Windows.Forms.ComboBox();
             this.label19 = new System.Windows.Forms.Label();
             this.comboBox_hotkey_Scan = new System.Windows.Forms.ComboBox();
-            this.label18 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label12 = new System.Windows.Forms.Label();
+            this.trackBar_Scan = new System.Windows.Forms.TrackBar();
             this.label14 = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
-            this.trackBar_Scan = new System.Windows.Forms.TrackBar();
             this.label13 = new System.Windows.Forms.Label();
-            this.label12 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.label17 = new System.Windows.Forms.Label();
             this.comboBox_Direction = new System.Windows.Forms.ComboBox();
@@ -67,12 +63,13 @@
             this.button_PriorityUp = new System.Windows.Forms.Button();
             this.button_PriorityDown = new System.Windows.Forms.Button();
             this.label16 = new System.Windows.Forms.Label();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_Click)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_MouseMove)).BeginInit();
-            this.panel1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_Scan)).BeginInit();
             this.groupBox2.SuspendLayout();
+            this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
             // button_TypeListDown
@@ -108,11 +105,6 @@
             // 
             resources.ApplyResources(this.label1, "label1");
             this.label1.Name = "label1";
-            // 
-            // label2
-            // 
-            resources.ApplyResources(this.label2, "label2");
-            this.label2.Name = "label2";
             // 
             // label4
             // 
@@ -175,11 +167,6 @@
             resources.GetString("comboBox_hotkey_Start.Items15")});
             this.comboBox_hotkey_Start.Name = "comboBox_hotkey_Start";
             // 
-            // label5
-            // 
-            resources.ApplyResources(this.label5, "label5");
-            this.label5.Name = "label5";
-            // 
             // label6
             // 
             resources.ApplyResources(this.label6, "label6");
@@ -189,19 +176,6 @@
             // 
             resources.ApplyResources(this.label7, "label7");
             this.label7.Name = "label7";
-            // 
-            // panel1
-            // 
-            resources.ApplyResources(this.panel1, "panel1");
-            this.panel1.Controls.Add(this.comboBox_hotkey_Stop);
-            this.panel1.Controls.Add(this.label19);
-            this.panel1.Controls.Add(this.comboBox_hotkey_Scan);
-            this.panel1.Controls.Add(this.label18);
-            this.panel1.Controls.Add(this.label7);
-            this.panel1.Controls.Add(this.label6);
-            this.panel1.Controls.Add(this.label5);
-            this.panel1.Controls.Add(this.comboBox_hotkey_Start);
-            this.panel1.Name = "panel1";
             // 
             // comboBox_hotkey_Stop
             // 
@@ -255,11 +229,6 @@
             resources.GetString("comboBox_hotkey_Scan.Items14")});
             this.comboBox_hotkey_Scan.Name = "comboBox_hotkey_Scan";
             // 
-            // label18
-            // 
-            resources.ApplyResources(this.label18, "label18");
-            this.label18.Name = "label18";
-            // 
             // label8
             // 
             resources.ApplyResources(this.label8, "label8");
@@ -283,11 +252,11 @@
             // groupBox1
             // 
             resources.ApplyResources(this.groupBox1, "groupBox1");
+            this.groupBox1.Controls.Add(this.label12);
+            this.groupBox1.Controls.Add(this.trackBar_Scan);
             this.groupBox1.Controls.Add(this.label14);
             this.groupBox1.Controls.Add(this.label15);
-            this.groupBox1.Controls.Add(this.trackBar_Scan);
             this.groupBox1.Controls.Add(this.label13);
-            this.groupBox1.Controls.Add(this.label12);
             this.groupBox1.Controls.Add(this.label11);
             this.groupBox1.Controls.Add(this.label10);
             this.groupBox1.Controls.Add(this.label9);
@@ -299,15 +268,11 @@
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.TabStop = false;
             // 
-            // label14
+            // label12
             // 
-            resources.ApplyResources(this.label14, "label14");
-            this.label14.Name = "label14";
-            // 
-            // label15
-            // 
-            resources.ApplyResources(this.label15, "label15");
-            this.label15.Name = "label15";
+            resources.ApplyResources(this.label12, "label12");
+            this.label12.ForeColor = System.Drawing.Color.Blue;
+            this.label12.Name = "label12";
             // 
             // trackBar_Scan
             // 
@@ -318,16 +283,20 @@
             this.trackBar_Scan.Value = 50;
             this.trackBar_Scan.Scroll += new System.EventHandler(this.trackBar_Scroll);
             // 
+            // label14
+            // 
+            resources.ApplyResources(this.label14, "label14");
+            this.label14.Name = "label14";
+            // 
+            // label15
+            // 
+            resources.ApplyResources(this.label15, "label15");
+            this.label15.Name = "label15";
+            // 
             // label13
             // 
             resources.ApplyResources(this.label13, "label13");
             this.label13.Name = "label13";
-            // 
-            // label12
-            // 
-            resources.ApplyResources(this.label12, "label12");
-            this.label12.ForeColor = System.Drawing.Color.Blue;
-            this.label12.Name = "label12";
             // 
             // groupBox2
             // 
@@ -379,17 +348,28 @@
             resources.ApplyResources(this.label16, "label16");
             this.label16.Name = "label16";
             // 
+            // groupBox3
+            // 
+            resources.ApplyResources(this.groupBox3, "groupBox3");
+            this.groupBox3.Controls.Add(this.comboBox_hotkey_Stop);
+            this.groupBox3.Controls.Add(this.label19);
+            this.groupBox3.Controls.Add(this.comboBox_hotkey_Start);
+            this.groupBox3.Controls.Add(this.comboBox_hotkey_Scan);
+            this.groupBox3.Controls.Add(this.label6);
+            this.groupBox3.Controls.Add(this.label7);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.TabStop = false;
+            // 
             // Form3
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.label16);
             this.Controls.Add(this.listBox_Priority);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.panel1);
             this.Controls.Add(this.button_Save);
-            this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.button_PriorityDown);
             this.Controls.Add(this.button_PriorityUp);
@@ -400,13 +380,13 @@
             this.Load += new System.EventHandler(this.Form3_Load);
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_Click)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_MouseMove)).EndInit();
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_Scan)).EndInit();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -420,7 +400,6 @@
         private System.Windows.Forms.ListBox listBox_TypeList;
         private System.Windows.Forms.TrackBar trackBar_Click;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.CheckBox checkBox1;
@@ -428,10 +407,8 @@
         private System.Windows.Forms.TrackBar trackBar_MouseMove;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ComboBox comboBox_hotkey_Start;
-        private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.ComboBox comboBox_hotkey_Stop;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label9;
@@ -452,6 +429,6 @@
         private System.Windows.Forms.ComboBox comboBox_Direction;
         private System.Windows.Forms.Label label19;
         private System.Windows.Forms.ComboBox comboBox_hotkey_Scan;
-        private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.GroupBox groupBox3;
     }
 }
