@@ -117,39 +117,39 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="button_StartSort.Location" type="System.Drawing.Point, System.Drawing">
-    <value>969, 36</value>
+  <data name="pictureBox1.ToolTip" xml:space="preserve">
+    <value />
   </data>
-  <data name="button_StartSort.Size" type="System.Drawing.Size, System.Drawing">
-    <value>107, 51</value>
+  <data name="pictureBox2.ToolTip" xml:space="preserve">
+    <value />
   </data>
   <data name="button_StartSort.Text" xml:space="preserve">
     <value>Start</value>
   </data>
-  <data name="button_ReLoadBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>259, 36</value>
-  </data>
-  <data name="button_ReLoadBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>132, 51</value>
+  <data name="button_StartSort.ToolTip" xml:space="preserve">
+    <value />
   </data>
   <data name="button_ReLoadBox.Text" xml:space="preserve">
     <value>Reload Stash Tab</value>
   </data>
-  <data name="button_Setting.Location" type="System.Drawing.Point, System.Drawing">
-    <value>406, 36</value>
-  </data>
-  <data name="button_Setting.Size" type="System.Drawing.Size, System.Drawing">
-    <value>84, 51</value>
+  <data name="button_ReLoadBox.ToolTip" xml:space="preserve">
+    <value />
   </data>
   <data name="button_Setting.Text" xml:space="preserve">
     <value>Settings</value>
   </data>
+  <data name="button_Setting.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="radioButton1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>58, 17</value>
+    <value>88, 17</value>
   </data>
   <data name="radioButton1.Text" xml:space="preserve">
-    <value>Normal</value>
+    <value>Normal Mode</value>
+  </data>
+  <data name="radioButton1.ToolTip" xml:space="preserve">
+    <value />
   </data>
   <data name="radioButton2.Size" type="System.Drawing.Size, System.Drawing">
     <value>155, 17</value>
@@ -157,14 +157,17 @@
   <data name="radioButton2.Text" xml:space="preserve">
     <value>Glassblower's Bauble Mode</value>
   </data>
+  <data name="radioButton2.ToolTip" xml:space="preserve">
+    <value />
+  </data>
   <data name="radioButton3.Size" type="System.Drawing.Size, System.Drawing">
     <value>139, 17</value>
   </data>
   <data name="radioButton3.Text" xml:space="preserve">
     <value>Gemcutter's Prism Mode</value>
   </data>
-  <data name="radioButton5.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 47</value>
+  <data name="radioButton3.ToolTip" xml:space="preserve">
+    <value />
   </data>
   <data name="radioButton5.Size" type="System.Drawing.Size, System.Drawing">
     <value>103, 17</value>
@@ -172,8 +175,8 @@
   <data name="radioButton5.Text" xml:space="preserve">
     <value>Quad Stash Tab</value>
   </data>
-  <data name="radioButton4.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 23</value>
+  <data name="radioButton5.ToolTip" xml:space="preserve">
+    <value />
   </data>
   <data name="radioButton4.Size" type="System.Drawing.Size, System.Drawing">
     <value>74, 17</value>
@@ -181,17 +184,17 @@
   <data name="radioButton4.Text" xml:space="preserve">
     <value>Stash Tab</value>
   </data>
-  <data name="groupBox1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>114, 23</value>
+  <data name="radioButton4.ToolTip" xml:space="preserve">
+    <value />
   </data>
   <data name="groupBox1.Text" xml:space="preserve">
     <value>Stash Tab Size</value>
   </data>
-  <data name="panel1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>496, 19</value>
+  <data name="groupBox1.ToolTip" xml:space="preserve">
+    <value />
   </data>
-  <data name="panel1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>167, 82</value>
+  <data name="panel1.ToolTip" xml:space="preserve">
+    <value />
   </data>
   <data name="radioButton7.Location" type="System.Drawing.Point, System.Drawing">
     <value>6, 47</value>
@@ -202,6 +205,9 @@
   <data name="radioButton7.Text" xml:space="preserve">
     <value>Guild Stash Tab Mode(Clear the 1st and 2nd slots first)</value>
   </data>
+  <data name="radioButton7.ToolTip" xml:space="preserve">
+    <value />
+  </data>
   <data name="radioButton6.Location" type="System.Drawing.Point, System.Drawing">
     <value>6, 23</value>
   </data>
@@ -211,35 +217,38 @@
   <data name="radioButton6.Text" xml:space="preserve">
     <value>Stash Tab Mode</value>
   </data>
-  <data name="groupBox2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>674, 23</value>
-  </data>
-  <data name="groupBox2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>289, 74</value>
+  <data name="radioButton6.ToolTip" xml:space="preserve">
+    <value />
   </data>
   <data name="groupBox2.Text" xml:space="preserve">
     <value>Mode</value>
   </data>
-  <data name="button_CheckUpdate.Location" type="System.Drawing.Point, System.Drawing">
-    <value>930, 638</value>
+  <data name="groupBox2.ToolTip" xml:space="preserve">
+    <value />
   </data>
-  <data name="linkLabel1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>1039, 644</value>
+  <data name="button_CheckUpdate.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="linkLabel1.ToolTip" xml:space="preserve">
+    <value />
   </data>
   <data name="radioButton_langEN.Location" type="System.Drawing.Point, System.Drawing">
     <value>6, 23</value>
   </data>
+  <data name="radioButton_langEN.ToolTip" xml:space="preserve">
+    <value />
+  </data>
   <data name="radioButton_langTW.Location" type="System.Drawing.Point, System.Drawing">
     <value>6, 47</value>
   </data>
-  <data name="groupBox3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>9, 23</value>
-  </data>
-  <data name="groupBox3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>99, 74</value>
+  <data name="radioButton_langTW.ToolTip" xml:space="preserve">
+    <value />
   </data>
   <data name="groupBox3.Text" xml:space="preserve">
     <value>Language</value>
+  </data>
+  <data name="groupBox3.ToolTip" xml:space="preserve">
+    <value />
   </data>
   <data name="button1.Location" type="System.Drawing.Point, System.Drawing">
     <value>1090, 0</value>
@@ -247,12 +256,12 @@
   <data name="button1.Size" type="System.Drawing.Size, System.Drawing">
     <value>35, 33</value>
   </data>
+  <data name="button1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
   <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="label_DataGetter.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
-  </data>
-  <data name="label_DataGetter.Location" type="System.Drawing.Point, System.Drawing">
-    <value>28, 644</value>
   </data>
   <data name="label_DataGetter.Size" type="System.Drawing.Size, System.Drawing">
     <value>495, 13</value>
@@ -263,8 +272,11 @@
   <data name="label_DataGetter.Text" xml:space="preserve">
     <value>If POE has been updated but this app isn't showing items properly, please use DataGrabber.exe to fix it. </value>
   </data>
-  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>1130, 671</value>
+  <data name="label_DataGetter.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label1.ToolTip" xml:space="preserve">
+    <value />
   </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -634,5 +646,8 @@
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>POE Stash Sorter v2</value>
+  </data>
+  <data name="$this.ToolTip" xml:space="preserve">
+    <value />
   </data>
 </root>
