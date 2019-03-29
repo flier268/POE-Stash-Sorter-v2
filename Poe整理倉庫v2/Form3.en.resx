@@ -124,30 +124,30 @@
   <data name="button_TypeListUp.Location" type="System.Drawing.Point, System.Drawing">
     <value>267, 216</value>
   </data>
+  <data name="trackBar_Click.Location" type="System.Drawing.Point, System.Drawing">
+    <value>155, 19</value>
+  </data>
   <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>67, 13</value>
+    <value>66, 12</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
     <value>2.Type order</value>
   </data>
-  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>46, 13</value>
-  </data>
-  <data name="label2.Text" xml:space="preserve">
-    <value>Hotkeys</value>
+  <data name="label4.Location" type="System.Drawing.Point, System.Drawing">
+    <value>9, 18</value>
   </data>
   <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>116, 26</value>
+    <value>115, 24</value>
   </data>
   <data name="label4.Text" xml:space="preserve">
     <value>Click Speed
 (pick up and put down)</value>
   </data>
   <data name="textBox1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>124, 20</value>
+    <value>126, 19</value>
   </data>
   <data name="checkBox1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>250, 17</value>
+    <value>256, 16</value>
   </data>
   <data name="checkBox1.Text" xml:space="preserve">
     <value>1.Quality less than 　        　will be moved to last</value>
@@ -155,117 +155,93 @@
   <data name="button_Save.Text" xml:space="preserve">
     <value>Save</value>
   </data>
+  <data name="trackBar_MouseMove.Location" type="System.Drawing.Point, System.Drawing">
+    <value>155, 64</value>
+  </data>
+  <data name="label3.Location" type="System.Drawing.Point, System.Drawing">
+    <value>9, 70</value>
+  </data>
   <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>71, 13</value>
+    <value>65, 12</value>
   </data>
   <data name="label3.Text" xml:space="preserve">
     <value>Mouse speed</value>
   </data>
   <data name="comboBox_hotkey_Start.Location" type="System.Drawing.Point, System.Drawing">
-    <value>151, 5</value>
-  </data>
-  <data name="label5.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 10</value>
-  </data>
-  <data name="label5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>29, 13</value>
-  </data>
-  <data name="label5.Text" xml:space="preserve">
-    <value>Start</value>
+    <value>155, 20</value>
   </data>
   <data name="label6.Location" type="System.Drawing.Point, System.Drawing">
-    <value>236, 10</value>
+    <value>224, 24</value>
   </data>
   <data name="label6.Size" type="System.Drawing.Size, System.Drawing">
-    <value>29, 13</value>
+    <value>26, 12</value>
   </data>
   <data name="label6.Text" xml:space="preserve">
     <value>Stop</value>
   </data>
   <data name="label7.Location" type="System.Drawing.Point, System.Drawing">
-    <value>207, 8</value>
-  </data>
-  <data name="label7.Size" type="System.Drawing.Size, System.Drawing">
-    <value>10, 13</value>
+    <value>122, 24</value>
   </data>
   <data name="label7.Text" xml:space="preserve">
-    <value> </value>
-  </data>
-  <data name="panel1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>350, 30</value>
+    <value> Start</value>
   </data>
   <data name="comboBox_hotkey_Stop.Location" type="System.Drawing.Point, System.Drawing">
-    <value>271, 5</value>
+    <value>256, 20</value>
   </data>
   <data name="label19.Location" type="System.Drawing.Point, System.Drawing">
-    <value>97, 10</value>
+    <value>14, 24</value>
   </data>
   <data name="label19.Size" type="System.Drawing.Size, System.Drawing">
-    <value>10, 13</value>
+    <value>30, 12</value>
   </data>
   <data name="label19.Text" xml:space="preserve">
-    <value> </value>
+    <value> Scan</value>
   </data>
-  <data name="label18.Location" type="System.Drawing.Point, System.Drawing">
-    <value>113, 10</value>
+  <data name="comboBox_hotkey_Scan.Location" type="System.Drawing.Point, System.Drawing">
+    <value>56, 20</value>
   </data>
-  <data name="label18.Size" type="System.Drawing.Size, System.Drawing">
-    <value>32, 13</value>
-  </data>
-  <data name="label18.Text" xml:space="preserve">
-    <value>Scan</value>
+  <data name="label8.Location" type="System.Drawing.Point, System.Drawing">
+    <value>122, 24</value>
   </data>
   <data name="label8.Size" type="System.Drawing.Size, System.Drawing">
-    <value>27, 13</value>
+    <value>23, 12</value>
   </data>
   <data name="label8.Text" xml:space="preserve">
     <value>Fast</value>
   </data>
+  <data name="label9.Location" type="System.Drawing.Point, System.Drawing">
+    <value>122, 67</value>
+  </data>
   <data name="label9.Size" type="System.Drawing.Size, System.Drawing">
-    <value>27, 13</value>
+    <value>23, 12</value>
   </data>
   <data name="label9.Text" xml:space="preserve">
     <value>Fast</value>
   </data>
+  <data name="label10.Location" type="System.Drawing.Point, System.Drawing">
+    <value>297, 24</value>
+  </data>
   <data name="label10.Size" type="System.Drawing.Size, System.Drawing">
-    <value>30, 13</value>
+    <value>28, 12</value>
   </data>
   <data name="label10.Text" xml:space="preserve">
     <value>Slow</value>
   </data>
+  <data name="label11.Location" type="System.Drawing.Point, System.Drawing">
+    <value>297, 67</value>
+  </data>
   <data name="label11.Size" type="System.Drawing.Size, System.Drawing">
-    <value>30, 13</value>
+    <value>28, 12</value>
   </data>
   <data name="label11.Text" xml:space="preserve">
     <value>Slow</value>
-  </data>
-  <data name="groupBox1.Text" xml:space="preserve">
-    <value>Speed</value>
-  </data>
-  <data name="label14.Size" type="System.Drawing.Size, System.Drawing">
-    <value>30, 13</value>
-  </data>
-  <data name="label14.Text" xml:space="preserve">
-    <value>Slow</value>
-  </data>
-  <data name="label15.Size" type="System.Drawing.Size, System.Drawing">
-    <value>27, 13</value>
-  </data>
-  <data name="label15.Text" xml:space="preserve">
-    <value>Fast</value>
-  </data>
-  <data name="label13.Size" type="System.Drawing.Size, System.Drawing">
-    <value>64, 13</value>
-  </data>
-  <data name="label13.Text" xml:space="preserve">
-    <value>Scan speed</value>
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="label12.AutoSize" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
   <data name="label12.Location" type="System.Drawing.Point, System.Drawing">
-    <value>1, 152</value>
+    <value>1, 141</value>
   </data>
   <data name="label12.Size" type="System.Drawing.Size, System.Drawing">
     <value>356, 18</value>
@@ -276,11 +252,47 @@
   <data name="label12.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>MiddleCenter</value>
   </data>
-  <data name="groupBox2.Text" xml:space="preserve">
-    <value>Special settings</value>
+  <data name="trackBar_Scan.Location" type="System.Drawing.Point, System.Drawing">
+    <value>155, 109</value>
+  </data>
+  <data name="label14.Location" type="System.Drawing.Point, System.Drawing">
+    <value>297, 110</value>
+  </data>
+  <data name="label14.Size" type="System.Drawing.Size, System.Drawing">
+    <value>28, 12</value>
+  </data>
+  <data name="label14.Text" xml:space="preserve">
+    <value>Slow</value>
+  </data>
+  <data name="label15.Location" type="System.Drawing.Point, System.Drawing">
+    <value>122, 110</value>
+  </data>
+  <data name="label15.Size" type="System.Drawing.Size, System.Drawing">
+    <value>23, 12</value>
+  </data>
+  <data name="label15.Text" xml:space="preserve">
+    <value>Fast</value>
+  </data>
+  <data name="label13.Location" type="System.Drawing.Point, System.Drawing">
+    <value>9, 110</value>
+  </data>
+  <data name="label13.Size" type="System.Drawing.Size, System.Drawing">
+    <value>56, 12</value>
+  </data>
+  <data name="label13.Text" xml:space="preserve">
+    <value>Scan speed</value>
+  </data>
+  <data name="groupBox1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>357, 174</value>
+  </data>
+  <data name="groupBox1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>357, 171</value>
+  </data>
+  <data name="groupBox1.Text" xml:space="preserve">
+    <value>Speed</value>
   </data>
   <data name="label17.Size" type="System.Drawing.Size, System.Drawing">
-    <value>58, 13</value>
+    <value>57, 12</value>
   </data>
   <data name="label17.Text" xml:space="preserve">
     <value>2.Direction</value>
@@ -294,6 +306,12 @@
   <data name="comboBox_Direction.Location" type="System.Drawing.Point, System.Drawing">
     <value>94, 50</value>
   </data>
+  <data name="groupBox2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>357, 83</value>
+  </data>
+  <data name="groupBox2.Text" xml:space="preserve">
+    <value>Special settings</value>
+  </data>
   <data name="button_PriorityUp.Location" type="System.Drawing.Point, System.Drawing">
     <value>267, 38</value>
   </data>
@@ -301,10 +319,19 @@
     <value>267, 69</value>
   </data>
   <data name="label16.Size" type="System.Drawing.Size, System.Drawing">
-    <value>62, 13</value>
+    <value>61, 12</value>
   </data>
   <data name="label16.Text" xml:space="preserve">
     <value>1.Sort order</value>
+  </data>
+  <data name="groupBox3.Location" type="System.Drawing.Point, System.Drawing">
+    <value>357, 25</value>
+  </data>
+  <data name="groupBox3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>357, 52</value>
+  </data>
+  <data name="groupBox3.Text" xml:space="preserve">
+    <value>Hotkey</value>
   </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
