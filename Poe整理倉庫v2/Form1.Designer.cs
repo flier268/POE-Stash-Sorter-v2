@@ -75,7 +75,6 @@ namespace Poe整理倉庫v2
             resources.ApplyResources(this.pictureBox1, "pictureBox1");
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.TabStop = false;
-            this.toolTip1.SetToolTip(this.pictureBox1, resources.GetString("pictureBox1.ToolTip"));
             this.pictureBox1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.ShowItemInfo);
             // 
             // pictureBox2
@@ -83,14 +82,12 @@ namespace Poe整理倉庫v2
             resources.ApplyResources(this.pictureBox2, "pictureBox2");
             this.pictureBox2.Name = "pictureBox2";
             this.pictureBox2.TabStop = false;
-            this.toolTip1.SetToolTip(this.pictureBox2, resources.GetString("pictureBox2.ToolTip"));
             this.pictureBox2.MouseMove += new System.Windows.Forms.MouseEventHandler(this.ShowItemInfo);
             // 
             // button_StartSort
             // 
             resources.ApplyResources(this.button_StartSort, "button_StartSort");
             this.button_StartSort.Name = "button_StartSort";
-            this.toolTip1.SetToolTip(this.button_StartSort, resources.GetString("button_StartSort.ToolTip"));
             this.button_StartSort.UseVisualStyleBackColor = true;
             this.button_StartSort.Click += new System.EventHandler(this.button_StartSort_Click);
             // 
@@ -98,7 +95,6 @@ namespace Poe整理倉庫v2
             // 
             resources.ApplyResources(this.button_ReLoadBox, "button_ReLoadBox");
             this.button_ReLoadBox.Name = "button_ReLoadBox";
-            this.toolTip1.SetToolTip(this.button_ReLoadBox, resources.GetString("button_ReLoadBox.ToolTip"));
             this.button_ReLoadBox.UseVisualStyleBackColor = true;
             this.button_ReLoadBox.Click += new System.EventHandler(this.button_ReLoadBox_Click);
             // 
@@ -106,7 +102,6 @@ namespace Poe整理倉庫v2
             // 
             resources.ApplyResources(this.button_Setting, "button_Setting");
             this.button_Setting.Name = "button_Setting";
-            this.toolTip1.SetToolTip(this.button_Setting, resources.GetString("button_Setting.ToolTip"));
             this.button_Setting.UseVisualStyleBackColor = true;
             this.button_Setting.Click += new System.EventHandler(this.button_Setting_Click);
             // 
@@ -116,7 +111,6 @@ namespace Poe整理倉庫v2
             this.radioButton1.Checked = true;
             this.radioButton1.Name = "radioButton1";
             this.radioButton1.TabStop = true;
-            this.toolTip1.SetToolTip(this.radioButton1, resources.GetString("radioButton1.ToolTip"));
             this.radioButton1.UseVisualStyleBackColor = true;
             // 
             // radioButton2
@@ -124,7 +118,6 @@ namespace Poe整理倉庫v2
             resources.ApplyResources(this.radioButton2, "radioButton2");
             this.radioButton2.Name = "radioButton2";
             this.radioButton2.TabStop = true;
-            this.toolTip1.SetToolTip(this.radioButton2, resources.GetString("radioButton2.ToolTip"));
             this.radioButton2.UseVisualStyleBackColor = true;
             // 
             // radioButton3
@@ -132,24 +125,21 @@ namespace Poe整理倉庫v2
             resources.ApplyResources(this.radioButton3, "radioButton3");
             this.radioButton3.Name = "radioButton3";
             this.radioButton3.TabStop = true;
-            this.toolTip1.SetToolTip(this.radioButton3, resources.GetString("radioButton3.ToolTip"));
             this.radioButton3.UseVisualStyleBackColor = true;
             // 
             // groupBox1
             // 
-            resources.ApplyResources(this.groupBox1, "groupBox1");
             this.groupBox1.Controls.Add(this.radioButton5);
             this.groupBox1.Controls.Add(this.radioButton4);
+            resources.ApplyResources(this.groupBox1, "groupBox1");
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.TabStop = false;
-            this.toolTip1.SetToolTip(this.groupBox1, resources.GetString("groupBox1.ToolTip"));
             // 
             // radioButton5
             // 
             resources.ApplyResources(this.radioButton5, "radioButton5");
             this.radioButton5.Name = "radioButton5";
             this.radioButton5.TabStop = true;
-            this.toolTip1.SetToolTip(this.radioButton5, resources.GetString("radioButton5.ToolTip"));
             this.radioButton5.UseVisualStyleBackColor = true;
             // 
             // radioButton4
@@ -158,33 +148,29 @@ namespace Poe整理倉庫v2
             this.radioButton4.Checked = true;
             this.radioButton4.Name = "radioButton4";
             this.radioButton4.TabStop = true;
-            this.toolTip1.SetToolTip(this.radioButton4, resources.GetString("radioButton4.ToolTip"));
             this.radioButton4.UseVisualStyleBackColor = true;
             // 
             // panel1
             // 
-            resources.ApplyResources(this.panel1, "panel1");
             this.panel1.Controls.Add(this.radioButton3);
             this.panel1.Controls.Add(this.radioButton2);
             this.panel1.Controls.Add(this.radioButton1);
+            resources.ApplyResources(this.panel1, "panel1");
             this.panel1.Name = "panel1";
-            this.toolTip1.SetToolTip(this.panel1, resources.GetString("panel1.ToolTip"));
             // 
             // groupBox2
             // 
-            resources.ApplyResources(this.groupBox2, "groupBox2");
             this.groupBox2.Controls.Add(this.radioButton7);
             this.groupBox2.Controls.Add(this.radioButton6);
+            resources.ApplyResources(this.groupBox2, "groupBox2");
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.TabStop = false;
-            this.toolTip1.SetToolTip(this.groupBox2, resources.GetString("groupBox2.ToolTip"));
             // 
             // radioButton7
             // 
             resources.ApplyResources(this.radioButton7, "radioButton7");
             this.radioButton7.Name = "radioButton7";
             this.radioButton7.TabStop = true;
-            this.toolTip1.SetToolTip(this.radioButton7, resources.GetString("radioButton7.ToolTip"));
             this.radioButton7.UseVisualStyleBackColor = true;
             // 
             // radioButton6
@@ -193,14 +179,12 @@ namespace Poe整理倉庫v2
             this.radioButton6.Checked = true;
             this.radioButton6.Name = "radioButton6";
             this.radioButton6.TabStop = true;
-            this.toolTip1.SetToolTip(this.radioButton6, resources.GetString("radioButton6.ToolTip"));
             this.radioButton6.UseVisualStyleBackColor = true;
             // 
             // button_CheckUpdate
             // 
             resources.ApplyResources(this.button_CheckUpdate, "button_CheckUpdate");
             this.button_CheckUpdate.Name = "button_CheckUpdate";
-            this.toolTip1.SetToolTip(this.button_CheckUpdate, resources.GetString("button_CheckUpdate.ToolTip"));
             this.button_CheckUpdate.UseVisualStyleBackColor = true;
             this.button_CheckUpdate.Click += new System.EventHandler(this.button_CheckUpdate_Click);
             // 
@@ -209,23 +193,20 @@ namespace Poe整理倉庫v2
             resources.ApplyResources(this.linkLabel1, "linkLabel1");
             this.linkLabel1.Name = "linkLabel1";
             this.linkLabel1.TabStop = true;
-            this.toolTip1.SetToolTip(this.linkLabel1, resources.GetString("linkLabel1.ToolTip"));
             this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
             // 
             // groupBox3
             // 
-            resources.ApplyResources(this.groupBox3, "groupBox3");
             this.groupBox3.Controls.Add(this.radioButton_langEN);
             this.groupBox3.Controls.Add(this.radioButton_langTW);
+            resources.ApplyResources(this.groupBox3, "groupBox3");
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.TabStop = false;
-            this.toolTip1.SetToolTip(this.groupBox3, resources.GetString("groupBox3.ToolTip"));
             // 
             // radioButton_langEN
             // 
             resources.ApplyResources(this.radioButton_langEN, "radioButton_langEN");
             this.radioButton_langEN.Name = "radioButton_langEN";
-            this.toolTip1.SetToolTip(this.radioButton_langEN, resources.GetString("radioButton_langEN.ToolTip"));
             this.radioButton_langEN.UseVisualStyleBackColor = true;
             this.radioButton_langEN.CheckedChanged += new System.EventHandler(this.radioButton9_CheckedChanged);
             // 
@@ -233,7 +214,6 @@ namespace Poe整理倉庫v2
             // 
             resources.ApplyResources(this.radioButton_langTW, "radioButton_langTW");
             this.radioButton_langTW.Name = "radioButton_langTW";
-            this.toolTip1.SetToolTip(this.radioButton_langTW, resources.GetString("radioButton_langTW.ToolTip"));
             this.radioButton_langTW.UseVisualStyleBackColor = true;
             this.radioButton_langTW.CheckedChanged += new System.EventHandler(this.radioButton8_CheckedChanged);
             // 
@@ -241,22 +221,19 @@ namespace Poe整理倉庫v2
             // 
             resources.ApplyResources(this.button1, "button1");
             this.button1.Name = "button1";
-            this.toolTip1.SetToolTip(this.button1, resources.GetString("button1.ToolTip"));
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // label_DataGetter
             // 
-            resources.ApplyResources(this.label_DataGetter, "label_DataGetter");
             this.label_DataGetter.ForeColor = System.Drawing.Color.Red;
+            resources.ApplyResources(this.label_DataGetter, "label_DataGetter");
             this.label_DataGetter.Name = "label_DataGetter";
-            this.toolTip1.SetToolTip(this.label_DataGetter, resources.GetString("label_DataGetter.ToolTip"));
             // 
             // label1
             // 
             resources.ApplyResources(this.label1, "label1");
             this.label1.Name = "label1";
-            this.toolTip1.SetToolTip(this.label1, resources.GetString("label1.ToolTip"));
             // 
             // Form1
             // 
@@ -277,7 +254,6 @@ namespace Poe整理倉庫v2
             this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.pictureBox1);
             this.Name = "Form1";
-            this.toolTip1.SetToolTip(this, resources.GetString("$this.ToolTip"));
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_Closed);
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();

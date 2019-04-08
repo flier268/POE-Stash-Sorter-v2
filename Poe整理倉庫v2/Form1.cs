@@ -140,8 +140,15 @@ namespace Poe整理倉庫v2
             MouseTools.MouseClickEvent(70);
             MouseTools.MouseClickEvent(70);
             Task.Delay(500);
-
-            StartSorting((radioButton4.Checked ? 12 : 24));
+            if (radioButton1.Checked)
+                StartSorting((radioButton4.Checked ? 12 : 24));
+            else
+            {
+                Round40Q((radioButton4.Checked ? 12 : 24), radioButton2.Checked ? 0 : 1);
+                resoult = Sort(Items, used, (radioButton4.Checked ? 12 : 24));
+                DrawBoxRegion(Items, (radioButton4.Checked ? 12 : 24), 1);
+                DrawBoxRegion(resoult, (radioButton4.Checked ? 12 : 24), 2);
+            }
         }
 
         private void button_CheckUpdate_Click(object sender, EventArgs e)
@@ -167,7 +174,7 @@ namespace Poe整理倉庫v2
                             string responseString = responseContent.ReadAsStringAsync().Result;
                             Regex r = new Regex(@"\[assembly: AssemblyVersion.*?([\d|\.]+).*?\]", RegexOptions.IgnoreCase);
                             var ms = r.Matches(responseString);
-                            var m = ms[ms.Count-1];
+                            var m = ms[ms.Count - 1];
                             Version ver = new Version(m.Groups[1].ToString());
                             Version verson = Assembly.GetEntryAssembly().GetName().Version;
                             int tm = verson.CompareTo(ver);
@@ -189,7 +196,7 @@ namespace Poe整理倉庫v2
                     ChangeControlText("Error checking for update.", linkLabel1);
                 }
             });
-            
+
         }
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -199,7 +206,7 @@ namespace Poe整理倉庫v2
         }
 
         private void radioButton8_CheckedChanged(object sender, EventArgs e)
-        {            
+        {
             System.Threading.Thread.CurrentThread.CurrentUICulture = new CultureInfo("zh-TW");
             for (int i = Controls.Count - 1; i > 0; i--)
             {
@@ -221,7 +228,7 @@ namespace Poe整理倉庫v2
         private void radioButton9_CheckedChanged(object sender, EventArgs e)
         {
             System.Threading.Thread.CurrentThread.CurrentUICulture = new CultureInfo("en");
-            for (int i = Controls.Count-1 ; i > 0; i--)
+            for (int i = Controls.Count - 1; i > 0; i--)
             {
                 Controls[i].Dispose();
             }
@@ -255,7 +262,7 @@ namespace Poe整理倉庫v2
             public int Compare(path x, path y)
             {
                 int temp = y.age.CompareTo(x.age);
-                if(!temp.Equals(0))
+                if (!temp.Equals(0))
                     temp = y.count.CompareTo(x.count);
                 return temp;
             }
@@ -283,247 +290,9 @@ namespace Poe整理倉庫v2
                 total += t;
             return total;
         }
-        //private int[] ConvertTo20Carry(int numver)
-
         private void button1_Click(object sender, EventArgs e)
         {
-            var temps = PrivateFunction.CheckCarry(new List<int>() { 19, 101, 30, 22, 50, 5 }, 20);
-            //return;
-            int mode = 1;
-            if (mode == 0)
-            {
-                #region MakeTable
-                StreamWriter w = new StreamWriter("table.txt", false, Encoding.ASCII);
-                List<table> Table = new List<table>();
-                List<int> temp_0 = new List<int>(new int[40]);
-
-                //讀取之前的
-                using (StreamReader r = new StreamReader("table1.txt", Encoding.ASCII))
-                    while (!r.EndOfStream)
-                    {
-                        string[] temp = r.ReadLine().Split(':');
-                        Table.Add(new table() { total = int.Parse(temp[1]), list = Array.ConvertAll(temp[2].Split(','), int.Parse) });
-                    }
-
-                while (temp_0.Count < 41)
-                {
-                    temp_0[39]++;
-                    temp_0 = PrivateFunction.CheckCarry(temp_0, 20);
-
-
-
-                    //跳過多於檢查，例如：檢查3300就是一件多於動作，因為0033等於3300，一直到3333都是如此，因此可以直接跳到3333再作後續動作
-                    int max = 0;
-                    bool biggerthenmax = false;
-                    for (int i = 0; i < 40; i++)
-                    {
-                        if (biggerthenmax)
-                        {
-                            temp_0[i] = max;
-                        }
-                        else
-                        {
-                            max = Math.Max(max, temp_0[i]);
-                            if (max > temp_0[i])
-                            {
-                                biggerthenmax = true;
-                                temp_0[i] = max;
-                            }
-                        }
-                    }
-
-
-                    //如果總和大於42，則後面都不用繼續算了，因為不論如何都只會更大，因此直接把最後那個造成sum大於42的那個數的前一位+1，後面都填上0就可以加速運算了
-                    int _total = temp_0.Sum();
-                    if (_total > 42)
-                    {
-                        int sum = 0;
-                        for (int i = 0; i < 40; i++)
-                        {
-                            sum += temp_0[i];
-                            if (sum > 42 && i < 39)
-                            {
-                                temp_0[i - 1] += 1;
-                                for (int j = i; j < 40; j++)
-                                    temp_0[j] = 0;
-                                temp_0 = PrivateFunction.CheckCarry(temp_0, 20);
-                                break;
-                            }
-                        }
-                    }
-                    //統計出每種數字的個數，並存入Table
-                    _total = temp_0.Sum();
-                    if (_total >= 40 && _total <= 42)
-                    {
-                        int[] _count = new int[20];
-                        for (int k = 1; k < 20; k++)
-                        {
-                            _count[k - 1] = temp_0.Where(x => x == k).Count();
-                        }
-                        table t = new table() { list = _count, total = _total };
-
-                        if (!(Table.Where(x => x.total.Equals(_total)).Where(x => x.list.SequenceEqual(_count)).Any()))
-                            Table.Add(t);
-                    }
-                }
-                //輸出成txt
-                for (int k = 40; k <= 42; k++)
-                {
-                    for (int i = 0; i < 5; i++)
-                    {
-                        w.WriteLine(String.Format("=========== {0},{1} ===========", k, i + 1));
-                        var fff = Table.Where(x => x.total.Equals(k)).Where(x => !x.list[i].Equals(0)).ToList();
-                        fff.ForEach(x => w.WriteLine(String.Format("{0}:{1}", x.total, String.Join(",", x.list))));
-                    }
-                    w.WriteLine(String.Format("=========== {0},{1} ===========", k, "All"));
-                    var ggg = Table.Where(x => x.total.Equals(k)).ToList();
-                    ggg.ForEach(z => w.WriteLine(String.Format("{0}:{1}", z.total, String.Join(",", z.list))));
-                }
-                w.Flush();
-                w.Close();
-                #endregion MakeTable
-            }
-            else if (mode == 1)
-            {
-                List<int[]> Table = new List<int[]>();
-                //讀取之前的
-                using (StreamReader r = new StreamReader("table.txt", Encoding.ASCII))
-                    while (!r.EndOfStream)
-                    {
-                        string[] temp = r.ReadLine().Split(':');
-                        Table.Add(Array.ConvertAll(temp[1].Split(','), int.Parse));
-                    }
-                List<int> list = new List<int>() { 13, 3, 4, 10, 9, 19, 10, 10, 13, 1, 4, 8, 7, 1, 16, 13, 10, 11, 12, 6, 13, 10, 9, 10, 14, 18, 7, 15, 6, 12, 4, 15, 5, 11, 17, 17, 13, 19, 4, 17, 11, 12, 5, 4, 16, 4, 15, 2, 9, 4 };
-                // List<int> list = new List<int>() {  7, 15, 6, 12, 4, 15, 5, 11, 17, 17, 13, 19, 4, 17, 11, 12, 5, 4, 16, 4, 15, 2, 9, 4 };
-
-                int[] QCount = new int[20];
-                for (int k = 1; k < 20; k++)
-                {
-                    QCount[k - 1] = list.Where(x => x == k).Count();
-                }
-                var TableTemp = FindAnswer(ref Table, QCount);
-                List<path> Path = new List<path>();
-                int PathC = 0;
-                int _id = 1;
-                foreach (var t in TableTemp)
-                {
-                    List<path> _Path = new List<path>();
-                    _Path.Add(new path() { end = false, mom = 0, count = PrivateFunction.CalcArrayTotal(t), age = 1, id = _id++, total = t, totalHashCode = PrivateFunction.GetHashCode(t) });
-                    int notendCount = 1;
-                    while (!notendCount.Equals(0))
-                    {
-                        var temp = _Path.FindLast(x => !x.end);//.Where(y => !y.end).FirstOrDefault();
-                        var answerlist = FindAnswer(ref TableTemp, PrivateFunction.ArrayMinus(QCount, temp.total));
-
-                        foreach (var x in answerlist)
-                        {
-                            
-                            int hash = PrivateFunction.GetHashCode(x);
-                            var total = PrivateFunction.ArrayPlus(temp.total, x);
-                            /*
-                            bool founded = false;
-                            foreach (var tt in _Path)
-                            {
-                                if (hash == tt.totalHashCode)
-                                {
-                                    founded = true;
-                                    break;
-                                }
-                            }
-                            if (!founded)*/
-                            if (_Path.Select(y => y.totalHashCode).LastOrDefault(y => y.Equals(PrivateFunction.GetHashCode(x))) == 0)
-                            {
-                                //if (!_Path.Any(y =>hash.Equals( y.totalHashCode)) )
-                                {
-                                    _Path.Add(new path() { id = _id++, end = false, mom = temp.id, total = total, totalHashCode = PrivateFunction.GetHashCode(total), age = temp.age + 1, count = temp.count + CalcArrayTotal(x) });
-                                    _Path.Add(new path() { id = _id++, end = false, mom = temp.id, total = total, totalHashCode = PrivateFunction.GetHashCode(total), age = temp.age + 1, count = temp.count + CalcArrayTotal(x) });
-
-                                    // if (_Path.Select(y => y.totalHashCode).LastOrDefault(y => y.Equals(PrivateFunction.GetHashCode(total))) == 0)
-                                    {
-                                        //    _Path.Add(new path() { id = _id++, end = false, mom = temp.id, total = total, count = temp.count + CalcArrayTotal(x) });
-                                    }
-                                }
-                            }
-                        }
-
-                        //  answerlist.ForEach(x => { if (!_Path.Select(y => y.totalHashCode).Where(y => y.Equals(PrivateFunction.GetHashCode( x))).Any()) _Path.Add(new path() { id = _id++, end = false, mom = temp.id, total = PrivateFunction.ArrayPlus(temp.total, x), totalHashCode = PrivateFunction.GetHashCode(PrivateFunction.ArrayPlus(temp.total, x)), age = temp.age + 1, count = temp.count + CalcArrayTotal(x) }); });
-                        temp.end = true;
-
-                        //_Path[temp.id - 1].end = true;
-
-                        //_Path.ToList().Where(x => x.id.Equals(temp.id)).Select(x => { x.end = true; return x; }).ToList();
-
-                        notendCount += (answerlist.Count - 1);
-
-                    }
-                    _Path.Sort(new pathComparer_age_count());
-                    path _temp = new path();
-                    _temp.mom = -1;
-                    //var _temp = _Path[_Path.Count - 1];
-                    while (_temp.mom != 0)
-                    {
-                        PathC++;
-                        if (_temp.age == 0)
-                            _temp = _Path[_Path.Count - 1];
-                        else
-                            _temp = _Path.Where(x => x.id.Equals(_temp.mom)).FirstOrDefault();
-                        //_Path.Where(x => x.id.Equals(_temp.mom)).FirstOrDefault()
-                        Path.Add(new path() { id = PathC, end = true, total = _temp.total, totalHashCode = PrivateFunction.GetHashCode(_temp.total), count = _temp.count, age = _temp.age, mom = _temp.mom == 0 ? 0 : PathC + 1 });
-
-                    }
-                    Path.Sort(new pathComparer_age_count());
-
-                }
-
-                Path.Sort(new pathComparer_age_count());
-                using (StreamWriter ww = new StreamWriter("debug.txt", false, Encoding.ASCII))
-                {
-                    Path.ForEach(x => ww.WriteLine(x.age + "#" + string.Join(",", x.total)));
-                    ww.Flush();
-                }/*
-                var _ttemp = Path[PathC - 1];
-                
-                while (_temp.mom != 0)
-                {
-                    PathC++;
-                    Path.Add(new path() { id = PathC, end = true, total = _temp.total, count = _temp.count, age = _temp.age, mom = _temp.mom == 0 ? 0 : PathC + 1 });
-                    _temp = Path.Where(x => x.id.Equals(_temp.mom)).FirstOrDefault();
-                }*/
-
-            }
-            else if (mode == 2)
-            {
-                #region 1
-                int n = 0;
-                List<int> list = new List<int>() { 13, 3, 4, 10, 9, 19, 10, 10, 13, 1, 4, 8, 7, 1, 16, 13, 10, 11, 12, 6, 13, 10, 9, 10, 14, 18, 7, 15, 6, 12, 4, 15, 5, 11, 17, 17, 13, 19, 4, 17, 11, 12, 5, 4, 16, 4, 15, 2, 9, 4 };
-                int r = 0;
-                int c = list.Count;
-                int[] array = new int[40];
-
-                while (array[39] != list[c - 1] && r != 39)
-                {
-                    a:;
-                    array[r] = array[r] + 1;
-                    while (array[r] >= c)
-                    {
-                        array[r] = 0;
-                        r++;
-                        array[r] = array[r] + 1;
-                    }
-                    r = 0;
-                    if (array.Distinct().ToList().Count + array.Where(x => x == 0).ToList().Count != array.Count())
-                        goto a;
-                    int sum = 0;
-                    array.ToList().ForEach(x => sum += list[x]);
-                    if (sum > 40 && sum <= 40 + n)
-                    {
-                        List<int> temp = new List<int>();
-                        array.ToList().ForEach(x => temp.Add(list[x]));
-                        MessageBox.Show(temp.ToArray().ToString());
-                    }
-                }
-                #endregion 1
-            }
+            
         }
         private void ShowItemInfo(object sender, MouseEventArgs e)
         {

@@ -33,7 +33,7 @@ namespace Poe整理倉庫v2
         }
         private string reg = @":\s(.*?)\r\n(.*?)\r\n(.*?)--------\r\n(.*)";
 
-       
+
 
         /// <summary>
         /// 取得並分析POE倉庫頁面中所有物品的資訊
@@ -47,7 +47,7 @@ namespace Poe整理倉庫v2
             resoult.Clear();
 
             string reg_itemlevel = @"物品等級:\s(\d+)", reg_itemlevel_eng = @"Item Level:\s(\d+)";
-            string reg_quality = @"品質:\s\+(\d+)", reg_quality_eng= @"Quality:\s\+(\d+)";
+            string reg_quality = @"品質:\s\+(\d+)", reg_quality_eng = @"Quality:\s\+(\d+)";
             string reg_level = @"(?<!需求:)\r\n^等級:\s(\d+)", reg_level_eng = @"(?<!Requirements:)\r\n^Level:\s(\d+)";
             string reg_maplevel = @"地圖階級:\s(\d+)", reg_maplevel_eng = @"Map Tier:\s(\d+)";
 
@@ -108,9 +108,9 @@ namespace Poe整理倉庫v2
                     m_level = r_level.Match(m.Groups[4].ToString());
                     m_level = m_level.Groups.Count == 1 ? r_level_eng.Match(m.Groups[4].ToString()) : m_level;
                     m_maplevel = r_maplevel.Match(m.Groups[4].ToString());
-                    m_maplevel = m_maplevel.Groups.Count==1?r_maplevel_eng.Match(m.Groups[4].ToString()):m_maplevel;
+                    m_maplevel = m_maplevel.Groups.Count == 1 ? r_maplevel_eng.Match(m.Groups[4].ToString()) : m_maplevel;
                     m_quality = r_quality.Match(m.Groups[4].ToString());
-                    m_quality =m_quality.Groups.Count==1? r_quality_eng.Match(m.Groups[4].ToString()):m_quality;
+                    m_quality = m_quality.Groups.Count == 1 ? r_quality_eng.Match(m.Groups[4].ToString()) : m_quality;
                     temp.itemlevel = m_itemlevel.Groups.Count == 1 ? 0 : int.Parse(m_itemlevel.Groups[1].ToString());
                     temp.level = m_level.Groups.Count == 1 ? 0 : int.Parse(m_level.Groups[1].ToString());
                     temp.quality = m_quality.Groups.Count == 1 ? 0 : int.Parse(m_quality.Groups[1].ToString());
@@ -355,6 +355,97 @@ namespace Poe整理倉庫v2
                    });
             }
             Stop = true;
+        }
+
+        static Item[] ZeroArray = new Item[] { };
+        static Item[] Find40Q(List<Item> list, int Level, int level_Target, int index, Item[] temp)
+        {
+            for (int i = index; i < list.Count; i++)
+            {
+                if (Level == 1 && list[0].quality < 40 / level_Target)
+                    break;
+
+                temp[Level - 1] = list[i];
+                if (list[i].quality == 20)
+                    return new Item[] { list[i] };
+                if (Level == 1 && list.Sum(x=>x.quality) < 40)
+                    return ZeroArray;
+                else if (Level == level_Target)
+                {
+                    if ((temp.Take(temp.Length - 1).Select(x=>x.quality).Sum() + list.Skip(i).Select(x=>x.quality).Max()) < 40)
+                        return ZeroArray;
+                    if (temp.Sum(x => x.quality) == 40)
+                        return temp;
+                    else
+                        continue;
+                }
+                else
+                {
+                    var t = Find40Q(list, Level + 1, level_Target, i + 1, ((Item[])temp.Clone()));
+                    if (t == ZeroArray && Level == 1)
+                        return null;
+                    else if (t == ZeroArray)
+                        return ZeroArray;
+                    else if (t != null)
+                        return t;
+                }
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// 湊出品質和為40的技能寶石或藥劑
+        /// </summary>
+        /// <param name="StashWidth">倉庫頁寬度</param>
+        /// <param name="mode">0: 藥劑 ; 1: 技能寶石</param>
+        public async void Round40Q(int StashWidth, int mode)
+        {
+            await Task.Delay(0);
+            List<Item> _Items = new List<Item>();
+            if (mode == 0)
+                _Items = Items.Where(x => x.type.EndsWith("Flask") && x.quality > 1).ToList();
+            else if (mode == 1)
+                _Items = Items.Where(x => x.type == "Active+Skill+Gem" && x.quality > 1).ToList();
+
+
+            _Items = _Items.OrderByDescending(x => x.quality).ToList();
+            var list_Priview = new List<Item>(_Items);
+            List<Item> list_Move = new List<Item>();
+            int Move_Count = 0;
+            int MaxRound = Math.Min((int)Math.Ceiling(40.0 / list_Priview.Min(x => x.quality)), mode == 0 ? 24 : 60);
+            for (int i = 3; i <= MaxRound; i++)
+            {
+                var ans = Find40Q(list_Priview, 1, i, 0, new Item[i]);
+                while (ans != null && ans != ZeroArray)
+                {
+                    if (Move_Count + ans.Count() <= (mode == 0 ? 24 : 60))
+                    {
+                        list_Move.AddRange(ans);
+                        foreach (var v in ans)
+                            list_Priview.Remove(v);
+                        Move_Count += ans.Count();
+                    }
+                    else
+                    {
+                        i = 25;
+                        break;
+                    }
+                    ans = Find40Q(list_Priview, 1, i, 0, new Item[i]);
+                }
+            }
+            int BagsHave2xItem = 0;
+            list_Move.ForEach(x =>
+            {
+                ClickItem(poeHwnd,
+                      (int)(((float)x.point.X * (StashWidth == 12 ? cellWidth1 : cellWidth4)) + (StashWidth == 12 ? startPos1.X : startPos4.X)),
+                      (int)(((float)x.point.Y * (StashWidth == 12 ? cellHeight1 : cellHeight4)) + (StashWidth == 12 ? startPos1.Y : startPos4.Y)));
+
+                ClickItem(poeHwnd,
+                      (int)(((BagsHave2xItem / (mode == 0 ? 2 : 5)) * cellWidth1) + bagstartPos.X),
+                      (int)(((BagsHave2xItem % (mode == 0 ? 2 : 5) * x.h) * cellHeight1) + bagstartPos.Y));
+                BagsHave2xItem++;
+                Items.Remove(x);
+            });
         }
 
         private void DrawBoxRegion(List<Item> _items, int length, int info)
