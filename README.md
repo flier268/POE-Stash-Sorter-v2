@@ -16,3 +16,5 @@
 ### 範例影片
 [![範例影片](https://img.youtube.com/vi/CUXbyehxYA8/0.jpg)](https://youtu.be/CUXbyehxYA8)
 
+## Donate:
+* http://paypal.me/flier268
