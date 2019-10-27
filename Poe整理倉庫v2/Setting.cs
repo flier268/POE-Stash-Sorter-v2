@@ -8,7 +8,7 @@ namespace Poe整理倉庫v2
 
         [JsonProperty("Hotkey_Start")]
         public int HotkeyStart { get; set; }
-        
+
         [JsonProperty("Hotkey_Stop")]
         public int HotkeyStop { get; set; }
 
@@ -48,7 +48,7 @@ namespace Poe整理倉庫v2
     {
         public static string ToJson(this Setting self)
         {
-            return JsonConvert.SerializeObject(self,Formatting.Indented, Converter.Settings);
+            return JsonConvert.SerializeObject(self, Formatting.Indented, Converter.Settings);
         }
     }
 

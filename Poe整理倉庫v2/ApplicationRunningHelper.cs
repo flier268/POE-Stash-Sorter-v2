@@ -75,7 +75,7 @@ namespace Poe整理倉庫v2
         {
             const int swRestore = 9;
             var arrProcesses = Process.GetProcessesByName("PathOfExile");
-            if(arrProcesses.Length<=0)
+            if (arrProcesses.Length <= 0)
                 arrProcesses = Process.GetProcessesByName("PathOfExile_x64");
             if (arrProcesses.Length <= 0)
                 arrProcesses = Process.GetProcessesByName("PathOfExileSteam");
@@ -89,7 +89,7 @@ namespace Poe整理倉庫v2
                     ShowWindowAsync(hWnd, swRestore);
                 SetForegroundWindow(hWnd);
                 return hWnd;
-            }           
+            }
             return IntPtr.Zero;
         }
 

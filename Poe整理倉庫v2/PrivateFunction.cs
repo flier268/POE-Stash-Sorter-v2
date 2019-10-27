@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Poe整理倉庫v2
 {
@@ -102,7 +99,7 @@ namespace Poe整理倉庫v2
                 int hash = 17;
                 foreach (var item in array)
                 {
-                    hash = hash * 23 + item.GetHashCode() ;
+                    hash = hash * 23 + item.GetHashCode();
                 }
                 return hash;
             }

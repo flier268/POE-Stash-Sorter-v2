@@ -78,7 +78,8 @@ namespace Poe整理倉庫v2
             await db.CreateTableAsync<Data>();
             await db.CreateIndexAsync("Data", "Name_Chinese");
             await db.CreateIndexAsync("Data", "Name_English");
-            var data = new Data() {
+            var data = new Data()
+            {
                 Name_Chinese = textBox1.Text,
                 Name_English = textBox2.Text,
                 Type = SpeciesDic.Where(x => x.Value == comboBox1.Text).FirstOrDefault().Key,
@@ -86,8 +87,8 @@ namespace Poe整理倉庫v2
                 Height = Int32.Parse(comboBox3.Text),
                 GemColor = textBox3.Text,
                 ImageURL = textBox4.Text,
-                Rarity=2,
-                UpdateDate=DateTime.Now
+                Rarity = 2,
+                UpdateDate = DateTime.Now
             };
             await db.InsertOrReplaceAsync(data);
             await db.CloseAsync();

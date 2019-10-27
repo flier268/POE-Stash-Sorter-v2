@@ -5,8 +5,8 @@ namespace Poe整理倉庫v2
 {
     public partial class Form1
     {
-        
-        
+
+
         public class SortRule : IComparer<Item>
         {
             Setting s = new Setting();
@@ -66,30 +66,30 @@ namespace Poe整理倉庫v2
                         case "Type":
                             var a = s.Species.Where(x => s1.type.Contains(x)).FirstOrDefault();
                             var b = s.Species.Where(x => s2.type.Contains(x)).FirstOrDefault();
-                            value = value == 0 ? s.Species.ToList().FindIndex(x => x.Equals(a)).CompareTo(s.Species.ToList().FindIndex(x => x.Equals(b))):value;
+                            value = value == 0 ? s.Species.ToList().FindIndex(x => x.Equals(a)).CompareTo(s.Species.ToList().FindIndex(x => x.Equals(b))) : value;
                             break;
                     }
                 }
                 return value;
             }
         }
-        
-        public List<Item> Sort(List<Item> source,List<POINT>used,int length)
-        {           
+
+        public List<Item> Sort(List<Item> source, List<POINT> used, int length)
+        {
             SortRule rule = new SortRule(Config);
             List<Item> clone = new List<Item>();
-            
+
             source.ForEach(x => clone.Add((Item)x.Clone()));
-            List <Item> item_1x1 = clone.Where(x => x.w * x.h == 1).ToList();
+            List<Item> item_1x1 = clone.Where(x => x.w * x.h == 1).ToList();
             item_1x1 = item_1x1.OrderBy(s => s, rule).ToList();
 
             List<POINT> free = new List<POINT>();
-            var temp=item_1x1.Select(x => x.point).ToList();
-            
+            var temp = item_1x1.Select(x => x.point).ToList();
+
             foreach (POINT _temp in temp)
                 used.Remove(_temp);
             int index = 0;
-            for(int x=0;x<length;x++)
+            for (int x = 0; x < length; x++)
             {
                 for (int y = 0; y < length; y++)
                 {

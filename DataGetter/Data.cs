@@ -10,7 +10,7 @@ namespace DataGetter
         public string Name_Chinese { get; set; }
         public string Type { get; set; }
         public int Rarity { get; set; }
-        public string ImageURL{ get; set; }
+        public string ImageURL { get; set; }
         public int Width { get; set; }
         public int Height { get; set; }
         public string GemColor { get; set; }

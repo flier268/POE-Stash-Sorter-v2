@@ -82,7 +82,7 @@ namespace DataGetter
                     //特殊狀況                    
                     a.Add(new cn { name = "異界地圖", name_eng = "Map", url = "item.php?cn=Map" });
                     a.Add(new cn { name = "聯盟石", name_eng = "Leaguestone", url = "item.php?cn=Leaguestone" });
-                    a.Add(new cn { name = "任務物品", name_eng = "QuestItem", url = "item.php?cn=QuestItem" });                  
+                    a.Add(new cn { name = "任務物品", name_eng = "QuestItem", url = "item.php?cn=QuestItem" });
                 }
             }
             return a;
@@ -158,10 +158,6 @@ namespace DataGetter
                                 basename = match_GetBaseName.Groups[2].Value;
                             }
                             var BaseInfo = Data.Where(x => x.Name_Chinese == basename || x.Name_English == basename).FirstOrDefault();
-                            if(match_GetBaseName.Groups[1].Value.Trim()== "煉獄之心")
-                            {
-
-                            }
                             if (BaseInfo != null)
                                 roots.Add(new Data
                                 {
@@ -370,7 +366,7 @@ namespace DataGetter
             }
             catch (Exception e)
             { Debug.Print(e.Message); }
-            
+
         }
         private async Task DownloadData_Async_Jewel()
         {
@@ -382,8 +378,8 @@ namespace DataGetter
                 "Timeless+Jewel"
             };
             Regex r = new Regex("<td><a.*?><img\\s+src=\"(.*?)\"\\/>.*?<a\\s+.*?>(.*?)<\\/a>(.*?)</span><tr>", RegexOptions.IgnoreCase);
-            
-            foreach (var n in list) 
+
+            foreach (var n in list)
             {
                 try
                 {
@@ -396,7 +392,7 @@ namespace DataGetter
                     response.EnsureSuccessStatusCode();
                     string responseBody = await response.Content.ReadAsStringAsync();
 
-                    
+
                     MatchCollection mm = r.Matches(responseBody);
                     List<Data> roots = new List<Data>();
                     DateTime Now = DateTime.Now;
@@ -407,7 +403,7 @@ namespace DataGetter
                             if (!Directory.Exists(Path.Combine(Application.StartupPath, "Image")))
                                 Directory.CreateDirectory(Path.Combine(Application.StartupPath, "Image"));
                             string eng = reg_GetLastTextWithoutTag.Match(m.Groups[3].Value).Groups[1].Value;
-                            string filepath = Path.Combine(Path.Combine(Application.StartupPath, "Image"),eng + ".png");
+                            string filepath = Path.Combine(Path.Combine(Application.StartupPath, "Image"), eng + ".png");
                             try
                             {
                                 if (!File.Exists(filepath) || (File.Exists(filepath) && new FileInfo(filepath).Length == 0))
@@ -423,7 +419,7 @@ namespace DataGetter
                                 {
                                     GemColor = "n",
                                     Name_Chinese = m.Groups[2].Value,
-                                    Name_English =eng,
+                                    Name_English = eng,
                                     Rarity = 1,
                                     ImageURL = m.Groups[1].Value,
                                     Width = 1,
@@ -447,7 +443,7 @@ namespace DataGetter
                 {
                     Debug.Print(e.Message);
                 }
-            }            
+            }
         }
         private void Form1_Load(object sender, EventArgs e)
         {

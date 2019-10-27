@@ -303,7 +303,7 @@ namespace Poe整理倉庫v2
         }
         private void button1_Click(object sender, EventArgs e)
         {
-            
+
         }
         private void ShowItemInfo(object sender, MouseEventArgs e)
         {
@@ -373,7 +373,7 @@ namespace Poe整理倉庫v2
 
             cellHeight4 = cellHeight1 / 2;
             cellWidth4 = cellWidth1 / 2;
-            startPos4 = new Point((int)(startPos1.X - cellWidth4/4), (int)(startPos1.Y - cellHeight4/4));
+            startPos4 = new Point((int)(startPos1.X - cellWidth4 / 4), (int)(startPos1.Y - cellHeight4 / 4));
 
             bagstartPos = new Point((int)(rect.Right - height * 0.04f - cellWidth1 * 11), (int)(rect.Bottom - height * 0.233333f - cellHeight1 * 4));
         }

@@ -368,11 +368,11 @@ namespace Poe整理倉庫v2
                 temp[Level - 1] = list[i];
                 if (list[i].quality == 20)
                     return new Item[] { list[i] };
-                if (Level == 1 && list.Sum(x=>x.quality) < 40)
+                if (Level == 1 && list.Sum(x => x.quality) < 40)
                     return ZeroArray;
                 else if (Level == level_Target)
                 {
-                    if ((temp.Take(temp.Length - 1).Select(x=>x.quality).Sum() + list.Skip(i).Select(x=>x.quality).Max()) < 40)
+                    if ((temp.Take(temp.Length - 1).Select(x => x.quality).Sum() + list.Skip(i).Select(x => x.quality).Max()) < 40)
                         return ZeroArray;
                     if (temp.Sum(x => x.quality) == 40)
                         return temp;
@@ -438,7 +438,7 @@ namespace Poe整理倉庫v2
             {
                 GetItem(poeHwnd,
                       (int)(((float)x.point.X * (StashWidth == 12 ? cellWidth1 : cellWidth4)) + (StashWidth == 12 ? startPos1.X : startPos4.X)),
-                      (int)(((float)x.point.Y * (StashWidth == 12 ? cellHeight1 : cellHeight4)) + (StashWidth == 12 ? startPos1.Y : startPos4.Y)));                
+                      (int)(((float)x.point.Y * (StashWidth == 12 ? cellHeight1 : cellHeight4)) + (StashWidth == 12 ? startPos1.Y : startPos4.Y)));
                 BagsHave2xItem++;
                 Items.Remove(x);
             });

@@ -54,14 +54,14 @@ namespace Poe整理倉庫v2
         /// </summary>
         public int maplevel { get; set; }
 
-        public POINT point{get;set;}               
+        public POINT point { get; set; }
         public int w { get; set; }
         public int h { get; set; }
-    
+
 
         public object Clone()
         {
-            object i =this.MemberwiseClone();
+            object i = this.MemberwiseClone();
             POINT p = new POINT(this.point);
             ((Item)i).point = p;
             return i;

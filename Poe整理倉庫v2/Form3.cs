@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -208,7 +207,7 @@ namespace Poe整理倉庫v2
             }
 
             AddPriorityDic();
-            listBox_Priority.Items.Clear();           
+            listBox_Priority.Items.Clear();
             foreach (string t in Config.Priority)
             {
                 listBox_Priority.Items.Add(PriorityDic.Where(x => x.Key == t).FirstOrDefault().Value);
