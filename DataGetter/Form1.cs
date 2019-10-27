@@ -37,6 +37,7 @@ namespace DataGetter
             Data_unique.Clear();
             Data_Prophecy.Clear();
             await DownloadData_Async_Prophecy();
+            await DownloadData_Async_Jewel();
             foreach (var cn in List_cn)
             {
                 await DownloadData_Async(cn);
@@ -53,7 +54,8 @@ namespace DataGetter
         string reg_Name = @"<a\s.*?>(.*?)</a>.*<span.*?>(.*?)</span>";
         string reg_Name2 = @"(.*?)<br>.*>(.*?)</span>";
         string reg_imgURL = @"<img\s+src=[""|'](.*?)[""|']/>";
-        string reg_unique = "<img\\s+src=[\"'](.*?)[\"']/></a><td><a class=[\"']item_unique[\"'].*?>(.*?)</a>.*?<span class=[\"']item_description[\"']>(.*?)</span>";
+        Regex r = new Regex("<img\\s+src=[\"'](.*?)[\"']/></a><td><a class=[\"']item_unique[\"'].*?>(.*?)</a>.*?(.*?)</span><tr>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        Regex reg_GetLastTextWithoutTag = new Regex(".*'>(.*)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         private async Task<List<cn>> GetList_cn()
         {
             List<cn> a = new List<cn>();
@@ -77,10 +79,10 @@ namespace DataGetter
                         Match m_getcn = r_getcn.Match(t1.Groups[1].ToString());
                         a.Add(new cn { name = t1.Groups[2].ToString(), url = t1.Groups[1].ToString().Replace("area.php?cn=", "item.php?cn="), name_eng = m_getcn.Groups[1].ToString() });
                     }
-                    //特殊狀況
+                    //特殊狀況                    
                     a.Add(new cn { name = "異界地圖", name_eng = "Map", url = "item.php?cn=Map" });
                     a.Add(new cn { name = "聯盟石", name_eng = "Leaguestone", url = "item.php?cn=Leaguestone" });
-                    a.Add(new cn { name = "任務物品", name_eng = "QuestItem", url = "item.php?cn=QuestItem" });
+                    a.Add(new cn { name = "任務物品", name_eng = "QuestItem", url = "item.php?cn=QuestItem" });                  
                 }
             }
             return a;
@@ -116,9 +118,12 @@ namespace DataGetter
             await db.CreateTableAsync<Data>();
             await db.CreateIndexAsync("Data", "Name_Chinese");
             await db.CreateIndexAsync("Data", "Name_English");
-            await db.RunInTransactionAsync(conn => Data.ForEach(x => db.InsertOrReplaceAsync(x)));
-            await db.RunInTransactionAsync(conn => Data_unique.ForEach(x => db.InsertOrReplaceAsync(x)));
-            await db.RunInTransactionAsync(conn => Data_Prophecy.ForEach(x => db.InsertOrReplaceAsync(x)));
+            await db.RunInTransactionAsync(conn =>
+            {
+                Data.ForEach(x => db.InsertOrReplaceAsync(x));
+                Data_unique.ForEach(x => db.InsertOrReplaceAsync(x));
+                Data_Prophecy.ForEach(x => db.InsertOrReplaceAsync(x));
+            });
             await db.CloseAsync();
             MessageBox.Show("Success!");
         }
@@ -132,7 +137,6 @@ namespace DataGetter
                 response.EnsureSuccessStatusCode();
                 string responseBody = await response.Content.ReadAsStringAsync();
 
-                Regex r = new Regex(reg_unique, RegexOptions.IgnoreCase | RegexOptions.Singleline);
                 MatchCollection mm = r.Matches(responseBody);
 
                 List<Data> roots = new List<Data>();
@@ -154,12 +158,16 @@ namespace DataGetter
                                 basename = match_GetBaseName.Groups[2].Value;
                             }
                             var BaseInfo = Data.Where(x => x.Name_Chinese == basename || x.Name_English == basename).FirstOrDefault();
+                            if(match_GetBaseName.Groups[1].Value.Trim()== "煉獄之心")
+                            {
+
+                            }
                             if (BaseInfo != null)
                                 roots.Add(new Data
                                 {
                                     GemColor = "n",
                                     Name_Chinese = match_GetBaseName.Groups[1].Value.Trim(),
-                                    Name_English = m.Groups[3].Value.Trim(),
+                                    Name_English = reg_GetLastTextWithoutTag.Match(m.Groups[3].Value.Trim()).Groups[1].Value.Trim(),
                                     Rarity = 1,
                                     ImageURL = m.Groups[1].Value,
                                     Width = BaseInfo.Width,
@@ -363,6 +371,83 @@ namespace DataGetter
             catch (Exception e)
             { Debug.Print(e.Message); }
             
+        }
+        private async Task DownloadData_Async_Jewel()
+        {
+            var list = new List<string>(){
+                "Crimson+Jewel",
+                "Viridian+Jewel",
+                "Cobalt+Jewel",
+                "Prismatic+Jewel",
+                "Timeless+Jewel"
+            };
+            Regex r = new Regex("<td><a.*?><img\\s+src=\"(.*?)\"\\/>.*?<a\\s+.*?>(.*?)<\\/a>(.*?)</span><tr>", RegexOptions.IgnoreCase);
+            
+            foreach (var n in list) 
+            {
+                try
+                {
+                    System.Net.WebClient WC = new System.Net.WebClient();
+                    if (!Directory.Exists(Path.Combine(Application.StartupPath, "Image")))
+                        Directory.CreateDirectory(Path.Combine(Application.StartupPath, "Image"));
+                    string basepath = Path.Combine(Application.StartupPath, "Image");
+
+                    HttpResponseMessage response = await client.GetAsync($"http://poedb.tw/item.php?n={n}");
+                    response.EnsureSuccessStatusCode();
+                    string responseBody = await response.Content.ReadAsStringAsync();
+
+                    
+                    MatchCollection mm = r.Matches(responseBody);
+                    List<Data> roots = new List<Data>();
+                    DateTime Now = DateTime.Now;
+                    if (mm.Count > 0)
+                    {
+                        foreach (Match m in mm)
+                        {
+                            if (!Directory.Exists(Path.Combine(Application.StartupPath, "Image")))
+                                Directory.CreateDirectory(Path.Combine(Application.StartupPath, "Image"));
+                            string eng = reg_GetLastTextWithoutTag.Match(m.Groups[3].Value).Groups[1].Value;
+                            string filepath = Path.Combine(Path.Combine(Application.StartupPath, "Image"),eng + ".png");
+                            try
+                            {
+                                if (!File.Exists(filepath) || (File.Exists(filepath) && new FileInfo(filepath).Length == 0))
+                                    await WC.DownloadFileTaskAsync(new Uri(m.Groups[1].Value), filepath);
+                            }
+                            catch (Exception e)
+                            { Debug.Print(e.Message + "," + eng); }
+
+
+                            try
+                            {
+                                roots.Add(new Data
+                                {
+                                    GemColor = "n",
+                                    Name_Chinese = m.Groups[2].Value,
+                                    Name_English =eng,
+                                    Rarity = 1,
+                                    ImageURL = m.Groups[1].Value,
+                                    Width = 1,
+                                    Height = 1,
+                                    Type = "Jewel",
+                                    UpdateDate = Now
+                                });
+                            }
+                            catch
+                            {
+                            }
+                        }
+                    }
+
+                    lock (thislock)
+                    {
+                        Data_Prophecy.AddRange(roots);
+                    }
+                }
+                catch (Exception e)
+                {
+                    Debug.Print(e.Message);
+                }
+            }            
         }
         private void Form1_Load(object sender, EventArgs e)
         {
