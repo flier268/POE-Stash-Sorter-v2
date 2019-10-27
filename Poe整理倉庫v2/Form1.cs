@@ -67,6 +67,17 @@ namespace Poe整理倉庫v2
             PostMessage(hwnd, WM_LBUTTONDOWN, (IntPtr)0x1, (IntPtr)coordinates);
             PostMessage(hwnd, WM_LBUTTONUP, (IntPtr)0x1, (IntPtr)coordinates);
         }
+        private void GetItem(IntPtr hwnd, int x, int y)
+        {
+            MouseTools.SetCursorPosition(x, y);
+            Thread.Sleep(Config.Delay2);
+            KeyBoardTool.KeyDown(Keys.ControlKey);
+            Thread.Sleep(100);
+            SimulateMouseLeft(poeHwnd, x, y);
+            Thread.Sleep(100);
+            KeyBoardTool.KeyUp(Keys.ControlKey);
+            Thread.Sleep(Config.Delay1);
+        }
         private void ClickItem(IntPtr hwnd, int x, int y)
         {
             MouseTools.SetCursorPosition(x, y);

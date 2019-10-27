@@ -436,13 +436,9 @@ namespace Poe整理倉庫v2
             int BagsHave2xItem = 0;
             list_Move.ForEach(x =>
             {
-                ClickItem(poeHwnd,
+                GetItem(poeHwnd,
                       (int)(((float)x.point.X * (StashWidth == 12 ? cellWidth1 : cellWidth4)) + (StashWidth == 12 ? startPos1.X : startPos4.X)),
-                      (int)(((float)x.point.Y * (StashWidth == 12 ? cellHeight1 : cellHeight4)) + (StashWidth == 12 ? startPos1.Y : startPos4.Y)));
-
-                ClickItem(poeHwnd,
-                      (int)(((BagsHave2xItem / (mode == 0 ? 2 : 5)) * cellWidth1) + bagstartPos.X),
-                      (int)(((BagsHave2xItem % (mode == 0 ? 2 : 5) * x.h) * cellHeight1) + bagstartPos.Y));
+                      (int)(((float)x.point.Y * (StashWidth == 12 ? cellHeight1 : cellHeight4)) + (StashWidth == 12 ? startPos1.Y : startPos4.Y)));                
                 BagsHave2xItem++;
                 Items.Remove(x);
             });
