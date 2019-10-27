@@ -326,7 +326,8 @@ namespace Poe整理倉庫v2
             if (File.Exists(databasePath))
             {
                 var db = new SQLiteAsyncConnection(databasePath);
-                ItemList = await db.Table<Data>().ToListAsync();
+                ItemList = await db.Table<Data>().Where(x => x.Rarity == 0).ToListAsync();
+                ItemList_Unique = await db.Table<Data>().Where(x => x.Rarity == 1).ToListAsync();
                 await db.CloseAsync();
                 stats += 1;
             }
