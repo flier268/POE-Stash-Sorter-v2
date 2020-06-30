@@ -19,7 +19,7 @@ namespace Poe整理倉庫v2
         /// </summary>
         /// <param name="x"></param>
         /// <param name="y"></param>
-        void POE_GetItemInfo(int x, int y)
+        private void POE_GetItemInfo(int x, int y)
         {
             MouseTools.SetCursorPosition(x, y);
             Thread.Sleep(Config.Delay_Scan);
@@ -31,9 +31,8 @@ namespace Poe整理倉庫v2
             Thread.Sleep(Config.Delay_Scan);
             Application.DoEvents();
         }
+
         private string reg = @":\s(.*?)\r\n(.*?)\r\n(.*?)--------\r\n(.*)";
-
-
 
         /// <summary>
         /// 取得並分析POE倉庫頁面中所有物品的資訊
@@ -50,7 +49,6 @@ namespace Poe整理倉庫v2
             string reg_quality = @"品質:\s\+(\d+)", reg_quality_eng = @"Quality:\s\+(\d+)";
             string reg_level = @"(?<!需求:)\r\n^等級:\s(\d+)", reg_level_eng = @"(?<!Requirements:)\r\n^Level:\s(\d+)";
             string reg_maplevel = @"地圖階級:\s(\d+)", reg_maplevel_eng = @"Map Tier:\s(\d+)";
-
 
             Regex r_itemlevel = new Regex(reg_itemlevel, RegexOptions.IgnoreCase | RegexOptions.Multiline),
                 r_itemlevel_eng = new Regex(reg_itemlevel_eng, RegexOptions.IgnoreCase | RegexOptions.Multiline);
@@ -169,8 +167,7 @@ namespace Poe整理倉庫v2
             DrawBoxRegion(Items, length, 1);
         }
 
-
-        static void RunAsSTAThread(Action goForIt)
+        private static void RunAsSTAThread(Action goForIt)
         {
             AutoResetEvent @event = new AutoResetEvent(false);
             Thread thread = new Thread(
@@ -183,6 +180,7 @@ namespace Poe整理倉庫v2
             thread.Start();
             @event.WaitOne();
         }
+
         public async void StartSorting(int length)
         {
             await Task.Delay(0);
@@ -201,7 +199,6 @@ namespace Poe整理倉庫v2
                            Item onHand = null;
                            while (diff != null)
                            {
-
                                if (Stop)
                                    return;
                                Item p0 = _Items.Where(x => x.id == diff.id).Select(t => t).FirstOrDefault();
@@ -214,11 +211,9 @@ namespace Poe整理倉庫v2
 
                                p0.point = new POINT(diff.point);
 
-
                                onHand = _Items.Where(x => x.id != diff.id && x.point.Equals(diff.point)).Select(t => t).FirstOrDefault();
                                while (onHand != null)
                                {
-
                                    if (Stop)
                                        return;
                                    Item p3 = resoult.Where(x => x.id == onHand.id).FirstOrDefault();
@@ -234,7 +229,7 @@ namespace Poe整理倉庫v2
                        }
                        else
                        {
-                           //檢查背包第一二格是否清空                           
+                           //檢查背包第一二格是否清空
                            MouseTools.SetCursorPosition((startPos1.X), startPos1.Y - (int)cellHeight1 * 3);
                            MouseTools.MouseClickEvent(70);
                            MouseTools.MouseClickEvent(70);
@@ -272,17 +267,15 @@ namespace Poe整理倉庫v2
                            var diff = resoult.Where(x => !x.point.Equals(_Items.Where(y => y.id == x.id && y.point.X >= 0).FirstOrDefault().point)).Select(t => t).FirstOrDefault();
                            while (diff != null)
                            {
-
                                if (Stop)
                                    return;
                                Item k0 = _Items.Where(x => x.point.Equals(diff.point)).FirstOrDefault();
                                if (k0 != null)
                                {
-                                   //原本的位置有東西占用，先移到swap                                  
+                                   //原本的位置有東西占用，先移到swap
                                    ClickItem(poeHwnd,
                                         (int)(((float)diff.point.X * (length == 12 ? cellWidth1 : cellWidth4)) + (length == 12 ? startPos1.X : startPos4.X)),
                                         (int)(((float)diff.point.Y * (length == 12 ? cellHeight1 : cellHeight4)) + (length == 12 ? startPos1.Y : startPos4.Y)));
-
 
                                    var k1 = swap.Where(x => x.id == 0).FirstOrDefault();
                                    if (k1 != null)
@@ -295,9 +288,7 @@ namespace Poe整理倉庫v2
                                    }
                                    else
                                    {
-
                                    }
-
                                }
                                Item p0 = _Items.Where(x => x.id == diff.id).Select(t => t).FirstOrDefault();
                                ClickItem(poeHwnd,
@@ -311,7 +302,6 @@ namespace Poe整理倉庫v2
                                p0.point = new POINT(diff.point);
                                while (swap.Any(x => x.id != 0))
                                {
-
                                    if (Stop)
                                        return;
                                    var FirstItemInSwap = swap.Where(x => x.id != 0).FirstOrDefault();
@@ -335,7 +325,6 @@ namespace Poe整理倉庫v2
                                        }
                                        else
                                        {
-
                                        }
                                    }
                                    ClickItem(poeHwnd,
@@ -357,8 +346,9 @@ namespace Poe整理倉庫v2
             Stop = true;
         }
 
-        static Item[] ZeroArray = new Item[] { };
-        static Item[] Find40Q(List<Item> list, int Level, int level_Target, int index, Item[] temp)
+        private static Item[] ZeroArray = new Item[] { };
+
+        private static Item[] Find40Q(List<Item> list, int Level, int level_Target, int index, Item[] temp)
         {
             for (int i = index; i < list.Count; i++)
             {
@@ -406,7 +396,6 @@ namespace Poe整理倉庫v2
                 _Items = Items.Where(x => x.type.EndsWith("Flask") && x.quality > 1).ToList();
             else if (mode == 1)
                 _Items = Items.Where(x => x.type == "Active+Skill+Gem" && x.quality > 1).ToList();
-
 
             _Items = _Items.OrderByDescending(x => x.quality).ToList();
             var list_Priview = new List<Item>(_Items);
@@ -468,7 +457,6 @@ namespace Poe整理倉庫v2
 
             g.DrawImage(img, 0, 0, 480, 480);
 
-
             if (info == 1)
             {
                 foreach (Item item in _items)
@@ -492,7 +480,6 @@ namespace Poe整理倉庫v2
                     g.DrawImage(img, item.point.X * 480 / length, item.point.Y * 480 / length, item.w * 480 / length, item.h * 480 / length);
                     g.DrawString(item.id.ToString(), drawFont, drawBrush, item.point.X * 480 / length, item.point.Y * 480 / length);
                     pictureBox1.Image = RegionImage;
-
                 }
                 pictureBox1.Image = RegionImage;
             }
@@ -519,7 +506,6 @@ namespace Poe整理倉庫v2
                     g.DrawImage(img, item.point.X * 480 / length, item.point.Y * 480 / length, item.w * 480 / length, item.h * 480 / length);
                     g.DrawString(item.id.ToString(), drawFont, drawBrush, item.point.X * 480 / length, item.point.Y * 480 / length);
                     pictureBox2.Image = RegionImage2;
-
                 }
                 pictureBox2.Image = RegionImage2;
             }

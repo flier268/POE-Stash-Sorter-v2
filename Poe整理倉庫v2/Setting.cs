@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+
 namespace Poe整理倉庫v2
 {
     public partial class Setting
@@ -32,9 +33,7 @@ namespace Poe整理倉庫v2
 
         [JsonProperty("Priority")]
         public string[] Priority { get; set; }
-
     }
-
 
     public partial class Setting
     {

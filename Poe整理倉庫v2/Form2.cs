@@ -16,8 +16,10 @@ namespace Poe整理倉庫v2
         {
             InitializeComponent();
         }
-        List<KeyValuePair<string, string>> SpeciesDic = new List<KeyValuePair<string, string>>();
-        List<Data> ItemList = new List<Data>();
+
+        private List<KeyValuePair<string, string>> SpeciesDic = new List<KeyValuePair<string, string>>();
+        private List<Data> ItemList = new List<Data>();
+
         public Form2(string clip, string Name)
         {
             InitializeComponent();
@@ -63,12 +65,10 @@ namespace Poe整理倉庫v2
             comboBox3.SelectedIndex = 0;
             textBox3.Text = "n";
             textBox4.Text = "question-mark.png";
-
         }
 
         private void Form2_Load(object sender, EventArgs e)
         {
-
         }
 
         private async void button1_Click(object sender, EventArgs e)

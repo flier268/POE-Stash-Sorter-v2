@@ -5,33 +5,39 @@ namespace Poe整理倉庫v2
 {
     public partial class Form1
     {
-
-
         public class SortRule : IComparer<Item>
         {
-            Setting s = new Setting();
+            private Setting s = new Setting();
+
             public SortRule(Setting _s)
             {
                 s = _s;
             }
+
             private int RarityToInt(string s)
             {
                 switch (s)
                 {
                     case "普通":
                         return 1;
+
                     case "魔法":
                         return 2;
+
                     case "稀有":
                         return 3;
+
                     case "Rare":
                         return 3;
+
                     case "傳奇":
                         return 4;
+
                     default:
                         return 0;
                 }
             }
+
             public int Compare(Item s1, Item s2)
             {
                 int value = 0;
@@ -45,24 +51,31 @@ namespace Poe整理倉庫v2
                         case "MapLevel":
                             value = value == 0 ? s1.maplevel.CompareTo(s2.maplevel) : value;
                             break;
+
                         case "Q":
                             value = value == 0 ? s1.quality.CompareTo(s2.quality) : value;
                             break;
+
                         case "Name":
                             value = value == 0 ? s1.Name_eng.CompareTo(s2.Name_eng) : value;
                             break;
+
                         case "ItemLevel":
                             value = value == 0 ? s1.itemlevel.CompareTo(s2.itemlevel) : value;
                             break;
+
                         case "GemColor":
                             value = value == 0 ? s1.GC.CompareTo(s2.GC) : value;
                             break;
+
                         case "GemLevel":
                             value = value == 0 ? s1.level.CompareTo(s2.level) : value;
                             break;
+
                         case "Rarity":
                             value = value == 0 ? RarityToInt(s1.Rarity).CompareTo(RarityToInt(s2.Rarity)) : value;
                             break;
+
                         case "Type":
                             var a = s.Species.Where(x => s1.type.Contains(x)).FirstOrDefault();
                             var b = s.Species.Where(x => s2.type.Contains(x)).FirstOrDefault();
@@ -116,7 +129,6 @@ namespace Poe整理倉庫v2
             List<Item> resoult = new List<Item>();
             resoult.AddRange(item_1x1);
             resoult.AddRange(source.Where(x => x.w * x.h != 1).ToList());
-
 
             return resoult;
         }

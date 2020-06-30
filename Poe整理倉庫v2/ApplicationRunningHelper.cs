@@ -4,7 +4,6 @@ using System.Runtime.InteropServices;
 
 namespace Poe整理倉庫v2
 {
-
     [StructLayout(LayoutKind.Sequential)]
     public struct RECT
     {
@@ -19,18 +18,22 @@ namespace Poe整理倉庫v2
     {
         public int X;
         public int Y;
+
         public POINT(POINT p)
         {
             this.X = p.X;
             this.Y = p.Y;
         }
+
         public POINT(int x, int y)
         {
             this.X = x;
             this.Y = y;
         }
 
-        public POINT(System.Drawing.Point pt) : this(pt.X, pt.Y) { }
+        public POINT(System.Drawing.Point pt) : this(pt.X, pt.Y)
+        {
+        }
 
         public static implicit operator System.Drawing.Point(POINT p)
         {
@@ -41,6 +44,7 @@ namespace Poe整理倉庫v2
         {
             return new POINT(p.X, p.Y);
         }
+
         public override bool Equals(object obj)
         {
             if (((POINT)obj).X == X && ((POINT)obj).Y == Y)
@@ -55,18 +59,18 @@ namespace Poe整理倉庫v2
         }
     }
 
-
     public static class ApplicationHelper
     {
         public static Process currentProcess;
 
-
         [DllImport("user32.dll")]
         public static extern
             bool SetForegroundWindow(IntPtr hWnd);
+
         [DllImport("user32.dll")]
         private static extern
             bool ShowWindowAsync(IntPtr hWnd, int nCmdShow);
+
         [DllImport("user32.dll")]
         private static extern
             bool IsIconic(IntPtr hWnd);
@@ -93,22 +97,17 @@ namespace Poe整理倉庫v2
             return IntPtr.Zero;
         }
 
+        [DllImport("user32.dll", SetLastError = true)]
+        private static extern bool GetWindowRect(IntPtr hWnd, ref RECT Rect);
 
         [DllImport("user32.dll", SetLastError = true)]
-        static extern bool GetWindowRect(IntPtr hWnd, ref RECT Rect);
+        private static extern bool GetClientRect(IntPtr hWnd, ref RECT Rect);
 
         [DllImport("user32.dll", SetLastError = true)]
-        static extern bool GetClientRect(IntPtr hWnd, ref RECT Rect);
-
-
-        [DllImport("user32.dll", SetLastError = true)]
-        static extern bool MoveWindow(IntPtr hWnd, int X, int Y, int Width, int Height, bool Repaint);
-
-
+        private static extern bool MoveWindow(IntPtr hWnd, int X, int Y, int Width, int Height, bool Repaint);
 
         [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true, ExactSpelling = true)]
         public static extern int ScreenToClient(IntPtr hWnd, out POINT pt);
-
 
         public static RECT PathOfExileDimentions
         {

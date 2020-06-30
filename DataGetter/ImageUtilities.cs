@@ -13,6 +13,7 @@ namespace Utilities
     {
         private const string ErrorMessage = "Could not read image data";
         private const int ChunkSize = 1024;
+
         private static readonly Dictionary<byte[], Func<BinaryReader, Size>> ImageFormatDecoders = new Dictionary<byte[], Func<BinaryReader, Size>>()
         {
             { new byte[]{ 0x42, 0x4D }, DecodeBitmap},
@@ -69,7 +70,7 @@ namespace Utilities
         /// Gets the dimensions of an image.
         /// </summary>
         /// <returns>The dimensions of the specified image.</returns>
-        /// <exception cref="ArgumentException">The image was of an unrecognized format.</exception>    
+        /// <exception cref="ArgumentException">The image was of an unrecognized format.</exception>
         public static Size GetDimensions(BinaryReader binaryReader)
         {
             int maxMagicBytesLength = ImageFormatDecoders.Keys.OrderByDescending(x => x.Length).First().Length;
@@ -91,6 +92,7 @@ namespace Utilities
 
             throw new ArgumentException(ErrorMessage, nameof(binaryReader));
         }
+
         public static Size GetDimensions(string path)
         {
             try
@@ -119,6 +121,7 @@ namespace Utilities
                 }
             }
         }
+
         // from https://stackoverflow.com/a/415839/3838199
         private static byte[] Combine(byte[] first, byte[] second)
         {

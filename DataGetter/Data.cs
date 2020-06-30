@@ -7,6 +7,7 @@ namespace DataGetter
     {
         [PrimaryKey]
         public string Name_English { get; set; }
+
         public string Name_Chinese { get; set; }
         public string Type { get; set; }
         public int Rarity { get; set; }

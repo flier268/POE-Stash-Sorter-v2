@@ -14,9 +14,11 @@ namespace Poe整理倉庫v2
         {
             InitializeComponent();
         }
-        Setting Config = new Setting();
-        List<KeyValuePair<string, string>> SpeciesDic = new List<KeyValuePair<string, string>>();
-        List<KeyValuePair<string, string>> PriorityDic = new List<KeyValuePair<string, string>>();
+
+        private Setting Config = new Setting();
+        private List<KeyValuePair<string, string>> SpeciesDic = new List<KeyValuePair<string, string>>();
+        private List<KeyValuePair<string, string>> PriorityDic = new List<KeyValuePair<string, string>>();
+
         private void button_TypeListUp_Click(object sender, EventArgs e)
         {
             int i = listBox_TypeList.SelectedIndex;
@@ -38,6 +40,7 @@ namespace Poe整理倉庫v2
                 listBox_TypeList.Items.Insert(i + 1, objItem);
             }
         }
+
         private void button_PriorityUp_Click(object sender, EventArgs e)
         {
             int i = listBox_Priority.SelectedIndex;
@@ -48,6 +51,7 @@ namespace Poe整理倉庫v2
                 listBox_Priority.Items.Insert(i - 1, objItem);
             }
         }
+
         private void button_PriorityDown_Click(object sender, EventArgs e)
         {
             int i = listBox_Priority.SelectedIndex;
@@ -58,8 +62,6 @@ namespace Poe整理倉庫v2
                 listBox_Priority.Items.Insert(i + 1, objItem);
             }
         }
-
-
 
         private void button_Save_Click(object sender, EventArgs e)
         {
@@ -91,46 +93,62 @@ namespace Poe整理倉庫v2
                 w.Flush();
                 MessageBox.Show("Saved");
             }
-
         }
+
         private int ToASCII(string Key)
         {
             switch (Key)
             {
                 case "F1":
                     return 112;
+
                 case "F2":
                     return 113;
+
                 case "F3":
                     return 114;
+
                 case "F4":
                     return 115;
+
                 case "F5":
                     return 116;
+
                 case "F6":
                     return 117;
+
                 case "F7":
                     return 118;
+
                 case "F8":
                     return 119;
+
                 case "F9":
                     return 120;
+
                 case "F10":
                     return 121;
+
                 case "F11":
                     return 122;
+
                 case "F12":
                     return 123;
+
                 case "F13":
                     return 124;
+
                 case "F14":
                     return 125;
+
                 case "F15":
                     return 126;
+
                 default:
                     return 0;
             }
         }
+
         private void AddSpeciesDic()
         {
             if (System.Threading.Thread.CurrentThread.CurrentUICulture.Name == "en")
@@ -162,6 +180,7 @@ namespace Poe整理倉庫v2
                 SpeciesDic.Add(new KeyValuePair<string, string>("Prophec", "預言"));
             }
         }
+
         private void AddPriorityDic()
         {
             if (System.Threading.Thread.CurrentThread.CurrentUICulture.Name == "en")
@@ -187,6 +206,7 @@ namespace Poe整理倉庫v2
                 PriorityDic.Add(new KeyValuePair<string, string>("Type", "類型"));
             }
         }
+
         private void Form3_Load(object sender, EventArgs e)
         {
             using (StreamReader r = new StreamReader(Path.ChangeExtension(Application.ExecutablePath, ".cfg"), Encoding.UTF8))
@@ -230,40 +250,56 @@ namespace Poe整理倉庫v2
             label14.Text = System.Threading.Thread.CurrentThread.CurrentUICulture.Name == "en" ? $"Slow {Config.Delay_Scan}" : $"慢 {Config.Delay_Scan}";
             comboBox_Direction.SelectedIndex = Config.Direction == "Horizontal" ? 1 : 0;
         }
+
         private string ToKode(int ASCII)
         {
             switch (ASCII)
             {
                 case 112:
                     return "F1";
+
                 case 113:
                     return "F2";
+
                 case 114:
                     return "F3";
+
                 case 115:
                     return "F4";
+
                 case 116:
                     return "F5";
+
                 case 117:
                     return "F6";
+
                 case 118:
                     return "F7";
+
                 case 119:
                     return "F8";
+
                 case 120:
                     return "F9";
+
                 case 121:
                     return "F10";
+
                 case 122:
                     return "F11";
+
                 case 123:
                     return "F12";
+
                 case 124:
                     return "F13";
+
                 case 125:
                     return "F14";
+
                 case 126:
                     return "F15";
+
                 default:
                     return "None";
             }
@@ -276,9 +312,11 @@ namespace Poe整理倉庫v2
                 case "trackBar_Click":
                     label10.Text = String.Format(System.Threading.Thread.CurrentThread.CurrentUICulture.Name == "en" ? "Slow {0}" : "慢 {0}", ((TrackBar)sender).Value);
                     break;
+
                 case "trackBar_MouseMove":
                     label11.Text = String.Format(System.Threading.Thread.CurrentThread.CurrentUICulture.Name == "en" ? "Slow {0}" : "慢 {0}", ((TrackBar)sender).Value);
                     break;
+
                 case "trackBar_Scan":
                     label14.Text = String.Format(System.Threading.Thread.CurrentThread.CurrentUICulture.Name == "en" ? "Slow {0}" : "慢 {0}", ((TrackBar)sender).Value);
                     break;

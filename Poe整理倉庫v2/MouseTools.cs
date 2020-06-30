@@ -16,6 +16,7 @@ namespace Poe整理倉庫v2
             public Int32 X;
             public Int32 Y;
         };
+
         /*
         public static Vector2 GetMousePosition()
         {
@@ -24,8 +25,6 @@ namespace Poe整理倉庫v2
             return new Vector2(w32Mouse.X, w32Mouse.Y);
         }
         */
-
-
 
         [Flags]
         public enum MouseEventFlags
@@ -101,8 +100,6 @@ namespace Poe整理倉庫v2
                 X = x;
                 Y = y;
             }
-
         }
-
     }
 }

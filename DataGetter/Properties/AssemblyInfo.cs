@@ -21,7 +21,7 @@ using System.Runtime.InteropServices;
 // 下列 GUID 為專案公開 (Expose) 至 COM 時所要使用的 typelib ID
 [assembly: Guid("157bb369-72a1-4e5a-95ff-e571b1bda7a4")]
 
-// 組件的版本資訊由下列四個值所組成: 
+// 組件的版本資訊由下列四個值所組成:
 //
 //      主要版本
 //      次要版本
@@ -29,7 +29,7 @@ using System.Runtime.InteropServices;
 //      修訂編號
 //
 // 您可以指定所有的值，或將組建編號或修訂編號設為預設值
-// 指定為預設值: 
+// 指定為預設值:
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("1.0.0.5")]
 [assembly: AssemblyFileVersion("1.0.0.5")]

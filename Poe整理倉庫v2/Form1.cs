@@ -19,25 +19,26 @@ namespace Poe整理倉庫v2
 {
     public partial class Form1 : Form
     {
-
         #region 全域變數
+
         internal static Setting Config = new Setting();
         private float cellHeight1, cellHeight4;
         private float cellWidth1, cellWidth4;
         private Point startPos1, startPos4;
         private Point bagstartPos;
-        bool Loaded = false;
-        IntPtr poeHwnd = IntPtr.Zero;
-        List<Data> ItemList = new List<Data>();
-        List<Data> ItemList_Adden = new List<Data>();
-        List<Data> ItemList_Unique = new List<Data>();
-        List<Item> Items = new List<Item>();
-        List<POINT> used = new List<POINT>();
-        List<Item> resoult = new List<Item>();
-        Bitmap RegionImage = new Bitmap(480, 480);
-        Bitmap RegionImage2 = new Bitmap(480, 480);
+        private bool Loaded = false;
+        private IntPtr poeHwnd = IntPtr.Zero;
+        private List<Data> ItemList = new List<Data>();
+        private List<Data> ItemList_Adden = new List<Data>();
+        private List<Data> ItemList_Unique = new List<Data>();
+        private List<Item> Items = new List<Item>();
+        private List<POINT> used = new List<POINT>();
+        private List<Item> resoult = new List<Item>();
+        private Bitmap RegionImage = new Bitmap(480, 480);
+        private Bitmap RegionImage2 = new Bitmap(480, 480);
 
         private delegate void myUICallBack_ControlText(string myStr, Control ctl);
+
         private void ChangeControlText(string myStr, Control ctl)
         {
             if (this.InvokeRequired)
@@ -50,6 +51,7 @@ namespace Poe整理倉庫v2
                 ctl.Text = myStr;
             }
         }
+
         #endregion 全域變數
 
         #region subfunction_MoveItem
@@ -67,6 +69,7 @@ namespace Poe整理倉庫v2
             PostMessage(hwnd, WM_LBUTTONDOWN, (IntPtr)0x1, (IntPtr)coordinates);
             PostMessage(hwnd, WM_LBUTTONUP, (IntPtr)0x1, (IntPtr)coordinates);
         }
+
         private void GetItem(IntPtr hwnd, int x, int y)
         {
             MouseTools.SetCursorPosition(x, y);
@@ -78,6 +81,7 @@ namespace Poe整理倉庫v2
             KeyBoardTool.KeyUp(Keys.ControlKey);
             Thread.Sleep(Config.Delay1);
         }
+
         private void ClickItem(IntPtr hwnd, int x, int y)
         {
             MouseTools.SetCursorPosition(x, y);
@@ -85,12 +89,14 @@ namespace Poe整理倉庫v2
             SimulateMouseLeft(poeHwnd, x, y);
             Thread.Sleep(Config.Delay1);
         }
+
         #endregion subfunction_MoveItem
 
         public Form1()
         {
             InitializeComponent();
         }
+
         private void button_Setting_Click(object sender, EventArgs e)
         {
             Form3 f = new Form3();
@@ -101,8 +107,8 @@ namespace Poe整理倉庫v2
             }
             resoult = Sort(Items, used, (radioButton4.Checked ? 12 : 24));
             DrawBoxRegion(resoult, (radioButton4.Checked ? 12 : 24), 2);
-
         }
+
         private void button_ReLoadBox_Click(object sender, EventArgs e)
         {
             Stop = false;
@@ -123,7 +129,6 @@ namespace Poe整理倉庫v2
             MouseTools.MouseClickEvent(70);
             MouseTools.MouseClickEvent(70);
             Task.Delay(500);
-
 
             GetWarehouse(radioButton4.Checked ? 12 : 24);
 
@@ -166,6 +171,7 @@ namespace Poe整理倉庫v2
         {
             CheckUpdate();
         }
+
         private void CheckUpdate()
         {
             var task = Task.Run(() =>
@@ -207,7 +213,6 @@ namespace Poe整理倉庫v2
                     ChangeControlText("Error checking for update.", linkLabel1);
                 }
             });
-
         }
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -255,11 +260,13 @@ namespace Poe整理倉庫v2
             radioButton_langEN.CheckedChanged += radioButton9_CheckedChanged;
             CheckUpdate();
         }
+
         public struct table
         {
             public int[] list;
             public int total;
         }
+
         public class path
         {
             public bool end;
@@ -267,6 +274,7 @@ namespace Poe整理倉庫v2
             public int totalHashCode;
             public int id, count, age, mom;
         }
+
         private class pathComparer_age_count : IComparer<path>
         {
             // 遞增排序
@@ -278,6 +286,7 @@ namespace Poe整理倉庫v2
                 return temp;
             }
         }
+
         private class pathComparer_end : IComparer<path>
         {
             // 遞增排序
@@ -286,7 +295,8 @@ namespace Poe整理倉庫v2
                 return y.end.CompareTo(x.end);
             }
         }
-        List<int[]> FindAnswer(ref List<int[]> Data, int[] Q)
+
+        private List<int[]> FindAnswer(ref List<int[]> Data, int[] Q)
         {
             var temp = Data.Where(x => x[1] <= Q[1]).Where(x => x[2] <= Q[2]).Where(x => x[3] <= Q[3]).Where(x => x[4] <= Q[4]).Where(x => x[5] <= Q[5])
                 .Where(x => x[6] <= Q[6]).Where(x => x[7] <= Q[7]).Where(x => x[8] <= Q[8]).Where(x => x[9] <= Q[9]).Where(x => x[10] <= Q[10])
@@ -294,6 +304,7 @@ namespace Poe整理倉庫v2
                 .Where(x => x[16] <= Q[16]).Where(x => x[17] <= Q[17]).Where(x => x[18] <= Q[18]).Where(x => x[19] <= Q[19]).Where(x => x[0] <= Q[0]);
             return temp.ToList();
         }
+
         public int CalcArrayTotal(int[] array)
         {
             int total = 0;
@@ -301,10 +312,11 @@ namespace Poe整理倉庫v2
                 total += t;
             return total;
         }
+
         private void button1_Click(object sender, EventArgs e)
         {
-
         }
+
         private void ShowItemInfo(object sender, MouseEventArgs e)
         {
             var showwhat = ((PictureBox)sender) == pictureBox1 ? pictureBox1 : pictureBox2;
@@ -354,11 +366,13 @@ namespace Poe整理倉庫v2
                 case 0:
                     MessageBox.Show("Datas.db讀取失敗，請確認後再重新啟動程式\r\nCan not load Datas.db. Please check the file exists and restart the program.");
                     break;
+
                 default:
                     Loaded = true;
                     break;
             }
         }
+
         private void GetStashDimentions()
         {
             RECT rect = ApplicationHelper.PathOfExileDimentions;
@@ -377,6 +391,7 @@ namespace Poe整理倉庫v2
 
             bagstartPos = new Point((int)(rect.Right - height * 0.04f - cellWidth1 * 11), (int)(rect.Bottom - height * 0.233333f - cellHeight1 * 4));
         }
+
         private void GlobalKeyDown(object sender, Flier.SuperTools.Hook.KeyBoard.Global_Hook.KeyEventArgsEx e)
         {
             if (Config.HotkeyScan != 0)
@@ -395,7 +410,6 @@ namespace Poe整理倉庫v2
             if (Config.HotkeyStop != 0)
                 if (e.KeyValue == Config.HotkeyStop)
                     Stop = true;
-
         }
     }
 }

@@ -15,11 +15,13 @@ namespace Poe整理倉庫v2
             }
             return false;
         }
+
         public static string GetStringAfterSomething(string s, string beforeWhat)
         {
             string temp = s.Substring(s.IndexOf(beforeWhat) + 1, s.Length - s.IndexOf(beforeWhat) - 1);
             return temp;
         }
+
         /// <summary>
         /// 依照自訂進位制進行進位
         /// </summary>
@@ -38,7 +40,6 @@ namespace Poe整理倉庫v2
                 int quotient = Math.DivRem(list[i], carryX, out remainder);
                 if (quotient > 0)
                 {
-
                     if (i == 0)
                         list.Insert(0, quotient);
                     else
@@ -48,6 +49,7 @@ namespace Poe整理倉庫v2
             }
             return list;
         }
+
         /// <summary>
         /// 計算陣列中每個數字的總和
         /// </summary>
@@ -60,6 +62,7 @@ namespace Poe整理倉庫v2
                 total += t;
             return total;
         }
+
         /// <summary>
         /// 兩陣列相加(A+B)
         /// </summary>
@@ -76,6 +79,7 @@ namespace Poe整理倉庫v2
                 }
             return temp;
         }
+
         /// <summary>
         /// 兩陣列相減(A-B)
         /// </summary>
@@ -92,6 +96,7 @@ namespace Poe整理倉庫v2
                 }
             return temp;
         }
+
         public static int GetHashCode(int[] array)
         {
             if (array != null)
@@ -105,6 +110,7 @@ namespace Poe整理倉庫v2
             }
             return 0;
         }
+
         /// <summary>
         /// 判斷數值是否在兩者之間
         /// </summary>
@@ -116,6 +122,7 @@ namespace Poe整理倉庫v2
         {
             return value >= minimum && value <= maximum;
         }
+
         /// <summary>
         /// 判斷數值是否在兩者之間
         /// </summary>
