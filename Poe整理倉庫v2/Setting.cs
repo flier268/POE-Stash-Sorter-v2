@@ -1,37 +1,38 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace Poe整理倉庫v2
 {
     public partial class Setting
     {
-        [JsonProperty("Hotkey_Scan")]
+        [JsonPropertyName("Hotkey_Scan")]
         public int HotkeyScan { get; set; }
 
-        [JsonProperty("Hotkey_Start")]
+        [JsonPropertyName("Hotkey_Start")]
         public int HotkeyStart { get; set; }
 
-        [JsonProperty("Hotkey_Stop")]
+        [JsonPropertyName("Hotkey_Stop")]
         public int HotkeyStop { get; set; }
 
-        [JsonProperty("Delay1")]
+        [JsonPropertyName("Delay1")]
         public int Delay1 { get; set; }
 
-        [JsonProperty("Delay2")]
+        [JsonPropertyName("Delay2")]
         public int Delay2 { get; set; }
 
-        [JsonProperty("Delay_Scan")]
+        [JsonPropertyName("Delay_Scan")]
         public int Delay_Scan { get; set; }
 
-        [JsonProperty("Direction")]
+        [JsonPropertyName("Direction")]
         public string Direction { get; set; }
 
-        [JsonProperty("LowQ")]
+        [JsonPropertyName("LowQ")]
         public int LowQ { get; set; }
 
-        [JsonProperty("Species")]
+        [JsonPropertyName("Species")]
         public string[] Species { get; set; }
 
-        [JsonProperty("Priority")]
+        [JsonPropertyName("Priority")]
         public string[] Priority { get; set; }
     }
 
@@ -39,7 +40,7 @@ namespace Poe整理倉庫v2
     {
         public static Setting FromJson(string json)
         {
-            return JsonConvert.DeserializeObject<Setting>(json, Converter.Settings);
+            return JsonSerializer.Deserialize<Setting>(json, Converter.Settings);
         }
     }
 
@@ -47,16 +48,12 @@ namespace Poe整理倉庫v2
     {
         public static string ToJson(this Setting self)
         {
-            return JsonConvert.SerializeObject(self, Formatting.Indented, Converter.Settings);
+            return JsonSerializer.Serialize(self, Converter.Settings);
         }
     }
 
     public class Converter
     {
-        public static readonly JsonSerializerSettings Settings = new JsonSerializerSettings
-        {
-            MetadataPropertyHandling = MetadataPropertyHandling.Ignore,
-            DateParseHandling = DateParseHandling.None,
-        };
+        public static readonly JsonSerializerOptions Settings = new JsonSerializerOptions(JsonSerializerDefaults.Web);
     }
 }

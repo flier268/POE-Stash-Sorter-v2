@@ -8,7 +8,7 @@ namespace Poe整理倉庫v2
         /// <summary>
         /// 編號
         /// </summary>
-        public int id { get; set; }
+        public int Id { get; set; }
 
         /// <summary>
         /// 稀有度
@@ -21,7 +21,12 @@ namespace Poe整理倉庫v2
         public string Name { get; set; }
 
         /// <summary>
-        /// 物品名稱
+        /// 物品基底
+        /// </summary>
+        public string Base { get; set; }
+
+        /// <summary>
+        /// 英文物品名稱
         /// </summary>
         public string Name_eng { get; set; }
 
@@ -85,14 +90,14 @@ namespace Poe整理倉庫v2
                     return true;
                 else if (x == null | y == null)
                     return false;
-                else if (x.id == y.id && x.point.Equals(y.point))
+                else if (x.Id == y.Id && x.point.Equals(y.point))
                     return true;
                 return false;
             }
 
             public int GetHashCode(Item obj)
             {
-                int hCode = obj.id ^ obj.point.X ^ obj.point.Y;
+                int hCode = obj.Id ^ obj.point.X ^ obj.point.Y;
                 return hCode.GetHashCode();
             }
         }

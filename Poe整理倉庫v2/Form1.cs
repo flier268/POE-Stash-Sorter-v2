@@ -1,6 +1,4 @@
-﻿using DataGetter;
-using SQLite;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
@@ -14,6 +12,8 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using DataGetter;
+using LiteDB;
 
 namespace Poe整理倉庫v2
 {
@@ -125,7 +125,7 @@ namespace Poe整理倉庫v2
             }
             GetStashDimentions();
 
-            MouseTools.SetCursorPosition(startPos1.X, startPos1.Y - (int)cellHeight1 * 3);
+            MouseTools.SetCursorPosition(startPos1.X, startPos1.Y - (int)cellHeight1 * 2);
             MouseTools.MouseClickEvent(70);
             MouseTools.MouseClickEvent(70);
             Task.Delay(500);
@@ -344,33 +344,19 @@ namespace Poe整理倉庫v2
                 return;
             }
 
-            int stats = 0;
-            var databasePath = Path.Combine(Application.StartupPath, "Datas.db");
-            if (File.Exists(databasePath))
-            {
-                var db = new SQLiteAsyncConnection(databasePath);
-                ItemList = await db.Table<Data>().Where(x => x.Rarity == 0).ToListAsync();
-                ItemList_Unique = await db.Table<Data>().Where(x => x.Rarity == 1).ToListAsync();
-                await db.CloseAsync();
-                stats += 1;
-            }
-            databasePath = Path.Combine(Application.StartupPath, "Datas_Adden.db");
-            if (File.Exists(databasePath))
-            {
-                var db = new SQLiteAsyncConnection(databasePath);
-                ItemList_Adden = await db.Table<Data>().ToListAsync();
-                await db.CloseAsync();
-            }
-            switch (stats)
-            {
-                case 0:
-                    MessageBox.Show("Datas.db讀取失敗，請確認後再重新啟動程式\r\nCan not load Datas.db. Please check the file exists and restart the program.");
-                    break;
+            ItemList = DataRepository.Find(x => x.Rarity == 0).ToList();
+            ItemList_Unique = DataRepository.Find(x => x.Rarity == 1).ToList();
 
-                default:
-                    Loaded = true;
-                    break;
+            string databasePath = Path.Combine(Application.StartupPath, "Datas_Adden.db");
+            if (File.Exists(databasePath))
+            {
+                using (var db = new LiteDatabase(databasePath))
+                {
+                    var col = db.GetCollection<Data>();
+                    ItemList_Adden = col.FindAll().ToList();
+                }
             }
+            Loaded = true;
         }
 
         private void GetStashDimentions()
@@ -378,10 +364,15 @@ namespace Poe整理倉庫v2
             RECT rect = ApplicationHelper.PathOfExileDimentions;
             int width = rect.Right - rect.Left;
             int height = rect.Bottom - rect.Top;
+            // 第0-0格的座標
+            (decimal X, decimal Y) firstSlotPoint = (52, 204);
+            // 第1-1格的座標
+            (decimal X, decimal Y) _1_1SlotPoint = (123, 279);
+            (decimal X, decimal Y) ScreenSize = (2560, 1440);
 
-            float startX = height * 0.033f;
-            float startY = height * 0.1783f;
-            cellHeight1 = height * 0.0484f;
+            decimal startX = height * firstSlotPoint.X / ScreenSize.Y;
+            decimal startY = height * firstSlotPoint.Y / ScreenSize.Y;
+            cellHeight1 = (float)(height * (_1_1SlotPoint.X - firstSlotPoint.X) / ScreenSize.Y);
             cellWidth1 = cellHeight1;
             startPos1 = new Point(rect.Left + (int)startX, rect.Top + (int)startY);
 

@@ -1,14 +1,16 @@
-﻿using DataGetter;
-using SQLite;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Linq.Expressions;
+using System.Security.Cryptography.X509Certificates;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using DataGetter;
+using LiteDB;
 
 namespace Poe整理倉庫v2
 {
@@ -32,7 +34,24 @@ namespace Poe整理倉庫v2
             Application.DoEvents();
         }
 
-        private string reg = @":\s(.*?)\r\n(.*?)\r\n(.*?)--------\r\n(.*)";
+        /*
+            物品種類: 手套
+            稀有度: 稀有
+            精良的 粗革手套
+            --------
+            品質: +6% (augmented)
+            閃避值: 188 (augmented)
+            --------
+            需求:
+            敏捷: 78
+            --------
+            插槽: R-G-G-G
+            --------
+            物品等級: 77
+            --------
+            未鑑定
+        */
+        private string reg = @"(?:稀有度|Rarity):\s(.*?)\r\n(.*?)\r\n(.*?)--------\r\n(.*)";
 
         /// <summary>
         /// 取得並分析POE倉庫頁面中所有物品的資訊
@@ -62,22 +81,22 @@ namespace Poe整理倉庫v2
             Regex r = new Regex(reg, RegexOptions.IgnoreCase | RegexOptions.Singleline);
             Match m, m_itemlevel, m_quality, m_level, m_maplevel;
             int id = 0;
-            for (int x = 0; x < length; x++)
+            for (int positionX = 0; positionX < length; positionX++)
             {
-                for (int y = 0; y < length; y++)
+                for (int positionY = 0; positionY < length; positionY++)
                 {
                     if (Stop)
                     {
                         DrawBoxRegion(Items, length, 1);
                         return;
                     }
-                    if (used.Any(u => u.X == x && u.Y == y))
+                    if (used.Any(u => u.X == positionX && u.Y == positionY))
                         continue;
                     Clipboard.Clear();
                     if (length == 12)
-                        POE_GetItemInfo((int)(startPos1.X + cellWidth1 * x), (int)(startPos1.Y + cellHeight1 * y));
+                        POE_GetItemInfo((int)(startPos1.X + cellWidth1 * positionX), (int)(startPos1.Y + cellHeight1 * positionY));
                     else
-                        POE_GetItemInfo((int)(startPos4.X + cellWidth4 * x), (int)(startPos4.Y + cellHeight4 * y));
+                        POE_GetItemInfo((int)(startPos4.X + cellWidth4 * positionX), (int)(startPos4.Y + cellHeight4 * positionY));
 
                     string clip = Clipboard.GetText(TextDataFormat.UnicodeText);
                     if (clip == "")
@@ -86,80 +105,111 @@ namespace Poe整理倉庫v2
                         continue;
 
                     m = r.Match(clip);
-
+                    if (clip.Contains("赤紅珠寶"))
+                    {
+                    }
                     Item temp = new Item();
-                    if (m.Groups[3].ToString() == "")
+                    if (m.Groups[3].Value == "")
                     {
-                        temp.Name = PrivateFunction.GetStringAfterSomething(m.Groups[2].ToString().Trim(), "」");
+                        temp.Name = m.Groups[2].Value.Trim().Replace("精良的 ", "").Replace("Superior ", "");
+                        temp.Base = temp.Name;
                     }
                     else
                     {
-                        if (m.Groups[1].ToString() == "傳奇" || m.Groups[1].ToString() == "Unique")
-                            temp.Name = m.Groups[2].ToString().Trim() + " " + m.Groups[3].ToString().Trim();
+                        if (m.Groups[1].Value == "傳奇" || m.Groups[1].Value == "Unique")
+                        {
+                            temp.Name = m.Groups[2].Value.Trim();
+                            temp.Base = m.Groups[3].Value.Trim();
+                        }
                         else
-                            temp.Name = m.Groups[3].ToString().Trim();
+                        {
+                            // 非傳奇有詞墜，捨棄了詞墜，用Name當Name
+                            temp.Name = m.Groups[3].Value.Trim();
+                            temp.Base = m.Groups[3].Value.Trim();
+                        }
                     }
 
-                    temp.Rarity = m.Groups[1].ToString().Trim();
-                    m_itemlevel = r_itemlevel.Match(m.Groups[4].ToString());
-                    m_itemlevel = m_itemlevel.Groups.Count == 1 ? r_itemlevel_eng.Match(m.Groups[4].ToString()) : m_itemlevel;
-                    m_level = r_level.Match(m.Groups[4].ToString());
-                    m_level = m_level.Groups.Count == 1 ? r_level_eng.Match(m.Groups[4].ToString()) : m_level;
-                    m_maplevel = r_maplevel.Match(m.Groups[4].ToString());
-                    m_maplevel = m_maplevel.Groups.Count == 1 ? r_maplevel_eng.Match(m.Groups[4].ToString()) : m_maplevel;
-                    m_quality = r_quality.Match(m.Groups[4].ToString());
-                    m_quality = m_quality.Groups.Count == 1 ? r_quality_eng.Match(m.Groups[4].ToString()) : m_quality;
-                    temp.itemlevel = m_itemlevel.Groups.Count == 1 ? 0 : int.Parse(m_itemlevel.Groups[1].ToString());
-                    temp.level = m_level.Groups.Count == 1 ? 0 : int.Parse(m_level.Groups[1].ToString());
-                    temp.quality = m_quality.Groups.Count == 1 ? 0 : int.Parse(m_quality.Groups[1].ToString());
-                    temp.maplevel = m_maplevel.Groups.Count == 1 ? 0 : int.Parse(m_maplevel.Groups[1].ToString());
+                    temp.Rarity = m.Groups[1].Value.Trim();
+                    m_itemlevel = r_itemlevel.Match(m.Groups[4].Value);
+                    m_itemlevel = m_itemlevel.Groups.Count == 1 ? r_itemlevel_eng.Match(m.Groups[4].Value) : m_itemlevel;
+                    m_level = r_level.Match(m.Groups[4].Value);
+                    m_level = m_level.Groups.Count == 1 ? r_level_eng.Match(m.Groups[4].Value) : m_level;
+                    m_maplevel = r_maplevel.Match(m.Groups[4].Value);
+                    m_maplevel = m_maplevel.Groups.Count == 1 ? r_maplevel_eng.Match(m.Groups[4].Value) : m_maplevel;
+                    m_quality = r_quality.Match(m.Groups[4].Value);
+                    m_quality = m_quality.Groups.Count == 1 ? r_quality_eng.Match(m.Groups[4].Value) : m_quality;
+                    temp.itemlevel = m_itemlevel.Groups.Count == 1 ? 0 : int.Parse(m_itemlevel.Groups[1].Value);
+                    temp.level = m_level.Groups.Count == 1 ? 0 : int.Parse(m_level.Groups[1].Value);
+                    temp.quality = m_quality.Groups.Count == 1 ? 0 : int.Parse(m_quality.Groups[1].Value);
+                    temp.maplevel = m_maplevel.Groups.Count == 1 ? 0 : int.Parse(m_maplevel.Groups[1].Value);
 
-                    Data t;
-                    if (m.Groups[1].ToString() == "傳奇" || m.Groups[1].ToString() == "Unique")
+                    Data data;
+                    if (PrivateFunction.IsChineseContain(temp.Name))
                     {
-                        t = ItemList_Unique.Where(a => a.Name_Chinese.EndsWith(PrivateFunction.GetStringAfterSomething(temp.Name, "」")) ||
-                            PrivateFunction.GetStringAfterSomething(temp.Name, "」").StartsWith(a.Name_English) ||
-                            PrivateFunction.GetStringAfterSomething(temp.Name, "」").Contains(a.Name_English)
-                        ).FirstOrDefault();
+                        data = DataRepository.FindOne(x => x.Name_Chinese == temp.Name);
+                        if (data == null)
+                        {
+                            data = TakeMostSimilarOne(x => temp.Name.EndsWith(x.Name_Chinese));
+                        }
+                        if (data == null)
+                        {
+                            data = TakeMostSimilarOne(x => temp.Name.Contains(x.Name_Chinese));
+                        }
                     }
                     else
                     {
-                        t = ItemList.Where(a => temp.Name.Equals(a.Name_Chinese) || temp.Name.Equals(a.Name_English)).FirstOrDefault();
-                        if (t == null)
-                            t = ItemList.Where(a => temp.Name.EndsWith(a.Name_Chinese) || temp.Name.EndsWith(a.Name_English)).FirstOrDefault();
-                        if (t == null)
-                            t = ItemList.Where(a => temp.Name.Contains(a.Name_English)).FirstOrDefault();
+                        data = DataRepository.FindOne(x => x.Name_English == temp.Name);
+                        if (data == null)
+                        {
+                            data = TakeMostSimilarOne(x => temp.Name.EndsWith(x.Name_English));
+                        }
+                        if (data == null)
+                        {
+                            data = TakeMostSimilarOne(x => temp.Name.Contains(x.Name_English));
+                        }
                     }
-                    if (t == null)
-                        t = ItemList_Adden.Where(a => a.Name_Chinese.EndsWith(PrivateFunction.GetStringAfterSomething(temp.Name, "」")) || a.Name_English.StartsWith(PrivateFunction.GetStringAfterSomething(temp.Name, "」"))).FirstOrDefault();
+                    Data TakeMostSimilarOne(Expression<Func<Data, bool>> predicate)
+                    {
+                        var list = DataRepository.Find(predicate);
+                        if (list.Count() > 1)
+                            return list.Select(x => (Data: x, Similarity: x.Name_Chinese.GetSimilarityWith(temp.Name))).OrderByDescending(x => x.Similarity).First().Data;
+                        else if (list.Count() == 1)
+                            return list.First();
+                        return null;
+                    }
 
-                    while (t == null)
+                    while (data == null)
                     {
                         Form2 f = new Form2(clip, temp.Name);
                         f.ShowDialog();
                         var databasePath = Path.Combine(Application.StartupPath, "Datas_Adden.db");
-                        var db = new SQLiteAsyncConnection(databasePath);
-                        await db.CreateTableAsync<Data>();
-                        await db.CreateIndexAsync("Data", "Name_Chinese");
-                        await db.CreateIndexAsync("Data", "Name_English");
-                        ItemList_Adden = await db.Table<Data>().ToListAsync();
-                        await db.CloseAsync();
-                        t = ItemList_Adden.Where(a => temp.Name.Equals(a.Name_Chinese) || temp.Name.Equals(a.Name_English)).FirstOrDefault();
+
+                        using (var db = new LiteDatabase(databasePath))
+                        {
+                            var col = db.GetCollection<Data>();
+                            col.EnsureIndex(a => a.Name_English);
+                            col.EnsureIndex(a => a.Name_Chinese);
+                            ItemList_Adden = col.FindAll().ToList();
+                        }
+                        data = ItemList_Adden.Where(a => temp.Name.Equals(a.Name_Chinese) || temp.Name.Equals(a.Name_English)).FirstOrDefault();
                     }
-                    temp.w = t.Width;
-                    temp.h = t.Height;
-                    temp.point = new POINT(x, y);
-                    temp.url = t.ImageURL;
-                    temp.GC = t.GemColor.ToCharArray()[0];
-                    temp.Name_eng = t.Name_English;
-                    temp.type = t.Type;
+                    temp.w = data.Width;
+                    temp.h = data.Height;
+                    temp.point = new POINT(positionX, positionY);
+                    temp.url = data.ImageURL;
+                    temp.GC = data.GemColor[0];
 
-                    temp.priority = Array.IndexOf(Config.Species, t.Type);
+                    temp.Name = data.Name_Chinese;
+                    temp.Name_eng = data.Name_English;
 
-                    temp.id = ++id;
+                    temp.type = data.Type;
 
-                    for (int i = x; i < x + t.Width; i++)
-                        for (int j = y; j < y + t.Height; j++)
+                    temp.priority = Array.IndexOf(Config.Species, data.Type);
+
+                    temp.Id = ++id;
+
+                    for (int i = positionX; i < positionX + data.Width; i++)
+                        for (int j = positionY; j < positionY + data.Height; j++)
                             used.Add(new POINT(i, j));
                     Items.Add(temp);
                 }
@@ -195,13 +245,13 @@ namespace Poe整理倉庫v2
                        if (radioButton6.Checked)
                        {
                            //從結果找到一個跟目前同個ID但不同位置的物品
-                           var diff = resoult.Where(x => !x.point.Equals(_Items.Where(y => y.id == x.id).FirstOrDefault().point)).Select(t => t).FirstOrDefault();
+                           var diff = resoult.Where(x => !x.point.Equals(_Items.Where(y => y.Id == x.Id).FirstOrDefault().point)).Select(t => t).FirstOrDefault();
                            Item onHand = null;
                            while (diff != null)
                            {
                                if (Stop)
                                    return;
-                               Item p0 = _Items.Where(x => x.id == diff.id).Select(t => t).FirstOrDefault();
+                               Item p0 = _Items.Where(x => x.Id == diff.Id).Select(t => t).FirstOrDefault();
                                ClickItem(poeHwnd,
                                       (int)(((float)p0.point.X * (length == 12 ? cellWidth1 : cellWidth4)) + (length == 12 ? startPos1.X : startPos4.X)),
                                       (int)(((float)p0.point.Y * (length == 12 ? cellHeight1 : cellHeight4)) + (length == 12 ? startPos1.Y : startPos4.Y)));
@@ -211,20 +261,20 @@ namespace Poe整理倉庫v2
 
                                p0.point = new POINT(diff.point);
 
-                               onHand = _Items.Where(x => x.id != diff.id && x.point.Equals(diff.point)).Select(t => t).FirstOrDefault();
+                               onHand = _Items.Where(x => x.Id != diff.Id && x.point.Equals(diff.point)).Select(t => t).FirstOrDefault();
                                while (onHand != null)
                                {
                                    if (Stop)
                                        return;
-                                   Item p3 = resoult.Where(x => x.id == onHand.id).FirstOrDefault();
+                                   Item p3 = resoult.Where(x => x.Id == onHand.Id).FirstOrDefault();
                                    ClickItem(poeHwnd,
                                         (int)(((float)p3.point.X * (length == 12 ? cellWidth1 : cellWidth4)) + (length == 12 ? startPos1.X : startPos4.X)),
                                         (int)(((float)p3.point.Y * (length == 12 ? cellHeight1 : cellHeight4)) + (length == 12 ? startPos1.Y : startPos4.Y)));
                                    onHand.point = new POINT(p3.point);
-                                   onHand = _Items.Where(x => x.id != onHand.id && x.point.Equals(onHand.point)).Select(t => t).FirstOrDefault();
+                                   onHand = _Items.Where(x => x.Id != onHand.Id && x.point.Equals(onHand.point)).Select(t => t).FirstOrDefault();
                                }
 
-                               diff = resoult.Where(x => !x.point.Equals(_Items.Where(y => y.id == x.id).FirstOrDefault().point)).Select(t => t).FirstOrDefault();
+                               diff = resoult.Where(x => !x.point.Equals(_Items.Where(y => y.Id == x.Id).FirstOrDefault().point)).Select(t => t).FirstOrDefault();
                            }
                        }
                        else
@@ -264,7 +314,7 @@ namespace Poe整理倉庫v2
                            swap.Add(new Item() { point = new POINT(0, 1) });
 
                            //從結果找到一個跟目前同個ID但不同位置的物品
-                           var diff = resoult.Where(x => !x.point.Equals(_Items.Where(y => y.id == x.id && y.point.X >= 0).FirstOrDefault().point)).Select(t => t).FirstOrDefault();
+                           var diff = resoult.Where(x => !x.point.Equals(_Items.Where(y => y.Id == x.Id && y.point.X >= 0).FirstOrDefault().point)).Select(t => t).FirstOrDefault();
                            while (diff != null)
                            {
                                if (Stop)
@@ -277,20 +327,20 @@ namespace Poe整理倉庫v2
                                         (int)(((float)diff.point.X * (length == 12 ? cellWidth1 : cellWidth4)) + (length == 12 ? startPos1.X : startPos4.X)),
                                         (int)(((float)diff.point.Y * (length == 12 ? cellHeight1 : cellHeight4)) + (length == 12 ? startPos1.Y : startPos4.Y)));
 
-                                   var k1 = swap.Where(x => x.id == 0).FirstOrDefault();
+                                   var k1 = swap.Where(x => x.Id == 0).FirstOrDefault();
                                    if (k1 != null)
                                    {
                                        ClickItem(poeHwnd,
                                             (int)(((float)k1.point.X * cellWidth1) + bagstartPos.X),
                                             (int)(((float)k1.point.Y * cellHeight1) + bagstartPos.Y));
-                                       k1.id = k0.id;
+                                       k1.Id = k0.Id;
                                        k0.point = new POINT(-1 - k1.point.X, -1 - k1.point.Y);
                                    }
                                    else
                                    {
                                    }
                                }
-                               Item p0 = _Items.Where(x => x.id == diff.id).Select(t => t).FirstOrDefault();
+                               Item p0 = _Items.Where(x => x.Id == diff.Id).Select(t => t).FirstOrDefault();
                                ClickItem(poeHwnd,
                                        (int)(((float)p0.point.X * (length == 12 ? cellWidth1 : cellWidth4)) + (length == 12 ? startPos1.X : startPos4.X)),
                                        (int)(((float)p0.point.Y * (length == 12 ? cellHeight1 : cellHeight4)) + (length == 12 ? startPos1.Y : startPos4.Y)));
@@ -300,12 +350,12 @@ namespace Poe整理倉庫v2
                                        (int)(((float)diff.point.Y * (length == 12 ? cellHeight1 : cellHeight4)) + (length == 12 ? startPos1.Y : startPos4.Y)));
 
                                p0.point = new POINT(diff.point);
-                               while (swap.Any(x => x.id != 0))
+                               while (swap.Any(x => x.Id != 0))
                                {
                                    if (Stop)
                                        return;
-                                   var FirstItemInSwap = swap.Where(x => x.id != 0).FirstOrDefault();
-                                   var FirstItemInResoult_IdIsFirstItemInSwap = resoult.Where(x => x.id.Equals(FirstItemInSwap.id)).FirstOrDefault();
+                                   var FirstItemInSwap = swap.Where(x => x.Id != 0).FirstOrDefault();
+                                   var FirstItemInResoult_IdIsFirstItemInSwap = resoult.Where(x => x.Id.Equals(FirstItemInSwap.Id)).FirstOrDefault();
                                    var ItemNow = _Items.Where(x => x.point.Equals(FirstItemInResoult_IdIsFirstItemInSwap.point)).FirstOrDefault();
                                    if (ItemNow != null)
                                    {
@@ -313,15 +363,15 @@ namespace Poe整理倉庫v2
                                             (int)(((float)FirstItemInResoult_IdIsFirstItemInSwap.point.X * (length == 12 ? cellWidth1 : cellWidth4)) + (length == 12 ? startPos1.X : startPos4.X)),
                                             (int)(((float)FirstItemInResoult_IdIsFirstItemInSwap.point.Y * (length == 12 ? cellHeight1 : cellHeight4)) + (length == 12 ? startPos1.Y : startPos4.Y)));
 
-                                       var FirstFreeSapceInSwap = swap.Where(x => x.id == 0).FirstOrDefault();
+                                       var FirstFreeSapceInSwap = swap.Where(x => x.Id == 0).FirstOrDefault();
                                        if (FirstFreeSapceInSwap != null)
                                        {
                                            ClickItem(poeHwnd,
                                                   (int)(((float)FirstFreeSapceInSwap.point.X * cellWidth1) + bagstartPos.X),
                                                   (int)(((float)FirstFreeSapceInSwap.point.Y * cellHeight1) + bagstartPos.Y));
 
-                                           FirstFreeSapceInSwap.id = ItemNow.id;
-                                           _Items.Where(x => x.id == FirstItemInResoult_IdIsFirstItemInSwap.id).FirstOrDefault().point = new POINT(-1 - FirstFreeSapceInSwap.point.X, -1 - FirstFreeSapceInSwap.point.Y * -1);
+                                           FirstFreeSapceInSwap.Id = ItemNow.Id;
+                                           _Items.Where(x => x.Id == FirstItemInResoult_IdIsFirstItemInSwap.Id).FirstOrDefault().point = new POINT(-1 - FirstFreeSapceInSwap.point.X, -1 - FirstFreeSapceInSwap.point.Y * -1);
                                        }
                                        else
                                        {
@@ -335,10 +385,10 @@ namespace Poe整理倉庫v2
                                            (int)(((float)FirstItemInResoult_IdIsFirstItemInSwap.point.X * (length == 12 ? cellWidth1 : cellWidth4)) + (length == 12 ? startPos1.X : startPos4.X)),
                                            (int)(((float)FirstItemInResoult_IdIsFirstItemInSwap.point.Y * (length == 12 ? cellHeight1 : cellHeight4)) + (length == 12 ? startPos1.Y : startPos4.Y)));
 
-                                   _Items.Where(x => x.id == FirstItemInSwap.id).FirstOrDefault().point = new POINT(FirstItemInResoult_IdIsFirstItemInSwap.point);
-                                   FirstItemInSwap.id = 0;
+                                   _Items.Where(x => x.Id == FirstItemInSwap.Id).FirstOrDefault().point = new POINT(FirstItemInResoult_IdIsFirstItemInSwap.point);
+                                   FirstItemInSwap.Id = 0;
                                }
-                               diff = resoult.Where(x => !x.point.Equals(_Items.Where(y => y.id == x.id && y.point.X >= 0).FirstOrDefault().point)).Select(t => t).FirstOrDefault();
+                               diff = resoult.Where(x => !x.point.Equals(_Items.Where(y => y.Id == x.Id && y.point.X >= 0).FirstOrDefault().point)).Select(t => t).FirstOrDefault();
                            }
                        }
                    });
@@ -395,7 +445,7 @@ namespace Poe整理倉庫v2
             if (mode == 0)
                 _Items = Items.Where(x => x.type.EndsWith("Flask") && x.quality > 1).ToList();
             else if (mode == 1)
-                _Items = Items.Where(x => x.type == "Active+Skill+Gem" && x.quality > 1).ToList();
+                _Items = Items.Where(x => x.type.EndsWith("Skill Gem") && x.quality > 1).ToList();
 
             _Items = _Items.OrderByDescending(x => x.quality).ToList();
             var list_Priview = new List<Item>(_Items);
@@ -436,7 +486,6 @@ namespace Poe整理倉庫v2
         private void DrawBoxRegion(List<Item> _items, int length, int info)
         {
             Graphics g;
-            MemoryStream stream;
             Image img;
             SolidBrush drawBrush = new SolidBrush(Color.Red);
             Font drawFont = new Font("Arial", 60 / length, FontStyle.Bold, GraphicsUnit.Millimeter);
@@ -445,14 +494,13 @@ namespace Poe整理倉庫v2
             g = info == 1 ? Graphics.FromImage(RegionImage) : Graphics.FromImage(RegionImage2);
 
             g.Clear(Color.Black);
-            string PanelGridName = length == 12 ? "StashPanelGrid.png" : "QuadStashPanelGrid.png";
-            if (File.Exists(Path.Combine(Application.StartupPath, "Image", PanelGridName)))
-                img = Image.FromFile(Path.Combine(Application.StartupPath, "Image", PanelGridName));
+            if (length == 12)
+            {
+                img = Image.FromStream(DataRepository.GetFile("StashPanelGrid").OpenRead());
+            }
             else
             {
-                stream = new MemoryStream(WC.DownloadData("https://web.poecdn.com/image/inventory/" + PanelGridName));
-                img = Image.FromStream(stream);
-                stream.Close();
+                img = Image.FromStream(DataRepository.GetFile("QuadStashPanelGrid").OpenRead());
             }
 
             g.DrawImage(img, 0, 0, 480, 480);
@@ -463,14 +511,14 @@ namespace Poe整理倉庫v2
                 {
                     if (item.url != "question-mark.png")
                     {
-                        string path = Path.Combine(Application.StartupPath, "Image", Path.ChangeExtension(item.type == "Prophecy" ? "Prophecy" : item.Name_eng, ".png"));
-                        if (File.Exists(path))
-                            img = Image.FromFile(path);
+                        var file = DataRepository.GetFile($"{item.type}\\{item.Name_eng}");
+                        if (file != null)
+                        {
+                            img = Image.FromStream(file.OpenRead());
+                        }
                         else
                         {
-                            stream = new MemoryStream(WC.DownloadData(item.url));
-                            img = Image.FromStream(stream);
-                            stream.Close();
+                            img = Properties.Resources.question_mark;
                         }
                     }
                     else
@@ -478,7 +526,7 @@ namespace Poe整理倉庫v2
                         img = Properties.Resources.question_mark;
                     }
                     g.DrawImage(img, item.point.X * 480 / length, item.point.Y * 480 / length, item.w * 480 / length, item.h * 480 / length);
-                    g.DrawString(item.id.ToString(), drawFont, drawBrush, item.point.X * 480 / length, item.point.Y * 480 / length);
+                    g.DrawString(item.Id.ToString(), drawFont, drawBrush, item.point.X * 480 / length, item.point.Y * 480 / length);
                     pictureBox1.Image = RegionImage;
                 }
                 pictureBox1.Image = RegionImage;
@@ -489,14 +537,14 @@ namespace Poe整理倉庫v2
                 {
                     if (item.url != "question-mark.png")
                     {
-                        string path = Path.Combine(Application.StartupPath, "Image", Path.ChangeExtension(item.type == "Prophecy" ? "Prophecy" : item.Name_eng, ".png"));
-                        if (File.Exists(path))
-                            img = Image.FromFile(path);
+                        var file = DataRepository.GetFile($"{item.type}\\{item.Name_eng}");
+                        if (file != null)
+                        {
+                            img = Image.FromStream(file.OpenRead());
+                        }
                         else
                         {
-                            stream = new MemoryStream(WC.DownloadData(item.url));
-                            img = Image.FromStream(stream);
-                            stream.Close();
+                            img = Properties.Resources.question_mark;
                         }
                     }
                     else
@@ -504,7 +552,7 @@ namespace Poe整理倉庫v2
                         img = Properties.Resources.question_mark;
                     }
                     g.DrawImage(img, item.point.X * 480 / length, item.point.Y * 480 / length, item.w * 480 / length, item.h * 480 / length);
-                    g.DrawString(item.id.ToString(), drawFont, drawBrush, item.point.X * 480 / length, item.point.Y * 480 / length);
+                    g.DrawString(item.Id.ToString(), drawFont, drawBrush, item.point.X * 480 / length, item.point.Y * 480 / length);
                     pictureBox2.Image = RegionImage2;
                 }
                 pictureBox2.Image = RegionImage2;

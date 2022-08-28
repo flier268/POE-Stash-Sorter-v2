@@ -1,12 +1,12 @@
-﻿using DataGetter;
-using SQLite;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using DataGetter;
+using LiteDB;
 
 namespace Poe整理倉庫v2
 {
@@ -71,27 +71,28 @@ namespace Poe整理倉庫v2
         {
         }
 
-        private async void button1_Click(object sender, EventArgs e)
+        private void button1_Click(object sender, EventArgs e)
         {
             var databasePath = Path.Combine(Application.StartupPath, "Datas_Adden.db");
-            var db = new SQLiteAsyncConnection(databasePath);
-            await db.CreateTableAsync<Data>();
-            await db.CreateIndexAsync("Data", "Name_Chinese");
-            await db.CreateIndexAsync("Data", "Name_English");
-            var data = new Data()
+            using (var db = new LiteDatabase(databasePath))
             {
-                Name_Chinese = textBox1.Text,
-                Name_English = textBox2.Text,
-                Type = SpeciesDic.Where(x => x.Value == comboBox1.Text).FirstOrDefault().Key,
-                Width = Int32.Parse(comboBox2.Text),
-                Height = Int32.Parse(comboBox3.Text),
-                GemColor = textBox3.Text,
-                ImageURL = textBox4.Text,
-                Rarity = 2,
-                UpdateDate = DateTime.Now
-            };
-            await db.InsertOrReplaceAsync(data);
-            await db.CloseAsync();
+                var col = db.GetCollection<Data>();
+                col.EnsureIndex(x => x.Name_English);
+                col.EnsureIndex(x => x.Name_Chinese);
+                var data = new Data()
+                {
+                    Name_Chinese = textBox1.Text,
+                    Name_English = textBox2.Text,
+                    Type = SpeciesDic.Where(x => x.Value == comboBox1.Text).FirstOrDefault().Key,
+                    Width = Int32.Parse(comboBox2.Text),
+                    Height = Int32.Parse(comboBox3.Text),
+                    GemColor = textBox3.Text,
+                    ImageURL = textBox4.Text,
+                    Rarity = 2,
+                    UpdateDate = DateTime.Now
+                };
+                col.Upsert(data);
+            }
             this.Close();
         }
     }
