@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using DataGetter;
 using LiteDB;
+using Poe整理倉庫v2.Helper;
 
 namespace Poe整理倉庫v2
 {
@@ -406,7 +407,7 @@ namespace Poe整理倉庫v2
                     break;
 
                 temp[Level - 1] = list[i];
-                if (list[i].quality == 20)
+                if (list[i].quality == 20 && RarityHelper.StringToRarity(list[i].Rarity) == Enums.Rarity.Normal)
                     return new Item[] { list[i] };
                 if (Level == 1 && list.Sum(x => x.quality) < 40)
                     return ZeroArray;

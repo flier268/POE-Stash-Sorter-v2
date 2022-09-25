@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Poe整理倉庫v2.Enums;
+using Poe整理倉庫v2.Helper;
 
 namespace Poe整理倉庫v2
 {
@@ -12,30 +14,6 @@ namespace Poe整理倉庫v2
             public SortRule(Setting _s)
             {
                 s = _s;
-            }
-
-            private int RarityToInt(string s)
-            {
-                switch (s)
-                {
-                    case "普通":
-                        return 1;
-
-                    case "魔法":
-                        return 2;
-
-                    case "稀有":
-                        return 3;
-
-                    case "Rare":
-                        return 3;
-
-                    case "傳奇":
-                        return 4;
-
-                    default:
-                        return 0;
-                }
             }
 
             public int Compare(Item s1, Item s2)
@@ -73,7 +51,7 @@ namespace Poe整理倉庫v2
                             break;
 
                         case "Rarity":
-                            value = value == 0 ? RarityToInt(s1.Rarity).CompareTo(RarityToInt(s2.Rarity)) : value;
+                            value = value == 0 ? RarityHelper.StringToRarity(s1.Rarity).CompareTo(RarityHelper.StringToRarity(s2.Rarity)) : value;
                             break;
 
                         case "Type":
